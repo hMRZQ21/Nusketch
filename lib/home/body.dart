@@ -14,7 +14,7 @@ class _bodyViewState extends State<bodyView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 2300,
+        height: 2400,
         child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             itemCount: 5,
@@ -43,17 +43,35 @@ class _bodyViewState extends State<bodyView> {
                       ),
                     ),
                   ),
-                  Container(
-                    width: 350,
-                    height: 350,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: Colors.white,
-                      image: const DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage("img/girlimage1.png"),
+                  Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 370,
+                          height: 370,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: Colors.blue),
+                        ),
                       ),
-                    ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 350,
+                          height: 350,
+                          margin: EdgeInsets.only(top: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: Colors.white,
+                            image: const DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage("img/girlimage1.png"),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               );
