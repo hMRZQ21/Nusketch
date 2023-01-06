@@ -35,7 +35,6 @@ class _MyPageState extends State<MainPage> {
           Container(
             height: Dimension.page70h,
             width: Dimension.screenWidth,
-            margin: EdgeInsets.only(top: Dimension.page40h),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
