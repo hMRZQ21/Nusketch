@@ -13,12 +13,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      // uses GetMaterialApp instead of MaterialApp so Getx package can get screen dimensions
       debugShowCheckedModeBanner: false,
       title: 'Nusketch',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MainPage(),
+      home:
+          const MainPage(), // sets the mainpage to widget named MainPage which is in heading.dart
     );
   }
 }

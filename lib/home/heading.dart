@@ -14,12 +14,17 @@ class _MyPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.mainpagebgcolor,
+      backgroundColor:
+          CustomColors.mainpagebgcolor, // uses colors.dart to set custom colors
       body: Column(
+        // scaffold has a column widget that nests
         children: [
+          // a vertical display of widgets
           Align(
+            // hamburger dropdown icon
             alignment: Alignment.topRight,
             child: Container(
+              // Dimension.page50w ... Dimensions is a widget name located in dimensions.dart, makes sizing dynamic and reuseble
               width: Dimension.page50w,
               height: Dimension.page50h,
               margin: EdgeInsets.only(
@@ -28,11 +33,13 @@ class _MyPageState extends State<MainPage> {
             ),
           ),
           const Expanded(
+            // contains the scrollable view of content, which does not render until bodyView widget is called, located in body.dart
             child: SingleChildScrollView(
               child: bodyView(),
             ),
           ),
           Container(
+            // contains the 3 icons in the bottom portion
             height: Dimension.page70h,
             width: Dimension.screenWidth,
             decoration: BoxDecoration(
@@ -47,6 +54,7 @@ class _MyPageState extends State<MainPage> {
               children: [
                 Container(),
                 const Expanded(
+                  // Expanded takes each element for a portion flex 33 will take up 33% of entire screenWidth
                   flex: 33,
                   child:
                       Icon(Icons.home_outlined, color: Colors.blue, size: 55),
