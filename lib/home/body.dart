@@ -66,7 +66,7 @@ class _bodyViewState extends State<bodyView> {
                             color: Colors.white,
                             image: const DecorationImage(
                               fit: BoxFit.cover,
-                              image: AssetImage("img/girlimage1.png"),
+                              image: AssetImage("figures/girlimage1.png"),
                             ),
                           ),
                         ),
