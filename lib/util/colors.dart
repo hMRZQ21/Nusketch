@@ -7,4 +7,5 @@ class CustomColors {
   // for me it does not work ~ Willie
 
   static final Color mainpagebgcolor = Color.fromARGB(240, 240, 240, 240);
+  static final Color lavender = Color.fromRGBO(230, 230, 250, 1);
 }
