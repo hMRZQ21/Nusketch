@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:nusketch/util/colors.dart';
+import 'package:nusketch/util/dimension.dart';
 
 class bodyView extends StatefulWidget {
   const bodyView({super.key});
@@ -26,7 +25,10 @@ class _bodyViewState extends State<bodyView> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Container(
-                  margin: EdgeInsets.only(top: 20, left: 30, bottom: 10),
+                  margin: EdgeInsets.only(
+                      top: Dimension.page20h,
+                      left: Dimension.page30w,
+                      bottom: Dimension.page10h),
                   child: const Text(
                     'Sketch of a girl',
                     style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500),
@@ -36,7 +38,8 @@ class _bodyViewState extends State<bodyView> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Container(
-                  margin: EdgeInsets.only(left: 30, bottom: 10),
+                  margin: EdgeInsets.only(
+                      left: Dimension.page30w, bottom: Dimension.page10h),
                   child: const Text(
                     'Monday October 24, 2022',
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
@@ -50,22 +53,23 @@ class _bodyViewState extends State<bodyView> {
                     // outer blue container
                     alignment: Alignment.center,
                     child: Container(
-                      width: 370,
-                      height: 370,
+                      width: Dimension.outtercontainerw,
+                      height: Dimension.outtercontainerh,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          color: Colors.blue),
+                          borderRadius:
+                              BorderRadius.circular(Dimension.page10r),
+                          color: CustomColors.lavender),
                     ),
                   ),
                   Align(
                     // container that contains the image
                     alignment: Alignment.center,
                     child: Container(
-                      width: 350,
-                      height: 350,
-                      margin: EdgeInsets.only(top: 10),
+                      width: Dimension.innerpicturew,
+                      height: Dimension.innerpictureh,
+                      margin: EdgeInsets.only(top: Dimension.page10h),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
+                        borderRadius: BorderRadius.circular(Dimension.page10r),
                         color: Colors.white,
                         image: const DecorationImage(
                           fit: BoxFit.cover,

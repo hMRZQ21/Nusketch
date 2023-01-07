@@ -27,6 +27,7 @@ class _MyPageState extends State<MainPage> {
               // Dimension.page50w ... Dimensions is a widget name located in dimensions.dart, makes sizing dynamic and reuseble
               width: Dimension.page50w,
               height: Dimension.page50h,
+              color: Colors.transparent.withOpacity(0),
               margin: EdgeInsets.only(
                   top: Dimension.page40h, right: Dimension.page8w),
               child: const Icon(Icons.menu, color: Colors.blue, size: 50),
