@@ -15,6 +15,8 @@ class Dimension {
   static double innerpicturew = screenWidth / (screenWidth / 330);
 
   static double page10h = screenHeight / (screenHeight / 10);
+  static double page12h = screenHeight / (screenHeight / 12);
+  static double page15h = screenHeight / (screenHeight / 15);
   static double page20h = screenHeight / (screenHeight / 20);
   static double page40h = screenHeight / (screenHeight / 40);
   static double page50h = screenHeight / (screenHeight / 50);
