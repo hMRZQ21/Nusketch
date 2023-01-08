@@ -40,7 +40,7 @@ class _MyPageState extends State<MainPage> {
           const Expanded(
             // contains the scrollable view of content, which does not render until bodyView widget is called, located in body.dart
             child: SingleChildScrollView(
-              child: bodyView(),
+              child: BodyView(),
             ),
           ),
           Container(

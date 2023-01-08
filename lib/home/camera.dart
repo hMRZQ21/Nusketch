@@ -16,11 +16,7 @@ class _CameraPageState extends State<CameraPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.mainpagebgcolor,
-      body: Container(
-        width: 100,
-        height: 100,
-        color: Colors.blue,
-      ),
+      body: Container(),
     );
   }
 }
