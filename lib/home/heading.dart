@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nusketch/home/body.dart';
+import 'package:nusketch/home/camera.dart';
+import 'package:nusketch/home/upload.dart';
 import 'package:nusketch/util/colors.dart';
 import 'package:nusketch/util/dimension.dart';
+
+import 'homepage.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -53,22 +57,57 @@ class _MyPageState extends State<MainPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(),
-                const Expanded(
+                Expanded(
                   // Expanded takes each element for a portion flex 33 will take up 33% of entire screenWidth
                   flex: 33,
-                  child:
-                      Icon(Icons.home_outlined, color: Colors.blue, size: 55),
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: Dimension.page20h),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()),
+                        );
+                      },
+                      icon: const Icon(Icons.home_outlined,
+                          color: Colors.blue, size: 55),
+                    ),
+                  ),
                 ),
-                const Expanded(
+                Expanded(
                   flex: 33,
-                  child: Icon(Icons.camera_alt_outlined,
-                      color: Colors.blue, size: 50),
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: Dimension.page12h),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CameraPage()),
+                        );
+                      },
+                      icon: const Icon(Icons.camera_alt_outlined,
+                          color: Colors.blue, size: 50),
+                    ),
+                  ),
                 ),
-                const Expanded(
+                Expanded(
                   flex: 33,
-                  child: Icon(Icons.file_upload_outlined,
-                      color: Colors.blue, size: 50),
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: Dimension.page20h),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UploadPage()),
+                        );
+                      },
+                      icon: const Icon(Icons.file_upload_outlined,
+                          color: Colors.blue, size: 50),
+                    ),
+                  ),
                 ),
               ],
             ),
