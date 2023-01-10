@@ -12,11 +12,10 @@ class CameraPage extends StatefulWidget {
 
 class _CameraPageState extends State<CameraPage> {
   File? _image;
-  final imagePicker = ImagePicker();
+  ImagePicker imagePicker = ImagePicker();
 
   Future _getImage() async {
-    File picture =
-        (await imagePicker.pickImage(source: ImageSource.camera)) as File;
+    XFile? picture = await imagePicker.pickImage(source: ImageSource.camera);
     if (picture == null) {
       return;
     } else {
@@ -33,20 +32,20 @@ class _CameraPageState extends State<CameraPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Container(
-          margin: const EdgeInsets.only(top: 400),
+          margin: const EdgeInsets.only(top: 100),
           child: Column(
             children: [
+              FloatingActionButton(
+                onPressed: _getImage,
+                child: const Icon(Icons.camera_alt),
+              ),
               Container(
-                margin: const EdgeInsets.only(bottom: 300),
+                margin: const EdgeInsets.only(bottom: 10),
                 child: Center(
                   child: _image == null
                       ? const Text('No image yet')
                       : Image.file(_image!),
                 ),
-              ),
-              FloatingActionButton(
-                onPressed: _getImage,
-                child: const Icon(Icons.camera_alt),
               ),
             ],
           ),
