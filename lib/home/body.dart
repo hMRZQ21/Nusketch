@@ -23,7 +23,7 @@ class _BodyViewState extends State<BodyView> {
         itemBuilder: (context, index) {
           return Container(
             height: 490,
-            margin: EdgeInsets.only(bottom: 30),
+            margin: const EdgeInsets.only(bottom: 30),
             decoration: BoxDecoration(
                 color: Colors.blue.shade200,
                 borderRadius: BorderRadius.circular(20)),
