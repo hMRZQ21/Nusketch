@@ -35,7 +35,6 @@ dependencies:
   dots_indicator: ^2.1.0
   # package for logo to render on icon
   flutter_launcher_icons: 
-  camera: 
   image_picker:
   path_provider:
 
