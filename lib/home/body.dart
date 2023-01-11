@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nusketch/home/description.dart';
 import 'package:nusketch/util/colors.dart';
 import 'package:nusketch/util/dimension.dart';
 
@@ -73,17 +74,26 @@ class _BodyViewState extends State<BodyView> {
                     Align(
                       // container that contains the image
                       alignment: Alignment.center,
-                      child: Container(
-                        width: Dimension.innerpicturew,
-                        height: Dimension.innerpictureh,
-                        margin: EdgeInsets.only(top: Dimension.page10h),
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(Dimension.page10r),
-                          color: Colors.white,
-                          image: const DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage("figures/girlimage1.png"),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const DescriptionPage()),
+                          );
+                        },
+                        child: Container(
+                          width: Dimension.innerpicturew,
+                          height: Dimension.innerpictureh,
+                          margin: EdgeInsets.only(top: Dimension.page10h),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(Dimension.page10r),
+                            color: Colors.white,
+                            image: const DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage("figures/girlimage1.png"),
+                            ),
                           ),
                         ),
                       ),
