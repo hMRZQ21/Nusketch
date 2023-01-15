@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:nusketch/home/heading.dart';
+import 'package:nusketch/pages/mainpage.dart';
 import 'package:nusketch/util/colors.dart';
 
 import '../util/dimension.dart';

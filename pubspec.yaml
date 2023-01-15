@@ -71,6 +71,12 @@ flutter:
     - figures/Title 1.png
     - figures/
 
+flutter_icons:
+  image_path: "figures/Logo.png"
+  android: true
+  ios: true
+  # Icons with alpha channel are not allowed so we remove it with the following
+  remove_alpha_ios: true
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
