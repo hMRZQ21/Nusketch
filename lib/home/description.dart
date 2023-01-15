@@ -43,7 +43,7 @@ class _DescriptionPageState extends State<DescriptionPage> {
                   bottom: Dimension.page10h),
               child: const Text(
                 'Sketch of a girl',
-                style: TextStyle(fontSize: 35, fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
               ),
             ),
           ),
@@ -90,6 +90,15 @@ class _DescriptionPageState extends State<DescriptionPage> {
                 ),
               ),
             ],
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: Dimension.outtercontainerw,
+              height: Dimension.outtercontainerh,
+              child: const Text(
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non tincidunt justo. Duis sit amet ante turpis. Aliquam pulvinar elementum orci, id malesuada felis luctus id. Etiam sed dolor lorem. Sed venenatis leo justo, non pellentesque velit mattis sit amet. Proin venenatis quis libero eget semper. Integer in neque erat. Donec ultricies nisl nunc, nec venenatis ligula accumsan in. Vivamus at varius nunc. Vestibulum quam turpis, fringilla in velit vitae, tincidunt sodales leo. Vestibulum eget mi sit amet risus tempus suscipit."),
+            ),
           ),
         ],
       ),
