@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:nusketch/home/heading.dart';
+import 'package:nusketch/pages/mainpage.dart';
 import 'package:nusketch/util/dimension.dart';
 
 class Loading extends StatefulWidget {

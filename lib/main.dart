@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:nusketch/home/heading.dart';
-import 'package:nusketch/home/loading.dart';
+import 'package:nusketch/pages/mainpage.dart';
+import 'package:nusketch/loading.dart';
 
 void main() {
   runApp(const MyApp());
