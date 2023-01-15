@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:nusketch/home/heading.dart';
+import 'package:nusketch/home/loading.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home:
-          const MainPage(), // sets the mainpage to widget named MainPage which is in heading.dart
+          const Loading(), // sets the mainpage to widget named MainPage which is in heading.dart
     );
   }
 }
