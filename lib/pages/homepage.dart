@@ -1,25 +1,70 @@
+// import 'package:flutter/material.dart';
+// import 'package:flutter/src/widgets/container.dart';
+// import 'package:flutter/src/widgets/framework.dart';
+
+// class HomePage extends StatefulWidget {
+//   const HomePage({super.key});
+
+//   @override
+//   State<HomePage> createState() => _HomePageState();
+// }
+
+// class _HomePageState extends State<HomePage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//        body: Center(child: Text('body here')),
+//        bottomNavigationBar: BottomNavigationBar(
+//           type: BottomNavigationBarType.fixed,
+//             items: [
+//               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
+//               BottomNavigationBarItem(icon: Icon(Icons.camera_alt_rounded), label: 'camera'),
+//               BottomNavigationBarItem(icon: Icon(Icons.upload), label: 'upload'),
+//             ],
+//        ), 
+//     );
+//   }
+// }
+
+
 import 'package:flutter/material.dart';
-import 'package:nusketch/home/description.dart';
+import 'package:nusketch/pages/description.dart';
 import 'package:nusketch/util/colors.dart';
 import 'package:nusketch/util/dimension.dart';
 
-class BodyView extends StatefulWidget {
-  const BodyView({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<BodyView> createState() => _BodyViewState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _BodyViewState extends State<BodyView> {
+class _HomePageState extends State<HomePage> {
   @override
-  Widget build(BuildContext context) {
-    return Container(
+  Widget build(BuildContext context){
+    return Scaffold (
+      //The app bar is the top portion of the homepage
+      appBar: AppBar (
+        //Appbar is set up like this -> [leading]  [title]  [actions]
+        backgroundColor: Colors.transparent,
+        elevation: 0, //This gets rid of the shadow after setting the background color of the appbar to transparent
+        actions:[
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.menu),
+            color: Colors.blue,
+          ),
+        ],
+      ),
+
+      //Body contains all the images 
+      body: Container(
       // sizing depends on size of the elements it contains, should be made dynamic later
       height: 2700,
-      width: 390,
       child: ListView.builder(
+        // getting rid of NeverScrollableScrollPhysics because we only want the container to be scrollable.
         // NeverScrollableScrollPhysics makes scrolling the whole screen possible instead of the container only scrollable
-        physics: const NeverScrollableScrollPhysics(),
+        // physics: const NeverScrollableScrollPhysics(),
         itemCount: 5,
         itemBuilder: (context, index) {
           return Container(
@@ -105,6 +150,7 @@ class _BodyViewState extends State<BodyView> {
           );
         },
       ),
+    ),
     );
   }
 }
