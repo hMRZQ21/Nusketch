@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 
+import 'package:nusketch/util/dimension.dart';
+
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
 
@@ -28,6 +30,18 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
+  Future _getGallery() async {
+    XFile? picture = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (picture == null) {
+      return;
+    } else {
+      File? image = File(picture.path);
+      setState(() {
+        _image = image;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,17 +51,34 @@ class _CameraPageState extends State<CameraPage> {
           margin: const EdgeInsets.only(top: 100),
           child: Column(
             children: [
-              FloatingActionButton(
-                onPressed: _getImage,
-                child: const Icon(Icons.camera_alt),
-              ),
               Container(
                 margin: const EdgeInsets.only(bottom: 10),
                 child: Center(
                   child: _image == null
-                      ? const Text('No image yet')
-                      : Image.file(_image!),
+                      ? Container(
+                          height: 550,
+                          width: 411,
+                          color: Colors.blue.shade100,
+                        )
+                      : Image.file(
+                          _image!,
+                        ),
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  FloatingActionButton(
+                    onPressed: _getImage,
+                    child: const Icon(
+                      Icons.camera_alt,
+                    ),
+                  ),
+                  FloatingActionButton(
+                    onPressed: _getGallery,
+                    child: const Icon(Icons.folder),
+                  ),
+                ],
               ),
             ],
           ),

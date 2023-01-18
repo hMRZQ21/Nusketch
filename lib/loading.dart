@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:nusketch/pages/mainpage.dart';
 import 'package:nusketch/util/dimension.dart';
@@ -15,14 +15,16 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   @override
   void initState() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
     _animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _animationController.repeat();
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(milliseconds: 1), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const MainPage()),
       );
+      _animationController.dispose();
     });
   }
 
