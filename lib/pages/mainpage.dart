@@ -37,11 +37,13 @@ class _MyPageState extends State<MainPage> {
         currentIndex: selectedIndex,
         onTap: navigateBottomNavBar,
         type: BottomNavigationBarType.fixed,
+        // ignore: prefer_const_literals_to_create_immutables
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
+          const BottomNavigationBarItem(
               icon: Icon(Icons.camera_alt_rounded), label: 'camera'),
-          BottomNavigationBarItem(icon: Icon(Icons.upload), label: 'upload'),
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.upload), label: 'upload'),
         ],
       ),
     );
