@@ -3,6 +3,7 @@ import 'package:nusketch/pages/camera.dart';
 import 'package:nusketch/pages/uploadpage.dart';
 import 'package:nusketch/util/colors.dart';
 import 'package:nusketch/util/dimension.dart';
+import 'package:flutter/widgets.dart';
 
 import 'homepage.dart';
 
@@ -39,11 +40,27 @@ class _MyPageState extends State<MainPage> {
         type: BottomNavigationBarType.fixed,
         // ignore: prefer_const_literals_to_create_immutables
         items: [
-          const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
           const BottomNavigationBarItem(
-              icon: Icon(Icons.camera_alt_rounded), label: 'camera'),
+            icon: Hero(
+              tag: "home",
+              child: Icon(Icons.home),
+            ),
+            label: 'home',
+          ),
           const BottomNavigationBarItem(
-              icon: Icon(Icons.upload), label: 'upload'),
+            icon: Hero(
+              tag: "camera",
+              child: Icon(Icons.camera_alt_rounded),
+            ),
+            label: 'camera',
+          ),
+          const BottomNavigationBarItem(
+            icon: Hero(
+              tag: "upload",
+              child: Icon(Icons.upload),
+            ),
+            label: 'upload',
+          ),
         ],
       ),
     );
