@@ -5,6 +5,8 @@ import 'dart:async';
 
 import 'package:nusketch/util/dimension.dart';
 
+import 'mainpage.dart';
+
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
 
@@ -47,43 +49,59 @@ class _CameraPageState extends State<CameraPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Container(
-          margin: const EdgeInsets.only(top: 100),
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                child: Center(
-                  child: _image == null
-                      ? Container(
-                          height: 550,
-                          width: 411,
-                          color: Colors.blue.shade100,
-                        )
-                      : Image.file(
-                          _image!,
-                        ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FloatingActionButton(
-                    onPressed: _getImage,
-                    child: const Icon(
-                      Icons.camera_alt,
-                    ),
-                  ),
-                  FloatingActionButton(
-                    onPressed: _getGallery,
-                    child: const Icon(Icons.folder),
-                  ),
-                ],
-              ),
-            ],
+          body: Column(
+        children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MainPage()),
+                );
+              },
+              icon: Icon(Icons.arrow_back_ios,
+                  color: Colors.blue.shade200, size: 30),
+            ),
           ),
-        ),
-      ),
+          Container(
+            margin: const EdgeInsets.only(top: 100),
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: Center(
+                    child: _image == null
+                        ? Container(
+                            height: 550,
+                            width: 411,
+                            color: Colors.blue.shade100,
+                          )
+                        : Image.file(
+                            _image!,
+                          ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    FloatingActionButton(
+                      onPressed: _getImage,
+                      child: const Icon(
+                        Icons.camera_alt,
+                      ),
+                    ),
+                    FloatingActionButton(
+                      onPressed: _getGallery,
+                      child: const Icon(Icons.folder),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      )),
     );
   }
 }
