@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "961494742721",
+    "project_id": "nusketch",
+    "storage_bucket": "nusketch.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961494742721:android:ed9e56a85e431730e2c640",
+        "android_client_info": {
+          "package_name": "com.example.nusketch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "961494742721-j5ke06b9vj2gpqm68pdaa9bmg27uiors.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCK-LTjz0R83VB6q3t9C26-80ZijDlIVqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "961494742721-j5ke06b9vj2gpqm68pdaa9bmg27uiors.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "961494742721-peiuiul2cqtlbfm4bbgonb1pimltr0kt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nusketch"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
