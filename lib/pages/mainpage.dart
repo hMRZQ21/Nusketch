@@ -1,9 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nusketch/pages/camera.dart';
 import 'package:nusketch/pages/uploadpage.dart';
-import 'package:nusketch/util/colors.dart';
-import 'package:nusketch/util/dimension.dart';
-import 'package:flutter/widgets.dart';
 
 import 'homepage.dart';
 
@@ -34,31 +32,21 @@ class _MyPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: children[selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: CupertinoTabBar(
         currentIndex: selectedIndex,
         onTap: navigateBottomNavBar,
-        type: BottomNavigationBarType.fixed,
         // ignore: prefer_const_literals_to_create_immutables
         items: [
           const BottomNavigationBarItem(
-            icon: Hero(
-              tag: "home",
-              child: Icon(Icons.home),
-            ),
+            icon: Icon(Icons.home),
             label: 'home',
           ),
           const BottomNavigationBarItem(
-            icon: Hero(
-              tag: "camera",
-              child: Icon(Icons.camera_alt_rounded),
-            ),
+            icon: Icon(Icons.camera_alt_rounded),
             label: 'camera',
           ),
           const BottomNavigationBarItem(
-            icon: Hero(
-              tag: "upload",
-              child: Icon(Icons.upload),
-            ),
+            icon: Icon(Icons.upload),
             label: 'upload',
           ),
         ],

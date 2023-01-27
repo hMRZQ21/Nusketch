@@ -26,9 +26,9 @@
 //   }
 // }
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nusketch/pages/accountsettings.dart';
-import 'package:nusketch/pages/camera.dart';
 import 'package:nusketch/pages/description.dart';
 import 'package:nusketch/util/colors.dart';
 import 'package:nusketch/util/dimension.dart';
@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                                     onTap: () {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(
+                                        CupertinoPageRoute(
                                             builder: (context) =>
                                                 const AccountSettings()),
                                       );
