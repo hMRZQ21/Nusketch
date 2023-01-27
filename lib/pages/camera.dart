@@ -1,9 +1,8 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
-
-import 'package:nusketch/util/dimension.dart';
 
 import 'mainpage.dart';
 
@@ -51,19 +50,6 @@ class _CameraPageState extends State<CameraPage> {
       home: Scaffold(
           body: Column(
         children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MainPage()),
-                );
-              },
-              icon: Icon(Icons.arrow_back_ios,
-                  color: Colors.blue.shade200, size: 30),
-            ),
-          ),
           Container(
             margin: const EdgeInsets.only(top: 100),
             child: Column(
@@ -85,15 +71,15 @@ class _CameraPageState extends State<CameraPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    FloatingActionButton(
+                    CupertinoButton(
                       onPressed: _getImage,
                       child: const Icon(
-                        Icons.camera_alt,
+                        CupertinoIcons.photo_camera,
                       ),
                     ),
-                    FloatingActionButton(
+                    CupertinoButton(
                       onPressed: _getGallery,
-                      child: const Icon(Icons.folder),
+                      child: const Icon(CupertinoIcons.folder),
                     ),
                   ],
                 ),
