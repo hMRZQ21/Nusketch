@@ -1,7 +1,8 @@
+import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'mainpage.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter/services.dart';
 
 class AccountSettings extends StatefulWidget {
   const AccountSettings({super.key});
@@ -11,6 +12,15 @@ class AccountSettings extends StatefulWidget {
 }
 
 class _AccountSettingsState extends State<AccountSettings> {
+  late String _gender;
+  DateTime selectedDate = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    _gender = 'Prefer not to say';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,16 +50,26 @@ class _AccountSettingsState extends State<AccountSettings> {
                   height: 50,
                   decoration: BoxDecoration(
                     color: Colors.blue.shade200,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(20),
                         bottomRight: Radius.circular(20)),
                   ),
-                  child: TextField(
-                    decoration: InputDecoration(
+                  padding: const EdgeInsets.all(10),
+                  child: TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Required';
+                      }
+                      if (!EmailValidator.validate(value)) {
+                        return 'Not valid Email';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
                       hintText: 'Enter your email',
                     ),
                   ),
-                  padding: const EdgeInsets.all(10),
                 )
               ],
             ),
@@ -64,13 +84,13 @@ class _AccountSettingsState extends State<AccountSettings> {
                   margin: EdgeInsets.only(left: 20),
                   decoration: BoxDecoration(
                     color: Colors.blue.shade100,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(20),
                         bottomLeft: Radius.circular(20)),
                   ),
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.center,
-                    child: const Text("Phone"),
+                    child: Text("Phone"),
                   ),
                 ),
                 Container(
@@ -78,16 +98,18 @@ class _AccountSettingsState extends State<AccountSettings> {
                   height: 50,
                   decoration: BoxDecoration(
                     color: Colors.blue.shade200,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(20),
                         bottomRight: Radius.circular(20)),
                   ),
-                  child: TextField(
+                  padding: const EdgeInsets.all(10),
+                  child: TextFormField(
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                       hintText: 'Enter your phone number',
                     ),
                   ),
-                  padding: const EdgeInsets.all(10),
                 )
               ],
             ),
@@ -120,12 +142,22 @@ class _AccountSettingsState extends State<AccountSettings> {
                         topRight: Radius.circular(20),
                         bottomRight: Radius.circular(20)),
                   ),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Enter your gender',
-                    ),
-                  ),
                   padding: const EdgeInsets.all(10),
+                  child: DropdownButton<String>(
+                    value: _gender,
+                    items: ['Male', 'Female', 'Other', 'Prefer not to say']
+                        .map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: new Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? update) {
+                      setState(() {
+                        _gender = update!;
+                      });
+                    },
+                  ),
                 )
               ],
             ),
@@ -149,22 +181,46 @@ class _AccountSettingsState extends State<AccountSettings> {
                     child: const Text("Birthday"),
                   ),
                 ),
-                Container(
-                  width: 290,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade200,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        bottomRight: Radius.circular(20)),
-                  ),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Enter your birthday',
+                GestureDetector(
+                  onTap: () async {
+                    final DateTime? update = await showCupertinoModalPopup(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Container(
+                          height: 300,
+                          margin: EdgeInsets.only(bottom: 100),
+                          child: CupertinoDatePicker(
+                            mode: CupertinoDatePickerMode.date,
+                            initialDateTime: DateTime.now(),
+                            maximumYear: DateTime.now().year,
+                            onDateTimeChanged: (DateTime update) {
+                              setState(
+                                () {
+                                  selectedDate = update;
+                                },
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    width: 290,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade200,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          bottomRight: Radius.circular(20)),
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    child: Center(
+                      child: Text(
+                          "${selectedDate.month}  ${selectedDate.day}, ${selectedDate.year}"),
                     ),
                   ),
-                  padding: const EdgeInsets.all(10),
-                )
+                ),
               ],
             ),
           ),

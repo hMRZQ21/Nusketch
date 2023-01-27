@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 
-import 'mainpage.dart';
-
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
 
