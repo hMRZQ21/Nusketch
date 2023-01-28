@@ -1,9 +1,8 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
-
-import 'package:nusketch/util/dimension.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
@@ -47,43 +46,46 @@ class _CameraPageState extends State<CameraPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Container(
-          margin: const EdgeInsets.only(top: 100),
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                child: Center(
-                  child: _image == null
-                      ? Container(
-                          height: 550,
-                          width: 411,
-                          color: Colors.blue.shade100,
-                        )
-                      : Image.file(
-                          _image!,
-                        ),
+          body: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 100),
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: Center(
+                    child: _image == null
+                        ? Container(
+                            height: 550,
+                            width: 411,
+                            color: Colors.blue.shade100,
+                          )
+                        : Image.file(
+                            _image!,
+                          ),
+                  ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FloatingActionButton(
-                    onPressed: _getImage,
-                    child: const Icon(
-                      Icons.camera_alt,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CupertinoButton(
+                      onPressed: _getImage,
+                      child: const Icon(
+                        CupertinoIcons.photo_camera,
+                      ),
                     ),
-                  ),
-                  FloatingActionButton(
-                    onPressed: _getGallery,
-                    child: const Icon(Icons.folder),
-                  ),
-                ],
-              ),
-            ],
+                    CupertinoButton(
+                      onPressed: _getGallery,
+                      child: const Icon(CupertinoIcons.folder),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        ],
+      )),
     );
   }
 }
