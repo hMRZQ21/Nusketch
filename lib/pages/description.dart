@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nusketch/pages/mainpage.dart';
 import 'package:nusketch/util/colors.dart';
 import 'package:nusketch/util/flip.dart';
 
