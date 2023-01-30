@@ -20,7 +20,7 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
     _animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _animationController.repeat();
-    Future.delayed(const Duration(milliseconds: 1), () {
+    Future.delayed(const Duration(seconds: 2), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const MainPage()),
       );

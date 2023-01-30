@@ -27,34 +27,29 @@ class _AccountSettingsState extends State<AccountSettings> {
       body: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 100),
+            margin: EdgeInsets.only(top: 50),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  width: 80,
-                  height: 50,
-                  margin: EdgeInsets.only(left: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade100,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        bottomLeft: Radius.circular(20)),
-                  ),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: const Text("Email"),
-                  ),
+                Column(
+                  children: [
+                    Container(
+                      child: Icon(Icons.email),
+                    ),
+                    Container(
+                      width: 80,
+                      height: 20,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: const Text("Email"),
+                      ),
+                    ),
+                  ],
                 ),
                 Container(
-                  width: 290,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade200,
-                    borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        bottomRight: Radius.circular(20)),
-                  ),
-                  padding: const EdgeInsets.all(10),
+                  width: 300,
+                  height: 100,
+                  padding: const EdgeInsets.only(top: 20),
                   child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
@@ -75,34 +70,28 @@ class _AccountSettingsState extends State<AccountSettings> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: EdgeInsets.only(left: 10),
             child: Row(
               children: [
-                Container(
-                  width: 80,
-                  height: 50,
-                  margin: EdgeInsets.only(left: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade100,
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        bottomLeft: Radius.circular(20)),
-                  ),
-                  child: const Align(
-                    alignment: Alignment.center,
-                    child: Text("Phone"),
-                  ),
+                Column(
+                  children: [
+                    Container(
+                      child: Icon(Icons.phone),
+                    ),
+                    Container(
+                      width: 80,
+                      height: 20,
+                      child: const Align(
+                        alignment: Alignment.center,
+                        child: Text("Phone"),
+                      ),
+                    ),
+                  ],
                 ),
                 Container(
-                  width: 290,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade200,
-                    borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        bottomRight: Radius.circular(20)),
-                  ),
-                  padding: const EdgeInsets.all(10),
+                  width: 300,
+                  height: 100,
+                  padding: const EdgeInsets.only(top: 20, left: 10),
                   child: TextFormField(
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     keyboardType: TextInputType.phone,
@@ -117,69 +106,23 @@ class _AccountSettingsState extends State<AccountSettings> {
           Container(
             margin: EdgeInsets.only(top: 20),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  width: 80,
-                  height: 50,
-                  margin: EdgeInsets.only(left: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade100,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        bottomLeft: Radius.circular(20)),
-                  ),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: const Text("Gender"),
-                  ),
-                ),
-                Container(
-                  width: 290,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade200,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        bottomRight: Radius.circular(20)),
-                  ),
-                  padding: const EdgeInsets.all(10),
-                  child: DropdownButton<String>(
-                    value: _gender,
-                    items: ['Male', 'Female', 'Other', 'Prefer not to say']
-                        .map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: new Text(value),
-                      );
-                    }).toList(),
-                    onChanged: (String? update) {
-                      setState(() {
-                        _gender = update!;
-                      });
-                    },
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            child: Row(
-              children: [
-                Container(
-                  width: 80,
-                  height: 50,
-                  margin: EdgeInsets.only(left: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.blue.shade100,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        bottomLeft: Radius.circular(20)),
-                  ),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: const Text("Birthday"),
-                  ),
+                Column(
+                  children: [
+                    Container(
+                      child: Icon(Icons.calendar_month),
+                    ),
+                    Container(
+                      width: 80,
+                      height: 20,
+                      margin: EdgeInsets.only(),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: const Text("Birthday"),
+                      ),
+                    ),
+                  ],
                 ),
                 GestureDetector(
                   onTap: () async {
@@ -188,7 +131,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                       builder: (BuildContext context) {
                         return Container(
                           height: 300,
-                          margin: EdgeInsets.only(bottom: 100),
+                          margin: EdgeInsets.only(bottom: 90),
                           child: CupertinoDatePicker(
                             mode: CupertinoDatePickerMode.date,
                             initialDateTime: DateTime.now(),
@@ -206,16 +149,18 @@ class _AccountSettingsState extends State<AccountSettings> {
                     );
                   },
                   child: Container(
-                    width: 290,
-                    height: 50,
+                    width: 300,
+                    height: 20,
                     decoration: BoxDecoration(
-                      color: Colors.blue.shade200,
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          bottomRight: Radius.circular(20)),
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                      ),
                     ),
-                    padding: const EdgeInsets.all(10),
-                    child: Center(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
                       child: Text(
                           "${selectedDate.month}  ${selectedDate.day}, ${selectedDate.year}"),
                     ),
@@ -225,15 +170,70 @@ class _AccountSettingsState extends State<AccountSettings> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 20),
-            width: 90,
-            height: 30,
-            decoration: BoxDecoration(
-                color: Colors.blue.shade200,
-                borderRadius: BorderRadius.circular(20)),
-            child: Center(
-              child: Text(
-                'Save',
+            margin: EdgeInsets.only(top: 20, left: 10),
+            child: Row(
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      child: Icon(Icons.account_circle),
+                    ),
+                    Container(
+                      width: 80,
+                      height: 20,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: const Text("Gender"),
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  width: 310,
+                  height: 50,
+                  padding: const EdgeInsets.all(10),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    child: DropdownButton<String>(
+                      underline: Container(),
+                      value: _gender,
+                      items: ['Male', 'Female', 'Other', 'Prefer not to say']
+                          .map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: new Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String? update) {
+                        setState(() {
+                          _gender = update!;
+                        });
+                      },
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+              margin: EdgeInsets.only(top: 20, right: 20),
+              width: 90,
+              height: 50,
+              decoration: BoxDecoration(
+                  color: Colors.blue.shade200,
+                  borderRadius: BorderRadius.circular(20)),
+              child: Center(
+                child: Text(
+                  'Save',
+                ),
               ),
             ),
           ),
