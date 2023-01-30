@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nusketch/pages/agencyview.dart';
-import 'package:nusketch/pages/mainpage.dart';
 import 'package:nusketch/util/dimension.dart';
 
 class PortfoliosPage extends StatefulWidget {
@@ -77,12 +76,12 @@ class _PortfoliosPageState extends State<PortfoliosPage> {
           },
           child: Container(
             width: Dimension.screenWidth / 2,
-            height: 180,
+            height: Dimension.page180h,
             child: Container(
-              margin: EdgeInsets.only(top: 35),
+              margin: EdgeInsets.only(top: Dimension.page35h),
               child: Icon(
                 Icons.folder,
-                size: 170,
+                size: Dimension.size170,
                 color: Colors.blue.shade200,
               ),
             ),
@@ -90,11 +89,11 @@ class _PortfoliosPageState extends State<PortfoliosPage> {
         ),
         Container(
           width: Dimension.screenWidth / 2,
-          height: 30,
+          height: Dimension.page30h,
           child: Center(
             child: Text(
               agencies[index],
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: Dimension.size18),
             ),
           ),
         ),
