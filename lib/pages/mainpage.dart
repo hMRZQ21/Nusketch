@@ -5,6 +5,7 @@ import 'package:nusketch/pages/camera.dart';
 import 'package:nusketch/pages/portfolios.dart';
 import 'package:nusketch/pages/uploadpage.dart';
 
+import '../util/dimension.dart';
 import 'homepage.dart';
 
 // class MainPage extends StatefulWidget {
@@ -85,7 +86,7 @@ class _MyPageState extends State<MainPage> {
       resizeToAvoidBottomInset: false,
       body: children[selectedIndex],
       bottomNavigationBar: Container(
-        height: 60,
+        height: Dimension.page60h,
         child: BottomAppBar(
           shape: const CircularNotchedRectangle(),
           child: Row(
@@ -93,20 +94,23 @@ class _MyPageState extends State<MainPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.home, color: Colors.blue.shade400, size: 35),
+                icon: Icon(Icons.home,
+                    color: Colors.blue.shade400, size: Dimension.size35),
                 onPressed: () => navigateBottomNavBar(0),
               ),
               IconButton(
-                icon: Icon(Icons.upload, color: Colors.blue.shade400, size: 35),
+                icon: Icon(Icons.upload,
+                    color: Colors.blue.shade400, size: Dimension.size35),
                 onPressed: () => navigateBottomNavBar(2),
               ),
               IconButton(
-                icon: Icon(Icons.folder, color: Colors.blue.shade400, size: 35),
+                icon: Icon(Icons.folder,
+                    color: Colors.blue.shade400, size: Dimension.size35),
                 onPressed: () => navigateBottomNavBar(4),
               ),
               IconButton(
                 icon: Icon(Icons.account_circle,
-                    color: Colors.blue.shade400, size: 35),
+                    color: Colors.blue.shade400, size: Dimension.size35),
                 onPressed: () => navigateBottomNavBar(3),
               ),
             ],
@@ -117,7 +121,7 @@ class _MyPageState extends State<MainPage> {
         backgroundColor: Colors.white,
         onPressed: () => navigateBottomNavBar(1),
         child: Icon(CupertinoIcons.camera_fill,
-            color: Colors.blue.shade800, size: 31),
+            color: Colors.blue.shade800, size: Dimension.size31),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       extendBody: true,
