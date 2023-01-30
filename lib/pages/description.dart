@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nusketch/pages/mainpage.dart';
 import 'package:nusketch/util/colors.dart';
@@ -20,19 +21,6 @@ class _DescriptionPageState extends State<DescriptionPage> {
           CustomColors.mainpagebgcolor, // uses colors.dart to set custom colors
       body: Column(
         children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MainPage()),
-                );
-              },
-              icon: Icon(Icons.arrow_back_ios,
-                  color: Colors.blue.shade200, size: 30),
-            ),
-          ),
           Align(
             alignment: Alignment.center,
             child: Container(
