@@ -89,6 +89,5 @@ class _AgencyViewState extends State<AgencyView> {
         ),
       ),
     );
-    ;
   }
 }

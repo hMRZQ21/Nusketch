@@ -118,7 +118,6 @@ class _AccountSettingsState extends State<AccountSettings> {
                     Container(
                       width: Dimension.page80w,
                       height: Dimension.page20h,
-                      margin: EdgeInsets.only(),
                       child: const Align(
                         alignment: Alignment.center,
                         child: Text("Birthday"),
