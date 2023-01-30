@@ -28,9 +28,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nusketch/pages/accountsettings.dart';
 import 'package:nusketch/pages/description.dart';
-import 'package:nusketch/pages/portfolios.dart';
 import 'package:nusketch/util/colors.dart';
 import 'package:nusketch/util/dimension.dart';
 
@@ -51,11 +49,11 @@ class _HomePageState extends State<HomePage> {
           itemCount: 5,
           itemBuilder: (context, index) {
             return Container(
-              height: 490,
-              margin: EdgeInsets.only(bottom: 30),
+              height: Dimension.page490h,
+              margin: EdgeInsets.only(bottom: Dimension.page30h),
               decoration: BoxDecoration(
                   color: Colors.blue.shade200,
-                  borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(Dimension.page20r)),
               child: Column(
                 children: [
                   Align(

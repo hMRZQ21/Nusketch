@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 
+import '../util/dimension.dart';
+
 class CameraPage extends StatefulWidget {
   const CameraPage({super.key});
 
@@ -49,16 +51,16 @@ class _CameraPageState extends State<CameraPage> {
           body: Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 100),
+            margin: EdgeInsets.only(top: Dimension.page100h),
             child: Column(
               children: [
                 Container(
-                  margin: const EdgeInsets.only(bottom: 10),
+                  margin: EdgeInsets.only(bottom: Dimension.page10h),
                   child: Center(
                     child: _image == null
                         ? Container(
-                            height: 550,
-                            width: 411,
+                            height: Dimension.page550h,
+                            width: Dimension.screenWidth,
                             color: Colors.blue.shade100,
                           )
                         : Image.file(
