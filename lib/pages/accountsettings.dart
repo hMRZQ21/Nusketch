@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/services.dart';
+import 'package:nusketch/util/dimension.dart';
 
 class AccountSettings extends StatefulWidget {
   const AccountSettings({super.key});
@@ -27,29 +28,29 @@ class _AccountSettingsState extends State<AccountSettings> {
       body: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 50),
+            margin: EdgeInsets.only(top: Dimension.page50h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
                   children: [
                     Container(
-                      child: Icon(Icons.email),
+                      child: const Icon(Icons.email),
                     ),
                     Container(
-                      width: 80,
-                      height: 20,
-                      child: Align(
+                      width: Dimension.page80w,
+                      height: Dimension.page20h,
+                      child: const Align(
                         alignment: Alignment.center,
-                        child: const Text("Email"),
+                        child: Text("Email"),
                       ),
                     ),
                   ],
                 ),
                 Container(
-                  width: 300,
-                  height: 100,
-                  padding: const EdgeInsets.only(top: 20),
+                  width: Dimension.page300w,
+                  height: Dimension.page100h,
+                  padding: EdgeInsets.only(top: Dimension.page20h),
                   child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
@@ -70,7 +71,7 @@ class _AccountSettingsState extends State<AccountSettings> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 10),
+            margin: EdgeInsets.only(left: Dimension.page10w),
             child: Row(
               children: [
                 Column(
@@ -79,8 +80,8 @@ class _AccountSettingsState extends State<AccountSettings> {
                       child: Icon(Icons.phone),
                     ),
                     Container(
-                      width: 80,
-                      height: 20,
+                      width: Dimension.page80w,
+                      height: Dimension.page20h,
                       child: const Align(
                         alignment: Alignment.center,
                         child: Text("Phone"),
@@ -89,13 +90,14 @@ class _AccountSettingsState extends State<AccountSettings> {
                   ],
                 ),
                 Container(
-                  width: 300,
-                  height: 100,
-                  padding: const EdgeInsets.only(top: 20, left: 10),
+                  width: Dimension.page300w,
+                  height: Dimension.page100h,
+                  padding: EdgeInsets.only(
+                      top: Dimension.page20h, left: Dimension.page10w),
                   child: TextFormField(
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Enter your phone number',
                     ),
                   ),
@@ -104,22 +106,21 @@ class _AccountSettingsState extends State<AccountSettings> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 20),
+            margin: EdgeInsets.only(top: Dimension.page20h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
                   children: [
                     Container(
-                      child: Icon(Icons.calendar_month),
+                      child: const Icon(Icons.calendar_month),
                     ),
                     Container(
-                      width: 80,
-                      height: 20,
-                      margin: EdgeInsets.only(),
-                      child: Align(
+                      width: Dimension.page80w,
+                      height: Dimension.page20h,
+                      child: const Align(
                         alignment: Alignment.center,
-                        child: const Text("Birthday"),
+                        child: Text("Birthday"),
                       ),
                     ),
                   ],
@@ -130,8 +131,8 @@ class _AccountSettingsState extends State<AccountSettings> {
                       context: context,
                       builder: (BuildContext context) {
                         return Container(
-                          height: 300,
-                          margin: EdgeInsets.only(bottom: 90),
+                          height: Dimension.page300h,
+                          margin: EdgeInsets.only(bottom: Dimension.page90h),
                           child: CupertinoDatePicker(
                             mode: CupertinoDatePickerMode.date,
                             initialDateTime: DateTime.now(),
@@ -149,13 +150,13 @@ class _AccountSettingsState extends State<AccountSettings> {
                     );
                   },
                   child: Container(
-                    width: 300,
-                    height: 20,
+                    width: Dimension.page300w,
+                    height: Dimension.page20h,
                     decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
                           color: Colors.grey,
-                          width: 1,
+                          width: Dimension.page1w,
                         ),
                       ),
                     ),
@@ -170,33 +171,34 @@ class _AccountSettingsState extends State<AccountSettings> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 20, left: 10),
+            margin: EdgeInsets.only(
+                top: Dimension.page20h, left: Dimension.page10w),
             child: Row(
               children: [
                 Column(
                   children: [
                     Container(
-                      child: Icon(Icons.account_circle),
+                      child: const Icon(Icons.account_circle),
                     ),
                     Container(
-                      width: 80,
-                      height: 20,
-                      child: Align(
+                      width: Dimension.page80w,
+                      height: Dimension.page20h,
+                      child: const Align(
                         alignment: Alignment.center,
-                        child: const Text("Gender"),
+                        child: Text("Gender"),
                       ),
                     ),
                   ],
                 ),
                 Container(
-                  width: 310,
-                  height: 50,
+                  width: Dimension.page310w,
+                  height: Dimension.page50h,
                   padding: const EdgeInsets.all(10),
                   child: Container(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                          width: 1,
+                          width: Dimension.page1w,
                         ),
                       ),
                     ),
@@ -207,7 +209,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                           .map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: new Text(value),
+                          child: Text(value),
                         );
                       }).toList(),
                       onChanged: (String? update) {
@@ -224,13 +226,14 @@ class _AccountSettingsState extends State<AccountSettings> {
           Align(
             alignment: Alignment.centerRight,
             child: Container(
-              margin: EdgeInsets.only(top: 20, right: 20),
-              width: 90,
-              height: 50,
+              margin: EdgeInsets.only(
+                  top: Dimension.page20h, right: Dimension.page20w),
+              width: Dimension.page90w,
+              height: Dimension.page50h,
               decoration: BoxDecoration(
                   color: Colors.blue.shade200,
-                  borderRadius: BorderRadius.circular(20)),
-              child: Center(
+                  borderRadius: BorderRadius.circular(Dimension.page20r)),
+              child: const Center(
                 child: Text(
                   'Save',
                 ),

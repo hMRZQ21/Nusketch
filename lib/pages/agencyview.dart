@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:nusketch/pages/description.dart';
 import 'package:nusketch/util/dimension.dart';
 
@@ -46,9 +44,9 @@ class _AgencyViewState extends State<AgencyView> {
                       },
                       child: Container(
                         width: Dimension.screenWidth / 2,
-                        height: 180,
+                        height: Dimension.page180h,
                         child: Container(
-                          margin: EdgeInsets.only(top: 35),
+                          margin: EdgeInsets.only(top: Dimension.page35h),
                           child: Image(
                             image: AssetImage(art[fitem]),
                           ),
@@ -69,9 +67,9 @@ class _AgencyViewState extends State<AgencyView> {
                       },
                       child: Container(
                         width: Dimension.screenWidth / 2,
-                        height: 180,
+                        height: Dimension.page180h,
                         child: Container(
-                          margin: EdgeInsets.only(top: 35),
+                          margin: EdgeInsets.only(top: Dimension.page35h),
                           child: Image(
                             fit: BoxFit.fill,
                             image: AssetImage(
@@ -91,6 +89,5 @@ class _AgencyViewState extends State<AgencyView> {
         ),
       ),
     );
-    ;
   }
 }
