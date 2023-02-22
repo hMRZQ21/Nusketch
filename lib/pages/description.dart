@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:nusketch/pages/mainpage.dart';
 import 'package:nusketch/util/colors.dart';
+import 'package:nusketch/util/flip.dart';
 
 import '../util/dimension.dart';
 
@@ -21,19 +19,6 @@ class _DescriptionPageState extends State<DescriptionPage> {
           CustomColors.mainpagebgcolor, // uses colors.dart to set custom colors
       body: Column(
         children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MainPage()),
-                );
-              },
-              icon: const Icon(Icons.arrow_back_ios,
-                  color: Colors.blue, size: 55),
-            ),
-          ),
           Align(
             alignment: Alignment.center,
             child: Container(
@@ -72,22 +57,10 @@ class _DescriptionPageState extends State<DescriptionPage> {
                       color: CustomColors.lavender),
                 ),
               ),
-              Align(
+              const Align(
                 // container that contains the image
                 alignment: Alignment.center,
-                child: Container(
-                  width: Dimension.innerpicturew,
-                  height: Dimension.innerpictureh,
-                  margin: EdgeInsets.only(top: Dimension.page10h),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimension.page10r),
-                    color: Colors.white,
-                    image: const DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage("figures/girlimage1.png"),
-                    ),
-                  ),
-                ),
+                child: FlipAround(),
               ),
             ],
           ),
@@ -95,7 +68,8 @@ class _DescriptionPageState extends State<DescriptionPage> {
             alignment: Alignment.center,
             child: Container(
               width: Dimension.outtercontainerw,
-              height: Dimension.outtercontainerh,
+              height: 200,
+              margin: EdgeInsets.only(top: Dimension.page30h),
               child: const Text(
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non tincidunt justo. Duis sit amet ante turpis. Aliquam pulvinar elementum orci, id malesuada felis luctus id. Etiam sed dolor lorem. Sed venenatis leo justo, non pellentesque velit mattis sit amet. Proin venenatis quis libero eget semper. Integer in neque erat. Donec ultricies nisl nunc, nec venenatis ligula accumsan in. Vivamus at varius nunc. Vestibulum quam turpis, fringilla in velit vitae, tincidunt sodales leo. Vestibulum eget mi sit amet risus tempus suscipit."),
             ),
