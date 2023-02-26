@@ -44,7 +44,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: double.infinity,
         child: ListView.builder(
           itemCount: 5,
           itemBuilder: (context, index) {
