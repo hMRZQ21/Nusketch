@@ -21,10 +21,10 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
     _animationController =
           AnimationController(
                 vsync: this,
-                duration: const Duration(milliseconds: 700)
+                duration: const Duration(milliseconds: 1000)
           )..repeat();
 
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const MainPage()),
     );
@@ -40,12 +40,12 @@ Widget build(BuildContext context){
       backgroundColor: Colors.black,
       body:
       Center(
-        child: SizedBox.expand(
+        child: SizedBox.expand( // will become as large as the screen size
           // fit: BoxFit.fill,
           child: FittedBox(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Image(image:AssetImage("figures/Title_P1.png")),
                 Container(
