@@ -57,95 +57,90 @@ class _UploadPageState extends State<UploadPage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Stack(
-            children: [
-              Container(
-                height: Dimension.screenHeight * 0.40,
-                margin: EdgeInsets.only(top: Dimension.screenHeight * 0.47),
-                color: Colors.white,
-                child: SizedBox(
-                  height: Dimension.screenHeight * 0.4,
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: (imageList.length / 3).ceil(),
-                    itemBuilder: (BuildContext context, int index) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              updateSelectedImage(imageList[index *
-                                  3]); // call the function to update the selected image
-                            },
-                            child: Container(
-                              width: Dimension.screenWidth * 0.28,
-                              height: Dimension.screenHeight * 0.16,
-                              child: Image(
-                                  image: imageList[index * 3],
-                                  fit: BoxFit.cover),
-                            ),
+          Container(
+            height: Dimension.screenHeight * 0.48,
+            width: Dimension.screenWidth,
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: Color.fromRGBO(247, 235, 219, 1),
+                  offset: Offset(0, 18),
+                  blurRadius: 5,
+                ),
+                BoxShadow(
+                  color: Color.fromRGBO(238, 209, 170, 1),
+                  offset: Offset(0, 12),
+                  blurRadius: 5,
+                ),
+                BoxShadow(
+                  color: Color.fromRGBO(222, 184, 135, 1),
+                  offset: Offset(0, 6),
+                  blurRadius: 5,
+                ),
+              ],
+              color: CustomColors.beige2,
+              image: DecorationImage(
+                image: selectedImage,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              color: Colors.white,
+              child: SizedBox(
+                height: Dimension.screenHeight * 0.4,
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: (imageList.length / 3).ceil(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            updateSelectedImage(imageList[index *
+                                3]); // call the function to update the selected image
+                          },
+                          child: Container(
+                            width: Dimension.screenWidth * 0.28,
+                            height: Dimension.screenHeight * 0.16,
+                            child: Image(
+                                image: imageList[index * 3], fit: BoxFit.cover),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              updateSelectedImage(imageList[index * 3 +
-                                  1]); // call the function to update the selected image
-                            },
-                            child: Container(
-                              width: Dimension.screenWidth * 0.28,
-                              height: Dimension.screenHeight * 0.16,
-                              child: Image(
-                                  image: imageList[index * 3 + 1],
-                                  fit: BoxFit.cover),
-                            ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            updateSelectedImage(imageList[index * 3 +
+                                1]); // call the function to update the selected image
+                          },
+                          child: Container(
+                            width: Dimension.screenWidth * 0.28,
+                            height: Dimension.screenHeight * 0.16,
+                            child: Image(
+                                image: imageList[index * 3 + 1],
+                                fit: BoxFit.cover),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              updateSelectedImage(imageList[index * 3 +
-                                  2]); // call the function to update the selected image
-                            },
-                            child: Container(
-                              width: Dimension.screenWidth * 0.28,
-                              height: Dimension.screenHeight * 0.16,
-                              child: Image(
-                                  image: imageList[index * 3 + 2],
-                                  fit: BoxFit.cover),
-                            ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            updateSelectedImage(imageList[index * 3 +
+                                2]); // call the function to update the selected image
+                          },
+                          child: Container(
+                            width: Dimension.screenWidth * 0.28,
+                            height: Dimension.screenHeight * 0.16,
+                            child: Image(
+                                image: imageList[index * 3 + 2],
+                                fit: BoxFit.cover),
                           ),
-                        ],
-                      );
-                    },
-                  ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
-              Container(
-                height: Dimension.screenHeight * 0.48,
-                width: Dimension.screenWidth,
-                decoration: BoxDecoration(
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromRGBO(247, 235, 219, 1),
-                      offset: Offset(0, 18),
-                      blurRadius: 5,
-                    ),
-                    BoxShadow(
-                      color: Color.fromRGBO(238, 209, 170, 1),
-                      offset: Offset(0, 12),
-                      blurRadius: 5,
-                    ),
-                    BoxShadow(
-                      color: Color.fromRGBO(222, 184, 135, 1),
-                      offset: Offset(0, 6),
-                      blurRadius: 5,
-                    ),
-                  ],
-                  color: CustomColors.beige2,
-                  image: DecorationImage(
-                    image: selectedImage,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ],
       ),

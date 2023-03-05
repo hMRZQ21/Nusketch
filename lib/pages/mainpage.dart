@@ -75,16 +75,13 @@ class _MyPageState extends State<MainPage> {
     });
   }
 
-
   final List<Widget> children = [
     const HomePage(),
     const UploadPage(),
     // const CameraPage(),
     const PortfoliosPage(),
     const AccountSettings(),
-
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -100,12 +97,10 @@ class _MyPageState extends State<MainPage> {
         unselectedItemColor: Colors.blue.shade600,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        items: const <BottomNavigationBarItem> [
-
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: "home",
-
+            icon: Icon(Icons.home),
+            label: "home",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.upload),
@@ -120,8 +115,8 @@ class _MyPageState extends State<MainPage> {
             label: "circle",
           ),
         ],
-          currentIndex: selectedIndex,
-          onTap: navigateBottomNavBar,
+        currentIndex: selectedIndex,
+        onTap: navigateBottomNavBar,
       ),
 
       floatingActionButton: Container(
@@ -130,14 +125,14 @@ class _MyPageState extends State<MainPage> {
         child: FloatingActionButton(
           backgroundColor: Colors.white,
           onPressed: () => {
-            Navigator.of(context).pushReplacement(
+            Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => const CameraPage()),
             )
           },
           child: Icon(
-              CupertinoIcons.camera_fill,
-              color: Colors.blue.shade800,
-              size: 30,
+            CupertinoIcons.camera_fill,
+            color: Colors.blue.shade800,
+            size: 30,
           ),
         ),
       ),
@@ -201,42 +196,42 @@ class _MyPageState extends State<MainPage> {
       //           ],
       //         ),
       //       ),
-          // child: Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //   mainAxisSize: MainAxisSize.max,
-          //   children: <Widget>[
-          //     IconButton(
-          //      icon: Icon(Icons.home,
-          //           color: Colors.blue.shade400,
-          //           size: 30,
-          //      ),
-          //       onPressed: () => navigateBottomNavBar(0),
-          //     ),
-          //     IconButton(
-          //       // padding: EdgeInsets.only(right: 50),
-          //       icon: Icon(Icons.upload,
-          //           color: Colors.blue.shade400,
-          //           size: 30
-          //       ),
-          //       onPressed: () => navigateBottomNavBar(2),
-          //     ),
-          //     IconButton(
-          //       // padding: EdgeInsets.only(left: 50),
-          //       icon: Icon(Icons.folder,
-          //           color: Colors.blue.shade400,
-          //           size: 30,
-          //       ),
-          //       onPressed: () => navigateBottomNavBar(4),
-          //     ),
-          //     IconButton(
-          //       icon: Icon(Icons.account_circle,
-          //           color: Colors.blue.shade400,
-          //           size: 30,
-          //       ),
-          //       onPressed: () => navigateBottomNavBar(3),
-          //     ),
-          //   ],
-          // ),
+      // child: Row(
+      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //   mainAxisSize: MainAxisSize.max,
+      //   children: <Widget>[
+      //     IconButton(
+      //      icon: Icon(Icons.home,
+      //           color: Colors.blue.shade400,
+      //           size: 30,
+      //      ),
+      //       onPressed: () => navigateBottomNavBar(0),
+      //     ),
+      //     IconButton(
+      //       // padding: EdgeInsets.only(right: 50),
+      //       icon: Icon(Icons.upload,
+      //           color: Colors.blue.shade400,
+      //           size: 30
+      //       ),
+      //       onPressed: () => navigateBottomNavBar(2),
+      //     ),
+      //     IconButton(
+      //       // padding: EdgeInsets.only(left: 50),
+      //       icon: Icon(Icons.folder,
+      //           color: Colors.blue.shade400,
+      //           size: 30,
+      //       ),
+      //       onPressed: () => navigateBottomNavBar(4),
+      //     ),
+      //     IconButton(
+      //       icon: Icon(Icons.account_circle,
+      //           color: Colors.blue.shade400,
+      //           size: 30,
+      //       ),
+      //       onPressed: () => navigateBottomNavBar(3),
+      //     ),
+      //   ],
+      // ),
       // ),
       // floatingActionButton: FloatingActionButton(
       //   backgroundColor: Colors.white,
@@ -245,7 +240,6 @@ class _MyPageState extends State<MainPage> {
       //       color: Colors.blue.shade800),
       // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
     );
   }
 }
