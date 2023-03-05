@@ -8,4 +8,5 @@ class CustomColors {
 
   static final Color mainpagebgcolor = Color.fromARGB(240, 240, 240, 240);
   static final Color lavender = Color.fromRGBO(230, 230, 250, 1);
+  static final Color beige2 = Color.fromRGBO(238, 213, 176, 1);
 }
