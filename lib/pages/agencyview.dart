@@ -39,7 +39,7 @@ class _AgencyViewState extends State<AgencyView> {
                         Navigator.push(
                           context,
                           CupertinoPageRoute(
-                              builder: (context) => const DescriptionPage()),
+                              builder: (context) => DescriptionPage()),
                         );
                       },
                       child: Container(
@@ -62,7 +62,7 @@ class _AgencyViewState extends State<AgencyView> {
                         Navigator.push(
                           context,
                           CupertinoPageRoute(
-                              builder: (context) => const DescriptionPage()),
+                              builder: (context) => DescriptionPage()),
                         );
                       },
                       child: Container(
