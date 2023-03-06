@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:nusketch/pages/homepage.dart';
 import 'package:nusketch/util/colors.dart';
 import 'package:nusketch/util/flip.dart';
 
 import '../util/dimension.dart';
 
 class DescriptionPage extends StatefulWidget {
-  const DescriptionPage({super.key});
+  DescriptionPage({super.key});
 
   @override
   State<DescriptionPage> createState() => _DescriptionPageState();
@@ -26,8 +27,8 @@ class _DescriptionPageState extends State<DescriptionPage> {
                   top: Dimension.page20h,
                   left: Dimension.page30w,
                   bottom: Dimension.page10h),
-              child: const Text(
-                'Sketch of a girl',
+              child: Text(
+                'date',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
               ),
             ),
