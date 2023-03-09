@@ -35,7 +35,7 @@ dependencies:
   dots_indicator: ^2.1.0
   # package for logo to render on icon
   flutter_launcher_icons: ^0.11.0 
-  image_picker: ^0.8.6
+  camera:
   path_provider: ^2.0.11
   email_validator:
   flutter_signin_button: ^2.0.0
