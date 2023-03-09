@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:nusketch/pages/description.dart';
 import 'package:nusketch/util/dimension.dart';
 
+import '../util/colors.dart';
+
 class AgencyView extends StatefulWidget {
   final String agency;
 
@@ -24,13 +26,20 @@ class _AgencyViewState extends State<AgencyView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 10,
+        backgroundColor: CustomColors.beige2,
+        title: Text(
+          "Sketches",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
       body: Container(
-        color: Colors.grey.shade100,
         child: ListView.builder(
           itemBuilder: (context, index) {
             int fitem = index * 2;
             int sitem = fitem + 1;
-            return Row(
+            return Column(
               children: [
                 Column(
                   children: [
