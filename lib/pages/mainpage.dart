@@ -88,38 +88,44 @@ class _MyPageState extends State<MainPage> {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       // extendBody: true,
+      resizeToAvoidBottomInset: false, //used to avoid FAB from moving when clicking on something
       body: Center(
         child: children.elementAt(selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.orange.shade400,
-        unselectedItemColor: Colors.blue.shade600,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.upload),
-            label: "upload",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.folder),
-            label: "folder",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: "circle",
-          ),
-        ],
-        currentIndex: selectedIndex,
-        onTap: navigateBottomNavBar,
+      bottomNavigationBar: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.08,
+        child: BottomNavigationBar(
+
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.orange.shade400,
+          unselectedItemColor: Colors.blue.shade600,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: "home",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.upload),
+              label: "upload",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.folder),
+              label: "folder",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle),
+              label: "profile",
+            ),
+          ],
+          currentIndex: selectedIndex,
+          onTap: navigateBottomNavBar,
+        ),
       ),
 
       floatingActionButton: Container(
+
         height: MediaQuery.of(context).size.height * 0.18,
         width: MediaQuery.of(context).size.width * 0.18,
         child: FloatingActionButton(

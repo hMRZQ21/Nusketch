@@ -18,6 +18,7 @@ class _LoginPage extends State<LoginPage>{
     //todo: when landscape mode make view scrollable or resize / layout
     return
       Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white10,
           body: Center(
             child: Padding(

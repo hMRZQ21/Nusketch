@@ -16,6 +16,7 @@ class _SignupPage extends State<SignupPage> {
   Widget build(BuildContext context) {
     return
       Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white10,
         body: Center(
           child: Padding(
