@@ -1,9 +1,10 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:nusketch/pages/mainpage.dart';
+
 // import 'package:nusketch/util/dimension.dart';
 //
-// 
+//
 class Loading extends StatefulWidget {
   const Loading({super.key});
 
@@ -18,61 +19,57 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
 
-    _animationController =
-          AnimationController(
-                vsync: this,
-                duration: const Duration(milliseconds: 1000)
-          )..repeat();
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1000))
+      ..repeat();
 
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const MainPage()),
-    );
-    _animationController.dispose();
+      );
+      _animationController.dispose();
     });
-
   }
 
   // child:  Image(image:AssetImage("figures/full_title_png.png")),
-@override
-Widget build(BuildContext context){
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body:
-      Center(
-        child: SizedBox.expand( // will become as large as the screen size
-          // fit: BoxFit.fill,
-          child: FittedBox(
-            child: Row(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Image(image:AssetImage("figures/Title_P1.png")),
-                Container(
-
+        backgroundColor: Colors.black,
+        body: Center(
+          child: SizedBox.expand(
+            // will become as large as the screen size
+            // fit: BoxFit.fill,
+            child: FittedBox(
+              child: Row(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Image(image: AssetImage("figures/Title_P1.png")),
+                  Container(
                     margin: const EdgeInsets.only(top: 30),
                     // child:Image(image:AssetImage("figures/Title_Spin.png")),
                     child: AnimatedBuilder(
-                      animation: _animationController,
-                      child: const Image(image:AssetImage("figures/Title_Spin.png")),
-                      builder:(context,child){
-                        return RotationTransition(
-                          turns: Tween(begin: 0.0, end: 1.0).animate(_animationController),
-                          // angle: _animationController.value * 2.0 * math.pi,
-                          child: child,
-                        );
-                      }
-                    ),
-                ),
-                const Image(image:AssetImage("figures/Title_P2.png")),
-              ],
+                        animation: _animationController,
+                        child: const Image(
+                            image: AssetImage("figures/Title_Spin.png")),
+                        builder: (context, child) {
+                          return RotationTransition(
+                            turns: Tween(begin: 0.0, end: 1.0)
+                                .animate(_animationController),
+                            // angle: _animationController.value * 2.0 * math.pi,
+                            child: child,
+                          );
+                        }),
+                  ),
+                  const Image(image: AssetImage("figures/Title_P2.png")),
+                ],
+              ),
             ),
           ),
-
-        ),
-      )
-    );
-}}
+        ));
+  }
+}
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
