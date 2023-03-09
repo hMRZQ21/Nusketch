@@ -1,5 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:nusketch/pages/homepage.dart';
+import 'package:nusketch/pages/loginpage.dart';
 import 'package:nusketch/pages/mainpage.dart';
 
 // import 'package:nusketch/util/dimension.dart';
@@ -25,7 +27,7 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
 
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const MainPage()),
+        MaterialPageRoute(builder: (context) => MainPage()),
       );
       _animationController.dispose();
     });
