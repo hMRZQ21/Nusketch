@@ -62,22 +62,15 @@ class _HomePageState extends State<HomePage> {
           itemCount: imageList.length, // Length of temp list -> will become the length of database
           itemBuilder: (context,index) { // Necessary to build the ListView
             return Container( // Were gonna return the container
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.5,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.4,
-              margin: EdgeInsets.all(MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.1),
+              height: MediaQuery.of(context).size.height * 0.5,
+              width: MediaQuery.of(context).size.width * 0.4,
+              margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
+
               // The space around the container
               // color: Colors.green, // [for testing ] Color to show container for text and image
               child: Column( // column to stack on top of each other
                 children: [
+                  //Top portion image title and date created
                   Align( // align allows you to position child relative to parent
                     alignment: Alignment.topLeft, // align to top left
                     child: Column(
@@ -103,6 +96,7 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
+                  // image
                   Expanded( // fills the rest of the column
                     child: Align(
                       alignment: Alignment.topLeft, // Aligns image to top left
@@ -110,25 +104,26 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           debugPrint(
                               'image clicked \nimage: ${index} \ndate:${index}');
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) =>
-                                    DescriptionPage()
+                          Navigator.push(context, CupertinoPageRoute(
+                                builder: (context) => DescriptionPage()
                             ),
                           );
                         },
                         child: Container( // Container of image
-                          padding: EdgeInsets.all(MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.03), // blue padding around image
-                          color: Colors.blue, // Color of padding
-                          child: Image.asset( // inserting image
-                            imageList[index], // Image at index x
-                            fit: BoxFit.cover, // Cover the whole box with image
-                            width: double
-                                .infinity, // fills container of image to full width of column
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                          ),
+                          padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03), // blue padding around image
+                          // color: Colors.blue, // Color of padding
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image.asset( // inserting image
+                              imageList[index], // Image at index x
+                              fit: BoxFit.cover, // Cover the whole box with image
+                              width: double.infinity, // fills container of image to full width of column
+                            ),
                           ),
                         ),
                       ),
