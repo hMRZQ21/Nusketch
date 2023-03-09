@@ -1,142 +1,146 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:camera/camera.dart';
 import 'dart:async';
-
 import '../util/colors.dart';
 import '../util/dimension.dart';
+import 'package:image/image.dart' as img;
+import 'package:opencv_4/opencv_4.dart';
 
-//Todo implement backbutton to homescreen
 class CameraPage extends StatefulWidget {
-  const CameraPage({super.key});
+  const CameraPage({Key? key});
 
   @override
   State<CameraPage> createState() => _CameraPageState();
 }
 
-// need to add link to convert.dart
-
 class _CameraPageState extends State<CameraPage> {
-  File? _image;
-  ImagePicker imagePicker = ImagePicker();
+  List<CameraDescription> cameras = [];
+  late CameraController _cameraController;
+  XFile? _imageFile;
+  int currentCameraIndex = 0;
+  bool _isImageCaptured = false;
 
-  Future _getImage() async {
-    XFile? picture = await imagePicker.pickImage(source: ImageSource.camera);
-    if (picture == null) {
-      return;
-    } else {
-      File? image = File(picture.path);
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      cameras = await availableCameras();
+      await _initCameraController();
+    });
+  }
+
+  Future<void> _takePicture() async {
+    try {
+      _isImageCaptured = true;
+      final imageFile = await _cameraController.takePicture();
+
       setState(() {
-        _image = image;
+        _imageFile = imageFile;
       });
+    } catch (e) {
+      print(e);
     }
   }
 
-  Future _getGallery() async {
-    XFile? picture = await imagePicker.pickImage(source: ImageSource.gallery);
-    if (picture == null) {
+  Future<void> _initCameraController() async {
+    final cameras = await availableCameras();
+    final CameraDescription camera = cameras[currentCameraIndex];
+    _cameraController = CameraController(
+      camera,
+      ResolutionPreset.high,
+      enableAudio: false,
+    );
+    await _cameraController.initialize();
+    if (!mounted) {
       return;
-    } else {
-      File? image = File(picture.path);
-      setState(() {
-        _image = image;
-      });
     }
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _cameraController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: CustomColors.beige2,
-        body: SafeArea(
-          child: Column(
+    return Scaffold(
+      backgroundColor: CustomColors.beige2,
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(
-                        top: Dimension.screenWidth * 0.03,
-                        bottom: Dimension.screenWidth * 0.03),
-                    margin: EdgeInsets.only(left: Dimension.screenWidth * 0.05),
-                    child: IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: Icon(
-                        Icons.close,
-                        color: Colors.blue,
-                        size: Dimension.screenWidth * 0.08,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        top: Dimension.screenWidth * 0.03,
-                        bottom: Dimension.screenWidth * 0.03),
-                    margin:
-                        EdgeInsets.only(right: Dimension.screenWidth * 0.05),
-                    child: Icon(
-                      Icons.flash_off,
-                      color: Colors.blue,
-                      size: Dimension.screenWidth * 0.08,
-                    ),
-                  ),
-                ],
-              ),
               Container(
-                height: Dimension.screenHeight * 0.80,
-                color: CustomColors.beige2,
-                child: Center(
-                  child: _image == null
-                      ? Container(
-                          height: Dimension.screenHeight * 0.75,
-                          width: Dimension.screenWidth,
-                          color: Colors.blue.shade100,
-                          child: Image(
-                              image: AssetImage('figures/background.png'),
-                              fit: BoxFit.fill),
-                        )
-                      : Image.file(
-                          _image!,
-                        ),
+                padding: EdgeInsets.only(
+                    top: Dimension.screenWidth * 0.03,
+                    bottom: Dimension.screenWidth * 0.03),
+                margin: EdgeInsets.only(left: Dimension.screenWidth * 0.05),
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: Icon(
+                    Icons.close,
+                    color: Colors.blue,
+                    size: Dimension.screenWidth * 0.08,
+                  ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CupertinoButton(
-                        onPressed: null,
-                        child: Container(
-                            height: Dimension.screenWidth * 0.12,
-                            child: Image(
-                              image: AssetImage('figures/late.png'),
-                            )),
-                      ),
-                      CupertinoButton(
-                        onPressed: _getImage,
-                        child: Icon(
-                          CupertinoIcons.circle,
-                          size: Dimension.screenWidth * 0.17,
-                        ),
-                      ),
-                      CupertinoButton(
-                        onPressed: _getGallery,
-                        child: Icon(
-                          CupertinoIcons.switch_camera,
-                          size: Dimension.screenWidth * 0.12,
-                        ),
-                      ),
-                    ],
-                  ),
+              Container(
+                padding: EdgeInsets.only(
+                    top: Dimension.screenWidth * 0.03,
+                    bottom: Dimension.screenWidth * 0.03),
+                margin: EdgeInsets.only(right: Dimension.screenWidth * 0.05),
+                child: Icon(
+                  Icons.flash_off,
+                  color: Colors.blue,
+                  size: Dimension.screenWidth * 0.08,
                 ),
               ),
             ],
           ),
-        ),
+          Container(
+            height: Dimension.screenHeight * 0.80,
+            color: CustomColors.beige2,
+            child: Center(
+              child: _imageFile == null
+                  ? _cameraController.value.isInitialized
+                      ? Container(
+                          height: Dimension.screenHeight * 0.70,
+                          child: AspectRatio(
+                            aspectRatio: _cameraController.value.aspectRatio,
+                            child: CameraPreview(_cameraController),
+                          ),
+                        )
+                      : Container()
+                  : Image.file(_imageFile! as File),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: CupertinoButton(
+                onPressed: () {
+                  _takePicture();
+                },
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: CustomColors.beige2,
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  child: Icon(
+                    CupertinoIcons.circle,
+                    size: Dimension.screenWidth * 0.17,
+                    color: Colors.blue,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

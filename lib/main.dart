@@ -7,25 +7,23 @@ import 'firebase_options.dart';
 void main() async {
   // initializing firebase when app runs
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  MyApp({super.key});
+  final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      // uses GetMaterialApp instead of MaterialApp so Getx package can get screen dimensions
       debugShowCheckedModeBanner: false,
       title: 'Nusketch',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:
-          const Loading(), // sets the mainpage to widget named MainPage which is in heading.dart
+      home: const Loading(),
     );
   }
 }
