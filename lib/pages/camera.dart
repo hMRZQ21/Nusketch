@@ -6,7 +6,6 @@ import 'dart:async';
 import '../util/colors.dart';
 import '../util/dimension.dart';
 import 'package:image/image.dart' as img;
-import 'package:opencv_4/opencv_4.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({Key? key});

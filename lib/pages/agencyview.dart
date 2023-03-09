@@ -41,87 +41,55 @@ class _AgencyViewState extends State<AgencyView> {
             int sitem = fitem + 1;
             return Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Column(
                   children: [
-                    Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                  builder: (context) =>
-                                      const DescriptionPage()),
-                            );
-                          },
-                          child: Container(
-                            width: Dimension.screenWidth * 0.46,
-                            height: Dimension.screenWidth * 0.46,
-                            padding: EdgeInsets.all(
-                              Dimension.screenWidth * 0.02,
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 4,
-                                    blurRadius: 10,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
-                              ),
-                              child: Image(
-                                fit: BoxFit.cover,
-                                image: AssetImage(art[fitem]),
-                              ),
-                            ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => DescriptionPage()),
+                        );
+                      },
+                      child: Container(
+                        width: Dimension.screenWidth / 2,
+                        height: Dimension.page180h,
+                        child: Container(
+                          margin: EdgeInsets.only(top: Dimension.page35h),
+                          child: Image(
+                            image: AssetImage(art[fitem]),
                           ),
                         ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                  builder: (context) =>
-                                      const DescriptionPage()),
-                            );
-                          },
-                          child: Container(
-                            width: Dimension.screenWidth * 0.46,
-                            height: Dimension.screenWidth * 0.46,
-                            padding: EdgeInsets.all(
-                              Dimension.screenWidth * 0.02,
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 4,
-                                    blurRadius: 10,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
-                              ),
-                              child: Image(
-                                fit: BoxFit.cover,
-                                image: AssetImage(
-                                  art[sitem],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ],
-                )
+                ),
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => DescriptionPage()),
+                        );
+                      },
+                      child: Container(
+                        width: Dimension.screenWidth / 2,
+                        height: Dimension.page180h,
+                        child: Container(
+                          margin: EdgeInsets.only(top: Dimension.page35h),
+                          child: Image(
+                            fit: BoxFit.fill,
+                            image: AssetImage(
+                              art[sitem],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             );
           },
