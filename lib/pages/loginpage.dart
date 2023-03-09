@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:nusketch/pages/signuppage.dart';
+
+import 'mainpage.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPage();
@@ -24,21 +27,19 @@ class _LoginPage extends State<LoginPage>{
                 children: [
                   FittedBox(
                     fit: BoxFit.cover,
-                    child: Container(
-                      child: Row(
-                        children: [
-                          const Image(image:AssetImage("figures/Title_P1.png")),
-                          Container(
-                              margin: const EdgeInsets.only(top: 30),
-                              child: const Image(image:AssetImage("figures/Title_Spin.png"))
-                          ),
-                          const Image(image:AssetImage("figures/Title_P2.png")),
-                        ],
-                      ),
+                    child: Row(
+                      children: [
+                        const Image(image:AssetImage("figures/Title_P1.png")),
+                        Container(
+                            margin: const EdgeInsets.only(top: 30),
+                            child: const Image(image:AssetImage("figures/Title_Spin.png"))
+                        ),
+                        const Image(image:AssetImage("figures/Title_P2.png")),
+                      ],
                     ),
                   ),
                   const Padding(
-                    padding: EdgeInsets.only(top:20.0,bottom:20.0),
+                    padding: EdgeInsets.only(top:20.0),
                     child: TextField(
                       decoration: InputDecoration(
                         filled: true,
@@ -51,7 +52,7 @@ class _LoginPage extends State<LoginPage>{
                   ),
 
                   const Padding(
-                    padding: const EdgeInsets.only(top:20.0),
+                    padding: EdgeInsets.only(top:20.0),
                     child: TextField(
                         decoration: InputDecoration(
                           filled: true,
@@ -64,7 +65,7 @@ class _LoginPage extends State<LoginPage>{
                   ),
 
                   Padding(
-                    padding: const EdgeInsets.only(bottom:0.0,top: 0.0),
+                    padding: EdgeInsets.zero,
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
@@ -95,6 +96,7 @@ class _LoginPage extends State<LoginPage>{
 
                   const Divider(
                     color: Colors.white,
+                    thickness: 1,
                   ),
 
                   Column(
@@ -104,14 +106,14 @@ class _LoginPage extends State<LoginPage>{
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                             "or",
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: Colors.white,
                             ),
                         ),
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                        padding: const EdgeInsets.only(top: 5.0),
                         child: SizedBox(
                           width: double.infinity,
                           child: SignInButton(
@@ -126,7 +128,8 @@ class _LoginPage extends State<LoginPage>{
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                        padding: const EdgeInsets.only(top: 5.0),
+
                         child: SizedBox(
                           width: double.infinity,
                           child: SignInButtonBuilder(
@@ -140,7 +143,45 @@ class _LoginPage extends State<LoginPage>{
                           ),
                         ),
                       ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                              "Don't have an account?",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                          ),
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                              ),
+                              onPressed: (){
+                                Navigator.push(
+                                  context, MaterialPageRoute(builder: (context) => const SignupPage()),
+                                );
+                              },
+                              child: const Text("Sign Up"),
+                          ),
+                        ],
+                      ),
                     ],
+                  ),
+
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: (){
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => const MainPage(),)
+                      );
+                    },
+                    child: const Text(
+                        "Skip"
+                    ),
                   ),
                 ],
               ),
