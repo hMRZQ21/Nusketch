@@ -99,8 +99,7 @@ class _UploadPageState extends State<UploadPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            updateSelectedImage(imageList[index *
-                                3]); // call the function to update the selected image
+                            updateSelectedImage(imageList[index * 3]);
                           },
                           child: Container(
                             width: Dimension.screenWidth * 0.28,
@@ -111,8 +110,7 @@ class _UploadPageState extends State<UploadPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            updateSelectedImage(imageList[index * 3 +
-                                1]); // call the function to update the selected image
+                            updateSelectedImage(imageList[index * 3 + 1]);
                           },
                           child: Container(
                             width: Dimension.screenWidth * 0.28,
@@ -124,8 +122,7 @@ class _UploadPageState extends State<UploadPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            updateSelectedImage(imageList[index * 3 +
-                                2]); // call the function to update the selected image
+                            updateSelectedImage(imageList[index * 3 + 2]);
                           },
                           child: Container(
                             width: Dimension.screenWidth * 0.28,

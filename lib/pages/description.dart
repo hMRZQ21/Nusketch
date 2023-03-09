@@ -16,6 +16,11 @@ class _DescriptionPageState extends State<DescriptionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: CustomColors.beige2,
+        actions: [],
+      ),
       backgroundColor:
           CustomColors.mainpagebgcolor, // uses colors.dart to set custom colors
       body: Column(

@@ -34,7 +34,7 @@ class _FlipAroundState extends State<FlipAround>
             color: Colors.white,
             image: const DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage("figures/girlimage1.png"),
+              image: AssetImage("figures/girlimage1.png"), // figures/
             ),
           ),
         ),
