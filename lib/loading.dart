@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nusketch/pages/homepage.dart';
 import 'package:nusketch/pages/loginpage.dart';
 import 'package:nusketch/pages/mainpage.dart';
+import 'package:nusketch/pages/signuppage.dart';
 // import 'package:nusketch/util/dimension.dart';
 //
 // 
@@ -28,7 +29,7 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
 
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => MainPage()),
+        MaterialPageRoute(builder: (context) => SignupPage()),
     );
     _animationController.dispose();
     });
