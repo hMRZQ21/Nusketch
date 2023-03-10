@@ -5,16 +5,16 @@ import 'package:nusketch/util/dimension.dart';
 
 import '../util/colors.dart';
 
-class AgencyView extends StatefulWidget {
-  final String agency;
+class FolderView extends StatefulWidget {
+  final String folder;
 
-  const AgencyView({super.key, required this.agency});
+  const FolderView({super.key, required this.folder});
 
   @override
-  State<AgencyView> createState() => _AgencyViewState();
+  State<FolderView> createState() => _FolderViewState();
 }
 
-class _AgencyViewState extends State<AgencyView> {
+class _FolderViewState extends State<FolderView> {
   final List<String> art = [
     "figures/example1.png",
     "figures/example2.png",

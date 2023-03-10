@@ -34,88 +34,75 @@ class _AccountSettingsState extends State<AccountSettings> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(30.0),
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  //clip rounded rect -> round courners
-                  SizedBox(
-                    width: 150,
-                    height: 150,
-                    child: ClipRRect(
-                      child: Image.asset("figures/ProfilePlaceHolder.jpg"),
-                      borderRadius: BorderRadius.circular(100.0),
-                    ),
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                SizedBox(
+                  width: 150,
+                  height: 150,
+                  child: ClipRRect(
+                    child: Image.asset("figures/ProfilePlaceHolder.jpg") ,
+                    borderRadius: BorderRadius.circular(100.0),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.blue),
-                      child: IconButton(
-                        onPressed:(){
-
-                        },
-                        icon: Icon(Icons.camera_enhance, size: 30,),
-
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              Form( //makes saving, updating, and editing easier
-                key: _formKey,
-                autovalidateMode: AutovalidateMode.always,
-                onChanged: () {
-                  Form.of(primaryFocus!.context!).save();
-                },
-                child: Column(
-                  children: [
-                    buildName(),
-                    buildEmail(),
-                    buildPhone(),
-                    buildPassword(),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                          onPressed: (){
-                            if(!_formKey.currentState!.validate()){
-                              return;
-                            }
-                            _formKey.currentState!.save();
-                            setState(() {
-                              if(editable) editable = !editable;
-                            });
-                            }
-                          ,
-                          child: Text("save")
-                      ),
-
-                      ElevatedButton(
-                          onPressed: (){
-                            setState(() {
-                              if(!editable) editable = !editable;
-                            });
-                          }
-                          ,
-                          child: Text("edit")
-                      ),
-
-                    ],
-                  ),
-
-                  ].map((widget) => Padding(padding: const EdgeInsets.all(10), child:widget)).toList(),
                 ),
-              ),
+                TextButton(
+                    onPressed: (){
+                      //TODO: add ability to edit profile picture
+                    },
+                    child: Text('Edit Profile Picture')
+                ),
+                Form( //makes saving, updating, and editing easier
+                  key: _formKey,
+                  autovalidateMode: AutovalidateMode.always,
+                  onChanged: () {
+                    Form.of(primaryFocus!.context!).save();
+                  },
+                  child: Column(
+                    children: [
+                      buildName(),
+                      buildEmail(),
+                      buildPhone(),
+                      buildPassword(),
+                    Row(
+                      children: [
+                        ElevatedButton(
+                            onPressed: (){
+                              if(!_formKey.currentState!.validate()){
+                                return;
+                              }
+                              _formKey.currentState!.save();
+                              setState(() {
+                                if(editable) editable = !editable;
+                              });
+                              }
+                            ,
+                            child: Text("save")
+                        ),
 
-            ],
+                        ElevatedButton(
+                            onPressed: (){
+                              setState(() {
+                                if(!editable) {
+                                  editable = !editable;
+                                };
+                              });
+                            }
+                            ,
+                            child: Text("edit")
+                        ),
+
+                      ],
+                    ),
+                    ].map((widget) => Padding(padding: EdgeInsets.only(top:15.0), child:widget)).toList(),
+                  ),
+                ),
+
+              ],
+            ),
           ),
         ),
       ),
@@ -132,7 +119,7 @@ class _AccountSettingsState extends State<AccountSettings> {
       // labelStyle: TextStyle(color: Colors.black),
       // iconColor: Colors.black,
       suffixStyle: TextStyle(color: Colors.black),
-      border: const OutlineInputBorder(
+      enabledBorder: const OutlineInputBorder(
         borderRadius:BorderRadius.all(Radius.circular(20.0)),
       ),
       prefixIcon: Icon(Icons.email),
@@ -159,7 +146,7 @@ class _AccountSettingsState extends State<AccountSettings> {
     controller: nameController,
     decoration: InputDecoration(
       fillColor: Colors.orangeAccent,
-      border: const OutlineInputBorder(
+      enabledBorder: const OutlineInputBorder(
         borderRadius:BorderRadius.all(Radius.circular(20.0)),
       ),
       prefixIcon: Icon(Icons.person),
@@ -174,9 +161,6 @@ class _AccountSettingsState extends State<AccountSettings> {
       labelText: "Name",
     ),
     textInputAction: TextInputAction.done,
-    onSaved: (value){
-      if(value != null) email = value;
-    },
   );
 
 
@@ -184,8 +168,7 @@ class _AccountSettingsState extends State<AccountSettings> {
     enabled: editable,
     controller: phoneController,
     decoration: InputDecoration(
-      fillColor: Colors.orangeAccent,
-      border: const OutlineInputBorder(
+      enabledBorder: const OutlineInputBorder(
         borderRadius:BorderRadius.all(Radius.circular(20.0)),
       ),
       prefixIcon: Icon(Icons.phone),
@@ -213,7 +196,7 @@ class _AccountSettingsState extends State<AccountSettings> {
     decoration: InputDecoration(
       hintText: "Enter your amazing password",
       labelText: "Password",
-      errorText: "Incorrect password",
+      // errorText: "Incorrect password",
       prefixIcon: Icon(Icons.lock),
       suffixIcon: IconButton(
         icon: isPasswordVisible
@@ -223,7 +206,7 @@ class _AccountSettingsState extends State<AccountSettings> {
           isPasswordVisible = !isPasswordVisible;
         }); },
       ),
-      border: OutlineInputBorder(
+      enabledBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
       ),
     ),
