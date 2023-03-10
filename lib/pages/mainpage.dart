@@ -93,7 +93,7 @@ class _MyPageState extends State<MainPage> {
         child: children.elementAt(selectedIndex),
       ),
       bottomNavigationBar: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.08,
+        // height: MediaQuery.of(context).size.height * 0.08,
         child: BottomNavigationBar(
 
           type: BottomNavigationBarType.fixed,
@@ -125,20 +125,22 @@ class _MyPageState extends State<MainPage> {
       ),
 
       floatingActionButton: Container(
-
-        height: MediaQuery.of(context).size.height * 0.18,
-        width: MediaQuery.of(context).size.width * 0.18,
-        child: FloatingActionButton(
-          backgroundColor: Colors.white,
-          onPressed: () => {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const CameraPage()),
-            )
-          },
-          child: Icon(
-            CupertinoIcons.camera_fill,
-            color: Colors.blue.shade800,
-            size: 30,
+         height: MediaQuery.of(context).size.height * 0.065,
+         width: MediaQuery.of(context).size.width * 0.1,
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: FloatingActionButton(
+            backgroundColor: Colors.white,
+            onPressed: () => {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const CameraPage()),
+              )
+            },
+            child: Icon(
+              CupertinoIcons.camera_fill,
+              color: Colors.blue.shade800,
+              size: 30,
+            ),
           ),
         ),
       ),

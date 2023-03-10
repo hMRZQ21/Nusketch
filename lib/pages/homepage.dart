@@ -45,6 +45,8 @@ class ImageInformation{
 
   const ImageInformation(this.title);
 }
+
+//TODO: fix landscape mode
 class _HomePageState extends State<HomePage> {
   List imageList = [
       "figures/girlimage1.png",
