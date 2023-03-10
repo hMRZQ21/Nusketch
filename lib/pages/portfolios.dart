@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nusketch/pages/agencyview.dart';
+import 'package:nusketch/pages/folderview.dart';
 import 'package:nusketch/util/dimension.dart';
 
 class PortfoliosPage extends StatefulWidget {
@@ -11,16 +11,16 @@ class PortfoliosPage extends StatefulWidget {
 }
 
 class _PortfoliosPageState extends State<PortfoliosPage> {
-  final List<String> agencies = [
-    "Agency 1",
-    "Agency 2",
-    "Agency 3",
-    "Agency 4",
-    "Agency 5",
-    "Agency 6",
-    "Agency 7",
-    "Agency 8",
-    "Agency 9",
+  final List<String> folders = [
+    "Folder 1",
+    "Folder 2",
+    "Folder 3",
+    "Folder 4",
+    "Folder 5",
+    "Folder 6",
+    "Folder 7",
+    "Folder 8",
+    "Folder 9",
   ]; // placeholder for input array from database
 
   @override
@@ -32,8 +32,8 @@ class _PortfoliosPageState extends State<PortfoliosPage> {
           itemBuilder: (context, index) {
             int fitem = index * 2;
             int sitem = fitem + 1;
-            if (agencies.length % 2 == 1) {
-              if (sitem < agencies.length) {
+            if (folders.length % 2 == 1) {
+              if (sitem < folders.length) {
                 return Row(
                   children: [
                     agencyColumn(fitem),
@@ -56,7 +56,7 @@ class _PortfoliosPageState extends State<PortfoliosPage> {
               );
             }
           },
-          itemCount: (agencies.length + 1) ~/ 2,
+          itemCount: (folders.length + 1) ~/ 2,
           scrollDirection: Axis.vertical,
         ),
       ),
@@ -71,7 +71,7 @@ class _PortfoliosPageState extends State<PortfoliosPage> {
             Navigator.push(
               context,
               CupertinoPageRoute(
-                  builder: (context) => AgencyView(agency: agencies[index])),
+                  builder: (context) => FolderView(folder: folders[index])),
             );
           },
           child: Container(
@@ -92,7 +92,7 @@ class _PortfoliosPageState extends State<PortfoliosPage> {
           height: Dimension.page30h,
           child: Center(
             child: Text(
-              agencies[index],
+              folders[index],
               style: TextStyle(fontSize: Dimension.size18),
             ),
           ),
