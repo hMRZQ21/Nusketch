@@ -1,11 +1,11 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:async';
-import '../util/colors.dart';
-import '../util/dimension.dart';
-import 'package:image/image.dart' as img;
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import '../../util/colors.dart';
+import '../../util/dimension.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({Key? key});
@@ -15,47 +15,67 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> {
-  List<CameraDescription> cameras = [];
   late CameraController _cameraController;
   XFile? _imageFile;
-  int currentCameraIndex = 0;
-  bool _isImageCaptured = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      cameras = await availableCameras();
-      await _initCameraController();
-    });
+    _initCameraController();
   }
+
+  // Future<File> convertToSketch(XFile imageFile) async {
+  //   // Load the image using the image package
+  //   final image = img.decodeImage(await imageFile.readAsBytes());
+
+  //   // Convert the image to grayscale
+  //   final grayscale = img.grayscale(image!);
+
+  //   // Apply a Gaussian blur to the grayscale image to smooth it out
+  //   final blurred = img.gaussianBlur(grayscale, 10);
+
+  //   // Invert the colors of the blurred image to create a negative image
+  //   final inverted = img.invert(blurred);
+
+  //   // Create a new File object and write the sketch image to it
+  //   final sketchFile = File('${imageFile.path}_sketch.jpg');
+  //   await sketchFile.writeAsBytes(img.encodeJpg(inverted));
+
+  //   // Return the File object
+  //   return sketchFile;
+  // }
 
   Future<void> _takePicture() async {
     try {
-      _isImageCaptured = true;
       final imageFile = await _cameraController.takePicture();
-
+      final appDir = await getApplicationDocumentsDirectory();
+      final fileName = '${DateTime.now()}.jpg';
+      final imagePath = '${appDir.path}/$fileName';
+      await imageFile.saveTo(imagePath);
       setState(() {
-        _imageFile = imageFile;
+        _imageFile = XFile(imagePath);
       });
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> _initCameraController() async {
+  void _initCameraController() async {
     final cameras = await availableCameras();
-    final CameraDescription camera = cameras[currentCameraIndex];
-    _cameraController = CameraController(
-      camera,
-      ResolutionPreset.high,
-      enableAudio: false,
-    );
+    final firstCamera = cameras.first;
+    _cameraController = CameraController(firstCamera, ResolutionPreset.high);
     await _cameraController.initialize();
-    if (!mounted) {
-      return;
-    }
     setState(() {});
+
+    // if (cameras.isNotEmpty) {
+    //   _cameraController = CameraController(cameras[0], ResolutionPreset.high);
+    //   _cameraController.initialize().then((_) {
+    //     if (!mounted) {
+    //       return;
+    //     }
+    //     setState(() {});
+    //   });
+    // }
   }
 
   @override
@@ -113,8 +133,11 @@ class _CameraPageState extends State<CameraPage> {
                             child: CameraPreview(_cameraController),
                           ),
                         )
-                      : Container()
-                  : Image.file(_imageFile! as File),
+                      : Container(
+                          height: Dimension.screenHeight * 0.70,
+                          color: Colors.red)
+                  : Container(),
+              // : Image.file(_imageFile! as File),
             ),
           ),
           Expanded(
