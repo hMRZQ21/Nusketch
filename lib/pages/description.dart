@@ -60,14 +60,35 @@ class _DescriptionPageState extends State<DescriptionPage> {
                   ),
               ),
                ),
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: 200,
-                  margin: EdgeInsets.only(top: Dimension.page30h),
-                  child: const Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non tincidunt justo. Duis sit amet ante turpis. Aliquam pulvinar elementum orci, id malesuada felis luctus id. Etiam sed dolor lorem. Sed venenatis leo justo, non pellentesque velit mattis sit amet. Proin venenatis quis libero eget semper. Integer in neque erat. Donec ultricies nisl nunc, nec venenatis ligula accumsan in. Vivamus at varius nunc. Vestibulum quam turpis, fringilla in velit vitae, tincidunt sodales leo. Vestibulum eget mi sit amet risus tempus suscipit."),
+
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      margin: EdgeInsets.only(top: Dimension.page30h),
+                      child: const Text(
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+                              "In non tincidunt justo. Duis sit amet ante turpis. Aliquam pulvinar "
+                              "elementum orci, id malesuada felis luctus id. Etiam sed dolor lorem. "
+                              "Sed venenatis leo justo, non pellentesque velit mattis sit amet. Proin "
+                              "venenatis quis libero eget semper. Integer in neque erat. Donec ultricies"
+                              " nisl nunc, nec venenatis ligula accumsan in. Vivamus at varius nunc. "
+                              "Vestibulum quam turpis, fringilla in velit vitae, tincidunt sodales leo."
+                              " Vestibulum eget mi sit amet risus tempus suscipit."
+                              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Vestibulum "
+                              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Vestibulum "
+                              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Vestibulum "
+                              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Vestibulum "
+                              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Vestibulum "
+                              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Vestibulum "
+                              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Vestibulum "
+                              "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Vestibulum eget mi sit amet risus tempus suscipit",
+                      overflow: TextOverflow.fade,),
+                    ),
+                  ),
                 ),
               ),
             ],
