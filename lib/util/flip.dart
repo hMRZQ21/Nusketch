@@ -26,9 +26,8 @@ class _FlipAroundState extends State<FlipAround>
       },
       child: AnimatedCrossFade(
         firstChild: Container(
-          width: Dimension.innerpicturew,
-          height: Dimension.innerpictureh,
-          margin: EdgeInsets.only(top: Dimension.page10h),
+          height: MediaQuery.of(context).size.height * 0.5,
+          width: MediaQuery.of(context).size.width * 0.8,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Dimension.page10r),
             color: Colors.white,
@@ -39,9 +38,8 @@ class _FlipAroundState extends State<FlipAround>
           ),
         ),
         secondChild: Container(
-          width: Dimension.innerpicturew,
-          height: Dimension.innerpictureh,
-          margin: EdgeInsets.only(top: Dimension.page10h),
+          height: MediaQuery.of(context).size.height * 0.5,
+          width: MediaQuery.of(context).size.width * 0.8,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Dimension.page10r),
             color: Colors.white,
