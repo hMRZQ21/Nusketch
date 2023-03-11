@@ -58,8 +58,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context){
-    return Scaffold(
-      body: Center( //Populate whole screen
+    return LayoutBuilder(builder: (context,constraints){
+      if(constraints.maxWidth < 1000){ // phone
+        return phone();
+      }else{
+        return tablet(); // tablet
+      }
+    });
+  }
+  Widget phone() => Scaffold(
+    backgroundColor: CustomColors.mainColor,
+      body: Center(//Populate whole screen
         child: ListView.builder( // ListView list of children we want to create recursively
           itemCount: imageList.length, // Length of temp list -> will become the length of database
           itemBuilder: (context,index) { // Necessary to build the ListView
@@ -107,15 +116,15 @@ class _HomePageState extends State<HomePage> {
                           debugPrint(
                               'image clicked \nimage: ${index} \ndate:${index}');
                           Navigator.push(context, CupertinoPageRoute(
-                                builder: (context) => DescriptionPage()
-                            ),
+                              builder: (context) => DescriptionPage()
+                          ),
                           );
                         },
                         child: Container( // Container of image
                           decoration: BoxDecoration(
-                            border: Border.all(),
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))
+                              border: Border.all(),
+                              color: CustomColors.lightBlue,
+                              borderRadius: BorderRadius.all(Radius.circular(10.0))
                           ),
                           padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03), // blue padding around image
                           // color: Colors.blue, // Color of padding
@@ -137,8 +146,87 @@ class _HomePageState extends State<HomePage> {
           },
         ),
       )
-    );
-  }
+  );
+
+  Widget tablet() => Scaffold(
+      body: Center( //Populate whole screen
+        child: ListView.builder( // ListView list of children we want to create recursively
+          itemCount: imageList.length, // Length of temp list -> will become the length of database
+          itemBuilder: (context,index) { // Necessary to build the ListView
+            return Container( // Were gonna return the container
+              height: MediaQuery.of(context).size.height * 0.9,
+              margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
+              // The space around the container
+              // color: Colors.green, // [for testing ] Color to show container for text and image
+              child: Column( // column to stack on top of each other
+                children: [
+                  //Top portion image title and date created
+                  Align( // align allows you to position child relative to parent
+                    alignment: Alignment.topLeft, // align to top left
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // const so children never change at compile time
+                        Text(
+                          'image ${index}',
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                          ),
+                        ),
+                        Text(
+                          'date ${index}',
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // image
+                  Expanded( // fills the rest of the column
+                    child: Align(
+                      alignment: Alignment.topLeft, // Aligns image to top left
+                      child: InkWell(
+                        onTap: () {
+                          debugPrint(
+                              'image clicked \nimage: ${index} \ndate:${index}');
+                          Navigator.push(context, CupertinoPageRoute(
+                              builder: (context) => DescriptionPage()
+                          ),
+                          );
+                        },
+                        child: Container( // Container of image
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.all(Radius.circular(10.0))
+                          ),
+                          padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
+                          height: 2000,// blue padding around image
+                          // color: Colors.blue, // Color of padding
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image.asset( // inserting image
+                              imageList[index], // Image at index x
+                              fit: BoxFit.cover, // Cover the whole box with image
+                              width: double.infinity, // fills container of image to full width of column
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      )
+  );
 }
 
 
