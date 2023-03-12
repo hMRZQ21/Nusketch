@@ -1,11 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'dart:async';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import '../../util/colors.dart';
-import '../../util/dimension.dart';
+import '../util/colors.dart';
+import '../util/dimension.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:image/image.dart' as img;
+import 'dart:math' as math;
 
 class CameraPage extends StatefulWidget {
   const CameraPage({Key? key});
@@ -15,67 +18,97 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> {
+  List<CameraDescription> cameras = [];
   late CameraController _cameraController;
   XFile? _imageFile;
+  int currentCameraIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _initCameraController();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _getPermission();
+      cameras = await availableCameras();
+      await _initCameraController();
+    });
   }
 
-  // Future<File> convertToSketch(XFile imageFile) async {
-  //   // Load the image using the image package
-  //   final image = img.decodeImage(await imageFile.readAsBytes());
-
-  //   // Convert the image to grayscale
-  //   final grayscale = img.grayscale(image!);
-
-  //   // Apply a Gaussian blur to the grayscale image to smooth it out
-  //   final blurred = img.gaussianBlur(grayscale, 10);
-
-  //   // Invert the colors of the blurred image to create a negative image
-  //   final inverted = img.invert(blurred);
-
-  //   // Create a new File object and write the sketch image to it
-  //   final sketchFile = File('${imageFile.path}_sketch.jpg');
-  //   await sketchFile.writeAsBytes(img.encodeJpg(inverted));
-
-  //   // Return the File object
-  //   return sketchFile;
-  // }
-
-  Future<void> _takePicture() async {
-    try {
-      final imageFile = await _cameraController.takePicture();
-      final appDir = await getApplicationDocumentsDirectory();
-      final fileName = '${DateTime.now()}.jpg';
-      final imagePath = '${appDir.path}/$fileName';
-      await imageFile.saveTo(imagePath);
-      setState(() {
-        _imageFile = XFile(imagePath);
-      });
-    } catch (e) {
-      print(e);
+  Future<void> _getPermission() async {
+    if (await Permission.camera.request().isGranted) {
+      print("Permission is granted");
+    } else {
+      print("Permission is not granted");
     }
   }
 
-  void _initCameraController() async {
-    final cameras = await availableCameras();
-    final firstCamera = cameras.first;
-    _cameraController = CameraController(firstCamera, ResolutionPreset.high);
-    await _cameraController.initialize();
-    setState(() {});
+  Future<File> convertToSketch(XFile imageFile) async {
+    // Load the image using the image package
+    final image = img.decodeImage(await imageFile.readAsBytes());
 
-    // if (cameras.isNotEmpty) {
-    //   _cameraController = CameraController(cameras[0], ResolutionPreset.high);
-    //   _cameraController.initialize().then((_) {
-    //     if (!mounted) {
-    //       return;
-    //     }
-    //     setState(() {});
-    //   });
-    // }
+    final grayscale = img.grayscale(image!);
+    final blurred = img.gaussianBlur(grayscale, 10);
+
+// Create a new image with the same dimensions as the original
+    final thresholded = img.Image(image.width, image.height);
+
+// Loop through all the pixels and set them to black or white based on their intensity
+    const threshold = 190;
+    for (int y = 0; y < image.height; y++) {
+      for (int x = 0; x < image.width; x++) {
+        final pixel = blurred.getPixel(x, y);
+        final intensity = img.getLuminance(pixel);
+        final color = intensity > threshold ? 255 : 0;
+        thresholded.setPixel(x, y, img.Color.fromRgb(color, color, color));
+      }
+    }
+
+    final inverted = img.invert(thresholded);
+
+    // Create a new File object and write the sketch image to it
+    final sketchFile = File('${imageFile.path}_sketch.jpg');
+    await sketchFile.writeAsBytes(img.encodeJpg(inverted));
+
+    // Return the File object
+    return sketchFile;
+  }
+
+  Future<void> _takePicture() async {
+    if (await Permission.camera.request().isGranted) {
+      final XFile imageFile = await _cameraController.takePicture();
+      final File sketchFile = await convertToSketch(imageFile);
+
+      setState(() {
+        _imageFile = XFile(sketchFile.path);
+      });
+    } else {
+      print("Permission is not granted");
+    }
+  }
+
+  Future<void> _initCameraController() async {
+    final cameras = await availableCameras();
+    final CameraDescription camera = cameras[0];
+    _cameraController = CameraController(
+      camera,
+      ResolutionPreset.high,
+      enableAudio: false,
+      imageFormatGroup: // image format supported for iOS
+          ImageFormatGroup.yuv420,
+    );
+    await _cameraController.initialize();
+    if (!mounted) {
+      return;
+    }
+    setState(() {});
+  }
+
+  void _switchCamera() async {
+    if (cameras.isEmpty) {
+      return;
+    }
+    currentCameraIndex = (currentCameraIndex + 1) % cameras.length;
+    await _cameraController.dispose();
+    await _initCameraController();
   }
 
   @override
@@ -112,10 +145,13 @@ class _CameraPageState extends State<CameraPage> {
                     top: Dimension.screenWidth * 0.03,
                     bottom: Dimension.screenWidth * 0.03),
                 margin: EdgeInsets.only(right: Dimension.screenWidth * 0.05),
-                child: Icon(
-                  Icons.flash_off,
-                  color: Colors.blue,
-                  size: Dimension.screenWidth * 0.08,
+                child: IconButton(
+                  onPressed: () => _switchCamera(),
+                  icon: Icon(
+                    Icons.flash_off,
+                    color: Colors.blue,
+                    size: Dimension.screenWidth * 0.08,
+                  ),
                 ),
               ),
             ],
@@ -136,8 +172,14 @@ class _CameraPageState extends State<CameraPage> {
                       : Container(
                           height: Dimension.screenHeight * 0.70,
                           color: Colors.red)
-                  : Container(),
-              // : Image.file(_imageFile! as File),
+                  : Container(
+                      child: Transform.rotate(
+                        angle: -90 * math.pi / 180,
+                        child: Image.file(
+                          File(_imageFile!.path),
+                        ),
+                      ),
+                    ),
             ),
           ),
           Expanded(
@@ -145,6 +187,9 @@ class _CameraPageState extends State<CameraPage> {
               child: CupertinoButton(
                 onPressed: () {
                   _takePicture();
+                  if (_imageFile != null) {
+                    print("not null");
+                  }
                 },
                 child: Container(
                   width: 80,
