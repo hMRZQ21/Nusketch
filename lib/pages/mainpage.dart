@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_launcher_icons/xml_templates.dart';
 import 'package:nusketch/pages/accountsettings.dart';
 import 'package:nusketch/pages/camera.dart';
-import 'package:nusketch/pages/portfolios.dart';
+import 'package:nusketch/pages/folders.dart';
 import 'package:nusketch/pages/uploadpage.dart';
 
 import '../util/dimension.dart';
@@ -90,7 +90,7 @@ class _MyPageState extends State<MainPage> {
       // extendBody: true,
       resizeToAvoidBottomInset: false, //used to avoid FAB from moving when clicking on something
       body: Center(
-        child: children.elementAt(selectedIndex),
+        child: IndexedStack(index:selectedIndex,children: children),//children.elementAt(selectedIndex), //indexedstack saves state of all widgets
       ),
       bottomNavigationBar: SizedBox(
         // height: MediaQuery.of(context).size.height * 0.08,
