@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ConvertLoadingScreen(),//const Loading(),
+      home: const Loading(),
     );
   }
 }
