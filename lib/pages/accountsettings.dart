@@ -1,8 +1,11 @@
 import 'dart:core';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AccountSettings extends StatefulWidget {
   const AccountSettings({super.key});
@@ -12,12 +15,6 @@ class AccountSettings extends StatefulWidget {
 
 }
 class _AccountSettingsState extends State<AccountSettings> {
-  @override
-  void initState(){
-    super.initState();
-    emailController.addListener(() {setState(() { });});
-  }
-
   bool isPasswordVisible = false;
   bool editable = false;
   DateTime selectedDate = DateTime.now();
@@ -29,6 +26,60 @@ class _AccountSettingsState extends State<AccountSettings> {
   TextEditingController passController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  final picker = ImagePicker(); //pick an image
+  File? image;
+@override
+  void initState(){
+    super.initState();
+    emailController.addListener(() {setState(() { });});
+  }
+
+ Future pickedImage(ImageSource source) async {
+  try {
+    final image = await ImagePicker().pickImage(source: source, imageQuality: 100);
+    if(image == null) return;
+    final imageTemp = File(image.path);
+    setState(() {
+      this.image = imageTemp;
+    });
+  } on PlatformException catch (e) {
+    print('Failed to pick image: $e');
+  }
+ }
+
+  void pickImage(context){
+    showDialog(
+       context: context,
+        builder: (BuildContext context){
+         return AlertDialog(
+           content: Container(
+             height: 120,
+             child: Column(
+               children: [
+                 ListTile(
+                   onTap:(){
+                     pickedImage(ImageSource.camera);
+                      Navigator.pop(context); //close dialog after taking image
+                   },
+                   leading: Icon(Icons.camera, color: Colors.blue,),
+                   title: Text("Camera"),
+                 ),
+                 ListTile(
+                   onTap:(){
+                     pickedImage(ImageSource.gallery);
+                      Navigator.pop(context);//close dialog after picking image
+                   },
+                   leading: Icon(Icons.image, color: Colors.blue,),
+                   title: Text("Gallery"),
+                 ),
+               ],
+             ),
+           ),
+         );
+        }
+    );
+  }
+
 
 
   @override
@@ -45,13 +96,21 @@ class _AccountSettingsState extends State<AccountSettings> {
                   width: 150,
                   height: 150,
                   child: ClipRRect(
-                    child: Image.asset("figures/ProfilePlaceHolder.jpg") ,
                     borderRadius: BorderRadius.circular(100.0),
+                    child:
+                    image != null ?
+                    Image.file(
+                        image!,
+                        width: 160,
+                        height: 160,
+                        fit: BoxFit.cover,
+                    )
+                        : Image.asset("figures/ProfilePlaceHolder.jpg"),
                   ),
                 ),
                 TextButton(
                     onPressed: (){
-                      //TODO: add ability to edit profile picture
+                      pickImage(context);
                     },
                     child: Text('Edit Profile Picture')
                 ),
@@ -100,7 +159,6 @@ class _AccountSettingsState extends State<AccountSettings> {
                     ].map((widget) => Padding(padding: EdgeInsets.only(top:15.0), child:widget)).toList(),
                   ),
                 ),
-
               ],
             ),
           ),
@@ -140,7 +198,6 @@ class _AccountSettingsState extends State<AccountSettings> {
     },
   );
 
-
   Widget buildName() => TextFormField(
     enabled: editable,
     controller: nameController,
@@ -162,7 +219,6 @@ class _AccountSettingsState extends State<AccountSettings> {
     ),
     textInputAction: TextInputAction.done,
   );
-
 
   Widget buildPhone() => TextFormField(
     enabled: editable,
@@ -211,8 +267,6 @@ class _AccountSettingsState extends State<AccountSettings> {
       ),
     ),
   );
-
-
 
 }
 
