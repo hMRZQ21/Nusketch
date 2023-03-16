@@ -46,6 +46,8 @@ dependencies:
   permission_handler: ^10.2.0 
   flutter_spinkit: ^5.1.0
   loading_animation_widget: ^1.2.0+4
+  image_picker: ^0.8.7
+
 
 dev_dependencies:
   flutter_test:
