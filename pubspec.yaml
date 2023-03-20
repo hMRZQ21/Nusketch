@@ -34,9 +34,10 @@ dependencies:
   get: ^4.6.5
   dots_indicator: ^2.1.0
   # package for logo to render on icon
-  flutter_launcher_icons: ^0.11.0 
+  flutter_launcher_icons: ^0.12.0 
   camera:
-  path_provider: ^2.0.11
+  path_provider: 
+  path:
   email_validator:
   flutter_signin_button: ^2.0.0
   # The following adds the Cupertino Icons font to your application.
@@ -47,6 +48,7 @@ dependencies:
   flutter_spinkit: ^5.1.0
   loading_animation_widget: ^1.2.0+4
   image_picker: ^0.8.7
+  ffi: ^2.0.1
 
 
 dev_dependencies:
@@ -65,7 +67,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
