@@ -1,15 +1,27 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:nusketch/loading.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:nusketch/pages/camera.dart';
 import 'package:nusketch/pages/convertingloading.dart';
 import 'firebase_options.dart';
+import 'package:ffi/ffi.dart';
+import 'package:nusketch/pages/mainpage.dart';
 
-void main() async {
+Future<void> main() async {
   // initializing firebase when app runs
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(MyApp());
+  // Obtain a list of the available cameras on the device.
+  // final cameras = await availableCameras();
+
+  // Get a specific camera from the list of available cameras.
+  // final firstCamera = cameras.first;
+
+  runApp(
+    MyApp()// MaterialApp(home: MainPage()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -24,7 +36,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Loading(),
+      home: const MainPage(),
+      //If you dont want to wait for the loading screen change this ^ not the function on top.
     );
   }
 }
