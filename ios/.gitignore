@@ -26,7 +26,7 @@ Flutter/flutter_assets/
 Flutter/flutter_export_environment.sh
 ServiceDefinitions.json
 Runner/GeneratedPluginRegistrant.*
-opencv2.framework
+ios/opencv2.framework
 
 # Exceptions to above rules.
 !default.mode1v3
