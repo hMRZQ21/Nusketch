@@ -44,11 +44,11 @@ class _MyPageState extends State<MainPage> {
   }
 
   final List<Widget> children = [
-    const HomePage(),
-    const UploadPage(),
+    HomePage(),
+    UploadPage(),
     // TakePictureScreen(camera: _camera),
-    const PortfoliosPage(),
-    const AccountSettings(),
+    PortfoliosPage(),
+    AccountSettings(),
   ];
 
   @override

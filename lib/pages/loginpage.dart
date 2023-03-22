@@ -1,17 +1,52 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:nusketch/pages/signuppage.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:nusketch/auth/auth.dart';
 import 'mainpage.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+  final User? user = Auth().currentUser;
+
 
   @override
   State<LoginPage> createState() => _LoginPage();
 }
 
 class _LoginPage extends State<LoginPage>{
+  String? errorMessage = '';
+  bool isLogin = true;
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
+
+  Future<void> signInWithEmailAndPassword() async{
+    try {
+      await Auth().signInWithEmailAndPassword(
+        email: _controllerEmail.text,
+        password: _controllerPassword.text,
+      );
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => MainPage()),
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        setState(() {
+          errorMessage = ('No user found for that email.');
+        });
+      } else if (e.code == 'wrong-password') {
+        setState(() {
+          errorMessage = ('Wrong password provided for that user.');
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context){
@@ -41,23 +76,25 @@ class _LoginPage extends State<LoginPage>{
                         ],
                       ),
                     ),
-                    const Padding(
+                     Padding(
                       padding: EdgeInsets.only(top:20.0),
                       child: TextField(
-                        decoration: InputDecoration(
+                        controller: _controllerEmail,
+                        decoration: const InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
                           border:OutlineInputBorder(),
-                          labelText: 'Username',
-                          hintText: "Enter your amazing username",
+                          labelText: 'Email',
+                          hintText: "Enter your amazing email",
                         ),
                       ),
                     ),
 
-                    const Padding(
+                     Padding(
                       padding: EdgeInsets.only(top:20.0),
                       child: TextField(
-                          decoration: InputDecoration(
+                        controller: _controllerPassword,
+                          decoration: const InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
                             border:OutlineInputBorder(),
@@ -81,6 +118,7 @@ class _LoginPage extends State<LoginPage>{
                             ),
                             onPressed: () {
                               debugPrint("forgot password button pressed");
+                              signInWithEmailAndPassword();
                             },
                         ),
                       ),
@@ -92,6 +130,7 @@ class _LoginPage extends State<LoginPage>{
                       child: ElevatedButton(
                           onPressed: (){
                             debugPrint("Login button clicked");
+                            signInWithEmailAndPassword();
                           },
                           child: const Text("Sign in")
                       ),
@@ -162,7 +201,7 @@ class _LoginPage extends State<LoginPage>{
                                 ),
                                 onPressed: (){
                                   Navigator.push(
-                                    context, MaterialPageRoute(builder: (context) => const SignupPage()),
+                                    context, MaterialPageRoute(builder: (context) => SignupPage()),
                                   );
                                 },
                                 child: const Text("Sign Up"),

@@ -1,17 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:nusketch/auth/auth.dart';
 import 'loginpage.dart';
 import 'mainpage.dart';
 
 class SignupPage extends StatefulWidget{
-  const SignupPage({super.key});
-
+  SignupPage({super.key});
+  final User? user = Auth().currentUser;
   @override
   State<SignupPage> createState() => _SignupPage();
 }
 
 class _SignupPage extends State<SignupPage> {
+  String? errorMessage = '';
+  bool isLogin = true;
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
+
+  Future<void> createUserWithEmailAndPassword() async{
+    try {
+      await Auth().createUserWithEmailAndPassword(
+        email: _controllerEmail.text,
+        password: _controllerPassword.text,
+      );
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => MainPage()),
+      );
+
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        setState(() {
+          errorMessage = ('The password provided is too weak.');
+        });
+      } else if (e.code == 'email-already-in-use') {
+        setState(() {
+          errorMessage = ('The account already exists for that email.');
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return
@@ -41,10 +72,11 @@ class _SignupPage extends State<SignupPage> {
                     ),
                   ),
 
-                  const Padding(
+                   Padding(
                     padding: EdgeInsets.only(top:20.0),
                     child: TextField(
-                      decoration: InputDecoration(
+                      controller: _controllerEmail,
+                      decoration: const InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         border:OutlineInputBorder(),
@@ -54,23 +86,24 @@ class _SignupPage extends State<SignupPage> {
                     ),
                   ),
 
-                  const Padding(
-                    padding: EdgeInsets.only(top:20.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        border:OutlineInputBorder(),
-                        labelText: 'Username',
-                        hintText: "Enter your amazing username",
-                      ),
-                    ),
-                  ),
+                  // const Padding(
+                  //   padding: EdgeInsets.only(top:20.0),
+                  //   child: TextField(
+                  //     decoration: InputDecoration(
+                  //       filled: true,
+                  //       fillColor: Colors.white,
+                  //       border:OutlineInputBorder(),
+                  //       labelText: 'Username',
+                  //       hintText: "Enter your amazing username",
+                  //     ),
+                  //   ),
+                  // ),
 
-                  const Padding(
+                   Padding(
                     padding: EdgeInsets.only(top:20.0),
                     child: TextField(
-                      decoration: InputDecoration(
+                      controller: _controllerPassword,
+                      decoration: const InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         border:OutlineInputBorder(),
@@ -87,7 +120,8 @@ class _SignupPage extends State<SignupPage> {
                       // constraints: const BoxConstraints(minWidth: double.infinity),
                       child: ElevatedButton(
                           onPressed: (){
-                            debugPrint("Login button clicked");
+                            debugPrint("Sign Up button clicked");
+                            createUserWithEmailAndPassword();
                           },
                           child: const Text("Sign up")
                       ),
@@ -158,7 +192,7 @@ class _SignupPage extends State<SignupPage> {
                             ),
                             onPressed: (){
                               Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => const LoginPage(),),
+                                context, MaterialPageRoute(builder: (context) => LoginPage(),),
                               );
                             },
                             child: const Text("Sign In"),

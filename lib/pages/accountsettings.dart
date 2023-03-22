@@ -6,10 +6,13 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:nusketch/auth/auth.dart';
+import 'package:nusketch/pages/signuppage.dart';
 
 class AccountSettings extends StatefulWidget {
-  const AccountSettings({super.key});
-
+  AccountSettings({super.key});
+  final User? user = Auth().currentUser;
   @override
   State<AccountSettings> createState() => _AccountSettingsState();
 
@@ -32,6 +35,13 @@ class _AccountSettingsState extends State<AccountSettings> {
   void initState(){
     super.initState();
     emailController.addListener(() {setState(() { });});
+  }
+
+  Future<void> signOut() async{
+    await Auth().signOut();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => SignupPage()),
+    );
   }
 
  Future pickedImage(ImageSource source) async {
@@ -152,6 +162,13 @@ class _AccountSettingsState extends State<AccountSettings> {
                             }
                             ,
                             child: Text("edit")
+                        ),
+                        ElevatedButton(
+                            onPressed: (){
+                              signOut();
+                            }
+                            ,
+                            child: Text("Sign Out")
                         ),
 
                       ],
