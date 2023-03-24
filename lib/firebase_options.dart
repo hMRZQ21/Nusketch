@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '961494742721',
     projectId: 'nusketch',
     storageBucket: 'nusketch.appspot.com',
-    iosClientId: '961494742721-peiuiul2cqtlbfm4bbgonb1pimltr0kt.apps.googleusercontent.com',
+    iosClientId:
+        '961494742721-peiuiul2cqtlbfm4bbgonb1pimltr0kt.apps.googleusercontent.com',
     iosBundleId: 'com.nusketch',
   );
 }

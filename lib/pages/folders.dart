@@ -21,104 +21,100 @@ class _PortfoliosPageState extends State<PortfoliosPage> {
   ]; // placeholder for input array from database
 
   @override
-  Widget build(BuildContext context){
-
+  Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset:false,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-              icon:Icon(Icons.add),
+              icon: Icon(Icons.add),
               onPressed: () => {
-                showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text("New Folder"),
-                      actions:
-                        <Widget>[
-                          TextField(
-                            controller: newFolderName,
-                            decoration: InputDecoration(
-                              hintText: "Enter new folder name",
-                            ),
-                          ),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ElevatedButton(
-                                  onPressed: (){
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text("Cancel"),
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: Text("New Folder"),
+                              actions: <Widget>[
+                                TextField(
+                                  controller: newFolderName,
+                                  decoration: InputDecoration(
+                                    hintText: "Enter new folder name",
+                                  ),
                                 ),
-                              ),
-
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ElevatedButton(
-                                  onPressed: (){
-                                    setState(() {
-                                      if(newFolderName.text.isEmpty){
-                                        //TODO: empty show error message
-                                      }else {
-                                        folders.add(newFolderName.text);
-                                        ScaffoldMessenger.of(context).showSnackBar((SnackBar(
-                                            content:Container(
-                                                child: Text("New folder created: "+ newFolderName.text))
-                                          )
-                                        ));
-                                      }
-                                    });
-                                    newFolderName.clear();
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text("Confirm"),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("Cancel"),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            if (newFolderName.text.isEmpty) {
+                                              //TODO: empty show error message
+                                            } else {
+                                              folders.add(newFolderName.text);
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar((SnackBar(
+                                                      content: Container(
+                                                          child: Text(
+                                                              "New folder created: " +
+                                                                  newFolderName
+                                                                      .text)))));
+                                            }
+                                          });
+                                          newFolderName.clear();
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("Confirm"),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              )
-                            ],
-                          ),
-                        ],
-
-                    ))
-              }
-          )
+                              ],
+                            ))
+                  })
         ],
       ),
-      body:Center(
+      body: Center(
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
-        child: Wrap(
-          runSpacing: 5,
-          spacing: MediaQuery.of(context).size.shortestSide * .08,
-          children: List.generate(folders.length, (index){
-            return Column(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => FolderView(folder: folders[index], folderIndex:index)),
-                    );
-                  },
-                  child: Icon(
+          child: Wrap(
+            runSpacing: 5,
+            spacing: MediaQuery.of(context).size.shortestSide * .08,
+            children: List.generate(folders.length, (index) {
+              return Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) => FolderView(
+                                folder: folders[index], folderIndex: index)),
+                      );
+                    },
+                    child: Icon(
                       Icons.folder,
                       size: MediaQuery.of(context).size.shortestSide * .4,
                       color: Colors.blue.shade200,
+                    ),
                   ),
-                ),
-                Text(folders[index]),
-              ],
-            );
-          }),
+                  Text(folders[index]),
+                ],
+              );
+            }),
+          ),
         ),
-      ),
       ),
     );
   }

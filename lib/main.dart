@@ -1,14 +1,8 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:nusketch/loading.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:nusketch/pages/artpage.dart';
-import 'package:nusketch/pages/camera.dart';
-import 'package:nusketch/pages/convertingloading.dart';
-import 'firebase_options.dart';
-import 'package:ffi/ffi.dart';
-import 'package:nusketch/pages/mainpage.dart';
+
 
 Future<void> main() async {
   // initializing firebase when app runs
@@ -21,9 +15,8 @@ Future<void> main() async {
   // Get a specific camera from the list of available cameras.
   // final firstCamera = cameras.first;
 
-  runApp(
-    MyApp()// MaterialApp(home: MainPage()),
-  );
+  runApp(MyApp() // MaterialApp(home: MainPage()),
+      );
 }
 
 class MyApp extends StatelessWidget {
@@ -38,7 +31,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ArtPage(),//Page(),
+      home: ArtPage(), //Page(),
       //If you dont want to wait for the loading screen change this ^ not the function on top.
     );
   }

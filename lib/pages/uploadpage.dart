@@ -9,6 +9,7 @@ class UploadPage extends StatefulWidget {
   @override
   State<UploadPage> createState() => _UploadPageState();
 }
+
 // TODO: fix sizing of page
 class _UploadPageState extends State<UploadPage> {
   AssetImage selectedImage = AssetImage('figures/late.png');
