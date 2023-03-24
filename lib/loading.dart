@@ -1,9 +1,8 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:nusketch/pages/homepage.dart';
-import 'package:nusketch/pages/loginpage.dart';
 import 'package:nusketch/pages/mainpage.dart';
 import 'package:nusketch/pages/signuppage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // import 'package:nusketch/util/dimension.dart';
 //
@@ -27,10 +26,21 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
       ..repeat();
 
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => SignupPage()),
-    );
-    _animationController.dispose();
+      FirebaseAuth.instance.authStateChanges().listen((User? user) {
+        if (user == null) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => SignupPage()),
+          );
+          print('User is currently signed out!');
+        } else {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => MainPage()),
+          );
+          print('User is signed in!');
+        }
+      });
+
+      _animationController.dispose();
     });
   }
 
