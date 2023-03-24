@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:nusketch/pages/artpage.dart';
 
+import 'drawingcanvas.dart';
+
 // class Painter extends StatelessWidget {
 //   @override
 //   Widget build(BuildContext context) {
@@ -16,18 +18,25 @@ import 'package:nusketch/pages/artpage.dart';
 // }
 class MyCustomPainter extends CustomPainter {
    final List<DrawingPoint> drawingPoints;
-   MyCustomPainter(this.drawingPoints);
-   List<Offset> offsetsList= [];
+   MyCustomPainter({required this.drawingPoints});
+
   @override
   void paint(Canvas canvas, Size size) {
-    for(int i = 0; i < drawingPoints.length -1; i++){
-      if(drawingPoints[i] != null && drawingPoints[i+1] != null){
-        canvas.drawLine(drawingPoints[i].offset,drawingPoints[i+1].offset,drawingPoints[i].paint);
-      }else if(drawingPoints[i] != null && drawingPoints[i+1] == null){
-        offsetsList.clear();
-        offsetsList.add(drawingPoints[i].offset);
-        canvas.drawPoints(PointMode.points, offsetsList, drawingPoints[i].paint);
+    for (DrawingPoint point in drawingPoints){
+      final points = point.points;
+      final path = Path();
+      path.moveTo(points.first.dx, points.first.dy);
+      for(int i = 1; i < points.length - 1; i++ ){
+        final p0 = points[i];
+        final p1 = points[i + 1];
+        path.quadraticBezierTo(p0.dx, p0.dy, (p0.dx + p1.dx) / 2, (p0.dy + p1.dy) / 2);
       }
+      Paint paint = Paint()
+        ..color = point.color
+        ..strokeWidth = point.size
+        ..strokeCap = StrokeCap.round
+        ..style = PaintingStyle.stroke;
+      canvas.drawPath(path,paint);
     }
   }
 

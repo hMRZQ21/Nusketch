@@ -22,16 +22,20 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
   final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Color pickerColor = const Color(0xff443a49);
+    final ValueNotifier<Color> selectedColor = ValueNotifier<Color>(pickerColor);
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Nusketch',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ArtPage(), //Page(),
+      home: ArtPage(selectedColor), //Page(),
       //If you dont want to wait for the loading screen change this ^ not the function on top.
     );
   }
