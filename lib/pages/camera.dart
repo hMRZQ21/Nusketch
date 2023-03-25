@@ -1,14 +1,17 @@
 import 'dart:io';
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:path_provider/path_provider.dart';
 import '../util/colors.dart';
 import '../util/dimension.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image/image.dart' as img;
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 import 'dart:ffi';
+import 'package:ffi/ffi.dart';
+import 'dart:io';
 // import 'package:opencv/opencv.dart'; // this doesn't work
 
 // A screen that allows users to take a picture using a given camera.
@@ -80,12 +83,55 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             final image = await _controller.takePicture();
             if (!mounted) return;
 
+            final directory = await getExternalStorageDirectory();
+            final now = DateTime.now();
+            final fileName =
+                '${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}.png';
+
+            final savedImage = await File('${directory?.path}/$fileName')
+                .writeAsBytes(await image.readAsBytes());
+
+            final bytes = await savedImage.readAsBytes();
+            final grayscaleImage = img.grayscale(img.decodeImage(bytes)!);
+            final grayscaleBytes = img.encodePng(grayscaleImage);
+
+            final grayscaleFileName =
+                fileName.replaceFirst('.png', '_grayscale.png');
+            final grayscalePath = '${directory?.path}/$grayscaleFileName';
+
+            await File(grayscalePath).writeAsBytes(grayscaleBytes, flush: true);
+
+            final invertedImage1 = img.invert(grayscaleImage);
+            final invertedBytes1 = img.encodePng(invertedImage1);
+            final invertedFileName1 = grayscaleFileName.replaceFirst(
+                '_grayscale.png', '_inverted1.png');
+            final invertedPath1 = '${directory?.path}/$invertedFileName1';
+
+            await File(invertedPath1).writeAsBytes(invertedBytes1, flush: true);
+
+            final blurredImage = img.gaussianBlur(invertedImage1, radius: 4);
+            final blurredBytes = img.encodePng(blurredImage);
+
+            final blurredFileName = invertedFileName1.replaceFirst(
+                '_inverted1.png', '_blurred.png');
+            final blurredPath = '${directory?.path}/$blurredFileName';
+
+            await File(blurredPath).writeAsBytes(blurredBytes, flush: true);
+
+            final invertedImage = img.invert(blurredImage);
+            final invertedBytes = img.encodePng(invertedImage);
+            final invertedFileName =
+                blurredFileName.replaceFirst('_blurred.png', '_inverted.png');
+            final invertedPath = '${directory?.path}/$invertedFileName';
+
+            await File(invertedPath).writeAsBytes(invertedBytes, flush: true);
+
             // If the picture was taken, display it on a new screen.
             await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => DisplayPictureScreen(
                   // Pass the automatically generated path to the DisplayPictureScreen widget.
-                  imagePath: image.path,
+                  imagePath: invertedPath,
                 ),
               ),
             );
