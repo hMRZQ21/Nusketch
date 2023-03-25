@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:nusketch/loading.dart';
 import 'package:nusketch/pages/artpage.dart';
-
 
 Future<void> main() async {
   // initializing firebase when app runs
@@ -27,7 +27,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color pickerColor = const Color(0xff443a49);
-    final ValueNotifier<Color> selectedColor = ValueNotifier<Color>(pickerColor);
+    final ValueNotifier<Color> selectedColor =
+        ValueNotifier<Color>(pickerColor);
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,

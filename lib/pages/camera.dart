@@ -39,6 +39,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       // Get a specific camera from the list of available cameras.
       widget.camera,
       ResolutionPreset.high,
+      imageFormatGroup:
+          ImageFormatGroup.yuv420, // compatible with both ios and android
     );
 
     // Next, initialize the controller. This returns a Future.
@@ -73,8 +75,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        // Provide an onPressed callback.
         onPressed: () async {
+          // Provide an onPressed callback.
           try {
             // Ensure that the camera is initialized.
             await _initializeControllerFuture;
@@ -83,7 +85,12 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             final image = await _controller.takePicture();
             if (!mounted) return;
 
-            final directory = await getExternalStorageDirectory();
+            // accesses internal/external storage based on OS
+            Directory? directory = Platform.isAndroid
+                ? await getExternalStorageDirectory() //FOR ANDROID
+                : await getApplicationSupportDirectory(); //FOR iOS
+
+            // image naming convention
             final now = DateTime.now();
             final fileName =
                 '${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}.png';
@@ -162,7 +169,6 @@ class DisplayPictureScreen extends StatelessWidget {
     );
   }
 }
-
 
 // class CameraPage extends StatefulWidget {
 //   const CameraPage({Key? key});
