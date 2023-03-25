@@ -2,7 +2,7 @@ import 'dart:ffi'; // For FFI
 import 'dart:io'; // For Platform.isX
 
 // obtain the dynamic library from which we’ll access our custom C++ function.
-final DynamicLibrary nativeAddLib = Platform.isAndroid
+final DynamicLibrary nativeAddLib = Platform.isIOS
     ? DynamicLibrary.open('libnative_add.so')
     : DynamicLibrary.process();
 
@@ -12,7 +12,7 @@ final int Function(int x, int y) testFunction = nativeAddLib
     .asFunction();
 
 // function call
-void testPrint() {
+void main() {
   int output = testFunction(100, 100);
   print(output);
 }
