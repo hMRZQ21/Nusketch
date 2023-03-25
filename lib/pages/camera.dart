@@ -12,8 +12,6 @@ import 'dart:math' as math;
 import 'dart:ui' as ui;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
-import 'dart:io';
-// import 'package:opencv/opencv.dart'; // this doesn't work
 
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
@@ -49,6 +47,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       // Get a specific camera from the list of available cameras.
       widget.camera,
       ResolutionPreset.high,
+      imageFormatGroup:
+          ImageFormatGroup.yuv420, // compatible with both ios and android
     );
 
     // Next, initialize the controller. This returns a Future.
@@ -73,8 +73,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return CameraPreview(
-                _controller); // If the Future is complete, display the preview.
+            // If the Future is complete, display the preview.
+            return CameraPreview(_controller);
           } else {
             // Otherwise, display a loading indicator.
             return const Center(child: CircularProgressIndicator());
@@ -93,7 +93,12 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             final image = await _controller.takePicture();
             if (!mounted) return;
 
-            final directory = await getExternalStorageDirectory();
+            // accesses internal/external storage based on OS by ternary statement
+            Directory? directory = Platform.isAndroid
+                ? await getExternalStorageDirectory() //FOR ANDROID
+                : await getApplicationSupportDirectory(); //FOR iOS
+
+            // image naming convention
             final now = DateTime.now();
             final fileName =
                 '${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}.png';
@@ -142,21 +147,21 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             final size =
                 ui.Size(image1.width.toDouble(), image1.height.toDouble());
 
-// Create a Paint object with the bitwise division blend mode
+            // Create a Paint object with the bitwise division blend mode
             final paint = Paint()..blendMode = BlendMode.difference;
 
-// Create a new canvas and draw the images with the Paint object
+            // Create a new canvas and draw the images with the Paint object
             final recorder = ui.PictureRecorder();
             final canvas = Canvas(recorder);
             canvas.drawImage(image1, Offset.zero, paint);
             canvas.drawImage(image2, Offset.zero, paint);
 
-// Convert the canvas into an image
+            // Convert the canvas into an image
             final picture = recorder.endRecording();
             final images =
                 await picture.toImage(size.width.toInt(), size.height.toInt());
 
-// Get the bytes of the new image and save it
+            // Get the bytes of the new image and save it
             final bytess =
                 await images.toByteData(format: ui.ImageByteFormat.png);
             final differenceFileName = invertedFileName.replaceFirst(
@@ -170,7 +175,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                 img.invert(img.decodeImage(bytess!.buffer.asUint8List())!);
             final invertedBytes2 = img.encodePng(invertedImage2);
 
-// Save the inverted image again
+            // Save the inverted image again
             final invertedFileName2 = differenceFileName.replaceFirst(
                 '_difference.png', '_completed.png');
             final invertedPath2 = '${directory?.path}/$invertedFileName2';

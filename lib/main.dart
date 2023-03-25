@@ -32,14 +32,13 @@ class MyApp extends StatelessWidget {
         ValueNotifier<Color>(pickerColor);
 
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Nusketch',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MainPage(),
-      // home: ArtPage(selectedColor), //Page(),
-      //If you dont want to wait for the loading screen change this ^ not the function on top.
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Nusketch',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MainPage() // ArtPage(selectedColor), //Page(),
+        //If you dont want to wait for the loading screen change this ^ not the function on top.
+        );
   }
 }
