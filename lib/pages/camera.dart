@@ -2,16 +2,12 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import '../util/colors.dart';
 import '../util/dimension.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image/image.dart' as img;
-import 'dart:math' as math;
 import 'dart:ui' as ui;
-import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
@@ -29,15 +25,6 @@ class TakePictureScreen extends StatefulWidget {
 class TakePictureScreenState extends State<TakePictureScreen> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
-
-  Future<ui.Image> loadImage(String path) async {
-    final Uint8List bytes = await new File(path).readAsBytes();
-    final Completer<ui.Image> completer = new Completer();
-    ui.decodeImageFromList(bytes, (ui.Image img) {
-      return completer.complete(img);
-    });
-    return completer.future;
-  }
 
   @override
   void initState() {
@@ -98,52 +85,36 @@ class TakePictureScreenState extends State<TakePictureScreen> {
                 ? await getExternalStorageDirectory() //FOR ANDROID
                 : await getApplicationSupportDirectory(); //FOR iOS
 
-            // image naming convention
+            // file name
             final now = DateTime.now();
             final fileName =
                 '${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}.png';
-
+            // save image into dir
             final savedImage = await File('${directory?.path}/$fileName')
                 .writeAsBytes(await image.readAsBytes());
 
+            // read image and then convert to grayscale
             final bytes = await savedImage.readAsBytes();
             final grayscaleImage = img.grayscale(img.decodeImage(bytes)!);
             final grayscaleBytes = img.encodePng(grayscaleImage);
 
-            final grayscaleFileName =
-                fileName.replaceFirst('.png', '_grayscale.png');
-            final grayscalePath = '${directory?.path}/$grayscaleFileName';
-
-            await File(grayscalePath).writeAsBytes(grayscaleBytes, flush: true);
-
+            // invert the grayscale
             final invertedImage1 = img.invert(grayscaleImage);
-            final invertedBytes1 = img.encodePng(invertedImage1);
-            final invertedFileName1 = grayscaleFileName.replaceFirst(
-                '_grayscale.png', '_inverted1.png');
-            final invertedPath1 = '${directory?.path}/$invertedFileName1';
+            // final invertedBytes1 = img.encodePng(invertedImage1);
 
-            await File(invertedPath1).writeAsBytes(invertedBytes1, flush: true);
+            // blur the inverted grayscale
+            final blurredImage = img.gaussianBlur(invertedImage1, radius: 12);
+            // final blurredBytes = img.encodePng(blurredImage);
 
-            final blurredImage = img.gaussianBlur(invertedImage1, radius: 15);
-            final blurredBytes = img.encodePng(blurredImage);
-
-            final blurredFileName = invertedFileName1.replaceFirst(
-                '_inverted1.png', '_blurred.png');
-            final blurredPath = '${directory?.path}/$blurredFileName';
-
-            await File(blurredPath).writeAsBytes(blurredBytes, flush: true);
-
+            // invert the blurred inverted grayscale
             final invertedImage = img.invert(blurredImage);
             final invertedBytes = img.encodePng(invertedImage);
-            final invertedFileName =
-                blurredFileName.replaceFirst('_blurred.png', '_inverted.png');
-            final invertedPath = '${directory?.path}/$invertedFileName';
 
-            await File(invertedPath).writeAsBytes(invertedBytes, flush: true);
+            // decode the bytes
+            final image1 = await decodeImageFromList(grayscaleBytes);
+            final image2 = await decodeImageFromList(invertedBytes);
 
-            final image1 = await loadImage(grayscalePath);
-            final image2 = await loadImage(invertedPath);
-
+            // find the size of the image
             final size =
                 ui.Size(image1.width.toDouble(), image1.height.toDouble());
 
@@ -164,22 +135,18 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             // Get the bytes of the new image and save it
             final bytess =
                 await images.toByteData(format: ui.ImageByteFormat.png);
-            final differenceFileName = invertedFileName.replaceFirst(
-                '_inverted.png', '_difference.png');
 
-            final path = '${directory?.path}/$differenceFileName';
-            await File(path)
-                .writeAsBytes(bytess!.buffer.asUint8List(), flush: true);
-
+            // invert those bytes
             final invertedImage2 =
                 img.invert(img.decodeImage(bytess!.buffer.asUint8List())!);
             final invertedBytes2 = img.encodePng(invertedImage2);
 
-            // Save the inverted image again
-            final invertedFileName2 = differenceFileName.replaceFirst(
-                '_difference.png', '_completed.png');
+            // Save the inverted image again naming convension
+            final invertedFileName2 =
+                fileName.replaceFirst('.png', '_completed.png');
             final invertedPath2 = '${directory?.path}/$invertedFileName2';
 
+            // Save the file
             await File(invertedPath2).writeAsBytes(invertedBytes2, flush: true);
 
             // If the picture was taken, display it on a new screen.
