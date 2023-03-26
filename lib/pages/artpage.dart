@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -9,7 +7,7 @@ import 'painter.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class ArtPage extends HookWidget {
-   ValueNotifier<Color> selectedColor;
+  ValueNotifier<Color> selectedColor;
 
   bool _canSee = true;
   TextEditingController toggle = TextEditingController();
@@ -21,7 +19,6 @@ class ArtPage extends HookWidget {
   Color currentColor = const Color(0xff443a49);
 
   ArtPage(this.selectedColor, {super.key});
-
 
   pickColor(BuildContext context, ValueNotifier<Color> color) => {
         showDialog(
@@ -42,7 +39,6 @@ class ArtPage extends HookWidget {
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
-
                     Navigator.of(context).pop();
                     print("Current color: ${selectedColor}");
                   },
@@ -126,7 +122,9 @@ class ArtPage extends HookWidget {
                           _canSee ? toggle.text = 'Hide' : toggle.text = 'Show';
                           print(toggle.text);
                         },
-                        icon: const Icon(Icons.menu,)),
+                        icon: const Icon(
+                          Icons.menu,
+                        )),
                     Text(toggle.text),
                   ],
                 ),
