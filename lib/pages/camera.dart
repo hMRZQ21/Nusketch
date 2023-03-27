@@ -1,15 +1,13 @@
 import 'dart:io';
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:path_provider/path_provider.dart';
 import '../util/colors.dart';
 import '../util/dimension.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image/image.dart' as img;
-import 'dart:math' as math;
-import 'dart:ffi';
-// import 'package:opencv/opencv.dart'; // this doesn't work
+import 'dart:ui' as ui;
 
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
@@ -36,6 +34,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       // Get a specific camera from the list of available cameras.
       widget.camera,
       ResolutionPreset.high,
+      imageFormatGroup:
+          ImageFormatGroup.yuv420, // compatible with both ios and android
     );
 
     // Next, initialize the controller. This returns a Future.
@@ -60,8 +60,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return CameraPreview(
-                _controller); // If the Future is complete, display the preview.
+            // If the Future is complete, display the preview.
+            return CameraPreview(_controller);
           } else {
             // Otherwise, display a loading indicator.
             return const Center(child: CircularProgressIndicator());
@@ -80,12 +80,81 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             final image = await _controller.takePicture();
             if (!mounted) return;
 
+            // accesses internal/external storage based on OS by ternary statement
+            Directory? directory = Platform.isAndroid
+                ? await getExternalStorageDirectory() //FOR ANDROID
+                : await getApplicationSupportDirectory(); //FOR iOS
+
+            // file name
+            final now = DateTime.now();
+            final fileName =
+                '${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}.png';
+            // save image into dir
+            final savedImage = await File('${directory?.path}/$fileName')
+                .writeAsBytes(await image.readAsBytes());
+
+            // read image and then convert to grayscale
+            final bytes = await savedImage.readAsBytes();
+            final grayscaleImage = img.grayscale(img.decodeImage(bytes)!);
+            final grayscaleBytes = img.encodePng(grayscaleImage);
+
+            // invert the grayscale
+            final invertedImage1 = img.invert(grayscaleImage);
+            // final invertedBytes1 = img.encodePng(invertedImage1);
+
+            // blur the inverted grayscale
+            final blurredImage = img.gaussianBlur(invertedImage1, radius: 12);
+            // final blurredBytes = img.encodePng(blurredImage);
+
+            // invert the blurred inverted grayscale
+            final invertedImage = img.invert(blurredImage);
+            final invertedBytes = img.encodePng(invertedImage);
+
+            // decode the bytes
+            final image1 = await decodeImageFromList(grayscaleBytes);
+            final image2 = await decodeImageFromList(invertedBytes);
+
+            // find the size of the image
+            final size =
+                ui.Size(image1.width.toDouble(), image1.height.toDouble());
+
+            // Create a Paint object with the bitwise division blend mode
+            final paint = Paint()..blendMode = BlendMode.difference;
+
+            // Create a new canvas and draw the images with the Paint object
+            final recorder = ui.PictureRecorder();
+            final canvas = Canvas(recorder);
+            canvas.drawImage(image1, Offset.zero, paint);
+            canvas.drawImage(image2, Offset.zero, paint);
+
+            // Convert the canvas into an image
+            final picture = recorder.endRecording();
+            final images =
+                await picture.toImage(size.width.toInt(), size.height.toInt());
+
+            // Get the bytes of the new image and save it
+            final bytess =
+                await images.toByteData(format: ui.ImageByteFormat.png);
+
+            // invert those bytes
+            final invertedImage2 =
+                img.invert(img.decodeImage(bytess!.buffer.asUint8List())!);
+            final invertedBytes2 = img.encodePng(invertedImage2);
+
+            // Save the inverted image again naming convension
+            final invertedFileName2 =
+                fileName.replaceFirst('.png', '_completed.png');
+            final invertedPath2 = '${directory?.path}/$invertedFileName2';
+
+            // Save the file
+            await File(invertedPath2).writeAsBytes(invertedBytes2, flush: true);
+
             // If the picture was taken, display it on a new screen.
             await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => DisplayPictureScreen(
                   // Pass the automatically generated path to the DisplayPictureScreen widget.
-                  imagePath: image.path,
+                  imagePath: invertedPath2,
                 ),
               ),
             );
@@ -116,190 +185,3 @@ class DisplayPictureScreen extends StatelessWidget {
     );
   }
 }
-
-
-// class CameraPage extends StatefulWidget {
-//   const CameraPage({Key? key});
-
-//   @override
-//   State<TakePictureScreen> createState() => TakePictureScreenState();
-// }
-
-// class _CameraPageState extends State<CameraPage> {
-//   List<CameraDescription> cameras = [];
-//   late CameraController _cameraController;
-//   XFile? _imageFile;
-//   int currentCameraIndex = 0;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     WidgetsBinding.instance.addPostFrameCallback((_) async {
-//       await _getPermission();
-//       cameras = await availableCameras();
-//       await _initCameraController();
-//     });
-//   }
-
-// Future<void> _getPermission() async {
-//   if (await Permission.camera.request().isGranted) {
-//     print("Permission is granted");
-//   } else {
-//     print("Permission is not granted");
-//   }
-// }
-
-// Future<File> convertToSketch(XFile imageFile) async {
-// Load the image using the image package
-// final image = img.decodeImage(await imageFile.readAsBytes());
-
-// final grayscale = img.grayscale(image!);
-// final blurred = img.gaussianBlur(grayscale, 10);
-
-// Create a new image with the same dimensions as the original
-// final thresholded = img.Image(image.width, image.height);
-
-// Loop through all the pixels and set them to black or white based on their intensity
-// const threshold = 190;
-// for (int y = 0; y < image.height; y++) {
-//   for (int x = 0; x < image.width; x++) {
-//     final pixel = blurred.getPixel(x, y);
-//     final intensity = img.getLuminance(pixel);
-//     final color = intensity > threshold ? 255 : 0;
-//     thresholded.setPixel(x, y, img.Color.fromRgb(color, color, color));
-//   }
-// }
-
-// final inverted = img.invert(thresholded);
-
-// Create a new File object and write the sketch image to it
-// final sketchFile = File('${imageFile.path}_sketch.jpg');
-// await sketchFile.writeAsBytes(img.encodeJpg(inverted));
-
-// Return the File object
-// return sketchFile;
-// }
-
-// Future<void> _takePicture() async {
-//   if (await Permission.camera.request().isGranted) {
-//     final XFile imageFile = await _cameraController.takePicture();
-//     // final File sketchFile = await convertToSketch(imageFile);
-
-//     // setState(() {
-//     // _imageFile = XFile(sketchFile.path);
-//     // });
-//   } else {
-//     print("Permission is not granted");
-//   }
-// }
-
-// void _switchCamera() async {
-//   if (cameras.isEmpty) {
-//     return;
-//   }
-//   currentCameraIndex = (currentCameraIndex + 1) % cameras.length;
-//   await _cameraController.dispose();
-//   await _initCameraController();
-// }
-
-// @override
-// void dispose() {
-//   _cameraController.dispose();
-//   super.dispose();
-// }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: CustomColors.beige2,
-//       body: Column(
-//         children: [
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               Container(
-//                 padding: EdgeInsets.only(
-//                     top: Dimension.screenWidth * 0.03,
-//                     bottom: Dimension.screenWidth * 0.03),
-//                 margin: EdgeInsets.only(left: Dimension.screenWidth * 0.05),
-//                 child: IconButton(
-//                   onPressed: () => Navigator.pop(context),
-//                   icon: Icon(
-//                     Icons.close,
-//                     color: Colors.blue,
-//                     size: Dimension.screenWidth * 0.08,
-//                   ),
-//                 ),
-//               ),
-//               Container(
-//                 padding: EdgeInsets.only(
-//                     top: Dimension.screenWidth * 0.03,
-//                     bottom: Dimension.screenWidth * 0.03),
-//                 margin: EdgeInsets.only(right: Dimension.screenWidth * 0.05),
-//                 child: IconButton(
-//                   onPressed: () => _switchCamera(),
-//                   icon: Icon(
-//                     Icons.flash_off,
-//                     color: Colors.blue,
-//                     size: Dimension.screenWidth * 0.08,
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//           Container(
-//             height: Dimension.screenHeight * 0.80,
-//             color: CustomColors.beige2,
-//             child: Center(
-//               child: _imageFile == null
-//                   ? _cameraController.value.isInitialized
-//                       ? Container(
-//                           height: Dimension.screenHeight * 0.70,
-//                           child: AspectRatio(
-//                             aspectRatio: _cameraController.value.aspectRatio,
-//                             child: CameraPreview(_cameraController),
-//                           ),
-//                         )
-//                       : Container(
-//                           height: Dimension.screenHeight * 0.70,
-//                           color: Colors.red)
-//                   : Container(
-//                       child: Transform.rotate(
-//                         angle: -90 * math.pi / 180,
-//                         child: Image.file(
-//                           File(_imageFile!.path),
-//                         ),
-//                       ),
-//                     ),
-//             ),
-//           ),
-//           Expanded(
-//             child: Container(
-//               child: CupertinoButton(
-//                 onPressed: () {
-//                   _takePicture();
-//                   if (_imageFile != null) {
-//                     print("not null");
-//                   }
-//                 },
-//                 child: Container(
-//                   width: 80,
-//                   height: 80,
-//                   decoration: BoxDecoration(
-//                     color: CustomColors.beige2,
-//                     borderRadius: BorderRadius.circular(40),
-//                   ),
-//                   child: Icon(
-//                     CupertinoIcons.circle,
-//                     size: Dimension.screenWidth * 0.17,
-//                     color: Colors.blue,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

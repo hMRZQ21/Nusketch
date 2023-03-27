@@ -1,58 +1,57 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:get/get.dart';
+import 'package:nusketch/pages/drawingcanvas.dart';
 import 'painter.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class ArtPage extends StatefulWidget {
-  const ArtPage({super.key});
-  @override
-  State<ArtPage> createState() => _ArtPage();
-}
+class ArtPage extends HookWidget {
+  ValueNotifier<Color> selectedColor;
 
-class _ArtPage extends State<ArtPage> {
   bool _canSee = true;
   TextEditingController toggle = TextEditingController();
-  List<DrawingPoint> drawingPoints = [];
+
   double strokeWidth = 5;
 
   // create some values
   Color pickerColor = const Color(0xff443a49);
   Color currentColor = const Color(0xff443a49);
 
-// ValueChanged<Color> callback
-  void changeColor(Color color) {
-    setState(() => pickerColor = color);
-    print("Selected color: $pickerColor");
-  }
+  ArtPage(this.selectedColor, {super.key});
 
-  void pickColor(BuildContext context) => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Pick your color'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ColorPicker(
-                pickerColor: pickerColor,
-                onColorChanged: changeColor,
+  pickColor(BuildContext context, ValueNotifier<Color> color) => {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Pick your color'),
+              content: SingleChildScrollView(
+                child: ColorPicker(
+                  pickerColor: pickerColor,
+                  onColorChanged: (value) {
+                    color.value = value;
+                    pickerColor = value;
+                    print("Color changed to: ${value}");
+                  },
+                ),
               ),
-              TextButton(
-                onPressed: () {
-                  setState(() => currentColor = pickerColor);
-                  Navigator.of(context).pop();
-                  print("Current color: ${currentColor}");
-                },
-                child: const Text('Ok'),
-              ),
-            ],
-          ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    print("Current color: ${selectedColor}");
+                  },
+                  child: const Text('Ok'),
+                ),
+              ],
+            );
+          },
         ),
-      );
+      };
 
-  void hideWidget() {
-    setState(() {
+  hideWidget() {
+    useState(() {
       _canSee = !_canSee;
     });
   }
@@ -69,7 +68,9 @@ class _ArtPage extends State<ArtPage> {
         padding: const EdgeInsets.all(15.0),
         child: Stack(
           children: [
-            buildCurrentPath(context),
+            DrawingCanvas(
+              selectedColor: selectedColor,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.min,
@@ -85,13 +86,15 @@ class _ArtPage extends State<ArtPage> {
                         Column(
                           children: [
                             IconButton(
-                                onPressed: () {}, icon: const Icon(Icons.list_alt)),
+                                onPressed: () {},
+                                icon: const Icon(Icons.list_alt)),
                             const Text("Menu"),
                           ],
                         ),
                         Column(
                           children: [
-                            IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+                            IconButton(
+                                onPressed: () {}, icon: const Icon(Icons.add)),
                             const Text("Filler"),
                           ],
                         ),
@@ -99,10 +102,11 @@ class _ArtPage extends State<ArtPage> {
                           children: [
                             IconButton(
                               onPressed: () {
-                                pickColor(context);
+                                pickColor(context, selectedColor);
+                                print("icon clicked ${selectedColor.value} ");
                               },
                               icon: const Icon(Icons.color_lens_rounded),
-                              color: currentColor,
+                              color: selectedColor.value,
                             ),
                             const Text("Colors"),
                           ],
@@ -115,11 +119,12 @@ class _ArtPage extends State<ArtPage> {
                   children: [
                     IconButton(
                         onPressed: () {
-                          hideWidget();
                           _canSee ? toggle.text = 'Hide' : toggle.text = 'Show';
                           print(toggle.text);
                         },
-                        icon: const Icon(Icons.menu)),
+                        icon: const Icon(
+                          Icons.menu,
+                        )),
                     Text(toggle.text),
                   ],
                 ),
@@ -130,65 +135,4 @@ class _ArtPage extends State<ArtPage> {
       ),
     );
   }
-
-  GestureDetector buildCurrentPath(BuildContext context) {
-    return GestureDetector(
-      onPanStart: (details) {
-        drawingPoints.add(
-          DrawingPoint(
-            details.localPosition,
-            Paint()
-              ..color = currentColor
-              ..isAntiAlias = true
-              ..strokeWidth = strokeWidth
-              ..strokeCap = StrokeCap.round,
-          ),
-        );
-        print('User started drawing');
-        final box = context.findRenderObject() as RenderBox;
-        final point = box.globalToLocal(details.globalPosition);
-        print(point);
-      },
-      onPanUpdate: (details) {
-        setState(() {
-          drawingPoints.add(
-            DrawingPoint(
-              details.localPosition,
-              Paint()
-                ..color = currentColor
-                ..isAntiAlias = true
-                ..strokeWidth = strokeWidth
-                ..strokeCap = StrokeCap.round,
-            ),
-          );
-        });
-        final box = context.findRenderObject() as RenderBox;
-        final point = box.globalToLocal(details.globalPosition);
-        print(point);
-      },
-      onPanEnd: (details) {
-        setState(() {
-          drawingPoints.add(null);
-        });
-      },
-      child: RepaintBoundary(
-        child: Container(
-          color: Colors.transparent,
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          // CustomPaint widget will go here
-          child: CustomPaint(
-            painter: MyCustomPainter(drawingPoints),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class DrawingPoint {
-  final Offset offset;
-  final Paint paint;
-
-  DrawingPoint(this.offset, this.paint);
 }
