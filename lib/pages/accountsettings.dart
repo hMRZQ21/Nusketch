@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nusketch/auth/auth.dart';
-import 'package:nusketch/pages/signuppage.dart';
+import 'package:nusketch/pages/loginSignUpPages/signuppage.dart';
 
 class AccountSettings extends StatefulWidget {
   AccountSettings({super.key});

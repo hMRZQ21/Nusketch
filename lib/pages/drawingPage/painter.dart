@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:nusketch/pages/artpage.dart';
+import 'package:nusketch/pages/drawingPage/artpage.dart';
 
 import 'drawingcanvas.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:nusketch/pages/mainpage.dart';
-import 'package:nusketch/pages/signuppage.dart';
+import 'package:nusketch/pages/loginSignUpPages/signuppage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 // import 'package:nusketch/util/dimension.dart';

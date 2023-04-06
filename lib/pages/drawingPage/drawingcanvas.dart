@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
-import 'package:nusketch/pages/painter.dart';
+import 'package:nusketch/pages/drawingPage/painter.dart';
 
 class DrawingCanvas extends HookWidget {
   ValueNotifier<DrawingPoint?> currentSketch = useState(null);

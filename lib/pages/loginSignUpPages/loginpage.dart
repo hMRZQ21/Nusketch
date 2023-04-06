@@ -1,26 +1,30 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:nusketch/pages/loginSignUpPages/signuppage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nusketch/auth/auth.dart';
-import 'loginpage.dart';
-import 'mainpage.dart';
 
-class SignupPage extends StatefulWidget {
-  SignupPage({super.key});
+import '../mainpage.dart';
+
+class LoginPage extends StatefulWidget {
+  LoginPage({super.key});
   final User? user = Auth().currentUser;
+
   @override
-  State<SignupPage> createState() => _SignupPage();
+  State<LoginPage> createState() => _LoginPage();
 }
 
-class _SignupPage extends State<SignupPage> {
+class _LoginPage extends State<LoginPage> {
   String? errorMessage = '';
   bool isLogin = true;
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
-  Future<void> createUserWithEmailAndPassword() async {
+  Future<void> signInWithEmailAndPassword() async {
     try {
-      await Auth().createUserWithEmailAndPassword(
+      await Auth().signInWithEmailAndPassword(
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
@@ -28,13 +32,13 @@ class _SignupPage extends State<SignupPage> {
         MaterialPageRoute(builder: (context) => MainPage()),
       );
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
+      if (e.code == 'user-not-found') {
         setState(() {
-          errorMessage = ('The password provided is too weak.');
+          errorMessage = ('No user found for that email.');
         });
-      } else if (e.code == 'email-already-in-use') {
+      } else if (e.code == 'wrong-password') {
         setState(() {
-          errorMessage = ('The account already exists for that email.');
+          errorMessage = ('Wrong password provided for that user.');
         });
       }
     } catch (e) {
@@ -44,15 +48,15 @@ class _SignupPage extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: when landscape mode make view scrollable or resize / layout
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white10,
       body: Center(
-        // When keyboard is open
+        // For keyboard opened:
         child: SingleChildScrollView(
-          //Allows one widget to be scrollable
+          // its a box that allows a single widget to be scrolled
           physics:
-              BouncingScrollPhysics(), // bounces content back to place when keyboard is closed
+              BouncingScrollPhysics(), // this allows the content to go outside the bounds of the phone but then bounce back once keyboard is gone
           child: Padding(
             padding: const EdgeInsets.all(30.0),
             child: Column(
@@ -71,7 +75,6 @@ class _SignupPage extends State<SignupPage> {
                     ],
                   ),
                 ),
-
                 Padding(
                   padding: EdgeInsets.only(top: 20.0),
                   child: TextField(
@@ -80,25 +83,11 @@ class _SignupPage extends State<SignupPage> {
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(),
-                      labelText: 'Example@email.com',
+                      labelText: 'Email',
                       hintText: "Enter your amazing email",
                     ),
                   ),
                 ),
-
-                // const Padding(
-                //   padding: EdgeInsets.only(top:20.0),
-                //   child: TextField(
-                //     decoration: InputDecoration(
-                //       filled: true,
-                //       fillColor: Colors.white,
-                //       border:OutlineInputBorder(),
-                //       labelText: 'Username',
-                //       hintText: "Enter your amazing username",
-                //     ),
-                //   ),
-                // ),
-
                 Padding(
                   padding: EdgeInsets.only(top: 20.0),
                   child: TextField(
@@ -112,30 +101,43 @@ class _SignupPage extends State<SignupPage> {
                     ),
                   ),
                 ),
-
                 Padding(
-                  padding: const EdgeInsets.only(top: 20.0, bottom: 15.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    // constraints: const BoxConstraints(minWidth: double.infinity),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          debugPrint("Sign Up button clicked");
-                          createUserWithEmailAndPassword();
-                        },
-                        child: const Text("Sign up")),
+                  padding: EdgeInsets.zero,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                      ),
+                      child: const Text(
+                        'Forgot Password?',
+                        textAlign: TextAlign.right,
+                      ),
+                      onPressed: () {
+                        debugPrint("forgot password button pressed");
+                        signInWithEmailAndPassword();
+                      },
+                    ),
                   ),
                 ),
-
+                SizedBox(
+                  width: double.infinity,
+                  // constraints: const BoxConstraints(minWidth: double.infinity),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        debugPrint("Login button clicked");
+                        signInWithEmailAndPassword();
+                      },
+                      child: const Text("Sign in")),
+                ),
                 const Divider(
                   color: Colors.white,
                   thickness: 1,
                 ),
-
                 Column(
                   children: [
                     const Padding(
-                      padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                         "or",
                         style: TextStyle(
@@ -149,10 +151,10 @@ class _SignupPage extends State<SignupPage> {
                         width: double.infinity,
                         child: SignInButton(
                           Buttons.GoogleDark,
-                          text: "Sign up with Google",
+                          text: "Sign in with Google",
                           onPressed: () {
                             // TODO: link to firebase
-                            debugPrint("Sign Up w/ google button clicked");
+                            debugPrint("Login w/ google button clicked");
                           },
                         ),
                       ),
@@ -162,11 +164,11 @@ class _SignupPage extends State<SignupPage> {
                       child: SizedBox(
                         width: double.infinity,
                         child: SignInButtonBuilder(
-                          text: 'Sign Up with Email',
+                          text: 'Sign in with Email',
                           icon: Icons.email,
                           onPressed: () {
                             // TODO: link to firebase
-                            debugPrint("Sign Up w/ email button clicked");
+                            debugPrint("Login w/ email button clicked");
                           },
                           backgroundColor: Colors.blueGrey[700]!,
                         ),
@@ -176,7 +178,7 @@ class _SignupPage extends State<SignupPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          "Already have an account?",
+                          "Don't have an account?",
                           style: TextStyle(
                             color: Colors.white,
                           ),
@@ -189,30 +191,29 @@ class _SignupPage extends State<SignupPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => LoginPage(),
-                              ),
+                                  builder: (context) => SignupPage()),
                             );
                           },
-                          child: const Text("Sign In"),
+                          child: const Text("Sign Up"),
                         ),
                       ],
                     ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MainPage(),
-                            ));
-                      },
-                      child: const Text("Skip"),
-                    ),
                   ],
-                )
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainPage(),
+                        ));
+                  },
+                  child: const Text("Skip"),
+                ),
               ],
             ),
           ),

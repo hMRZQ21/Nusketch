@@ -9,7 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:image/image.dart' as img;
 import 'dart:ui' as ui;
 
-import 'artpage.dart';
+import 'drawingPage/artpage.dart';
 
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
