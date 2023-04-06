@@ -8,7 +8,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 class ArtPage extends HookWidget {
   ValueNotifier<Color> selectedColor;
-
+  String path;
   bool _canSee = true;
   TextEditingController toggle = TextEditingController();
 
@@ -18,7 +18,7 @@ class ArtPage extends HookWidget {
   Color pickerColor = const Color(0xff443a49);
   Color currentColor = const Color(0xff443a49);
 
-  ArtPage(this.selectedColor, {super.key});
+  ArtPage(this.selectedColor, this.path, {super.key});
 
   pickColor(BuildContext context, ValueNotifier<Color> color) => {
         showDialog(
@@ -69,6 +69,7 @@ class ArtPage extends HookWidget {
         child: Stack(
           children: [
             DrawingCanvas(
+              path: path,
               selectedColor: selectedColor,
             ),
             Row(
