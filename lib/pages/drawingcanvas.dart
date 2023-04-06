@@ -1,4 +1,4 @@
-
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,64 +7,68 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 import 'package:nusketch/pages/painter.dart';
 
-class DrawingCanvas extends HookWidget{
-    ValueNotifier<DrawingPoint?> currentSketch = useState(null);
-    ValueNotifier<List<DrawingPoint>> allSketches = useState([]);
-    ValueNotifier<Color> selectedColor;
-    // create some values
-    TextEditingController toggle = TextEditingController();
+class DrawingCanvas extends HookWidget {
+  ValueNotifier<DrawingPoint?> currentSketch = useState(null);
+  ValueNotifier<List<DrawingPoint>> allSketches = useState([]);
+  ValueNotifier<Color> selectedColor;
+  String path;
+  // create some values
+  TextEditingController toggle = TextEditingController();
 
-    DrawingCanvas({
-      Key? key,
-      required this.selectedColor,
-    }) : super(key: key);
+  DrawingCanvas({
+    Key? key,
+    required this.path,
+    required this.selectedColor,
+  }) : super(key: key);
 
 // ValueChanged<Color> callback
 
   @override
   Widget build(BuildContext context) {
-     return Stack(
-       children: [
-          buildAllPaths(context), 
-          buildCurrentPath(context),
-       ],
-     );
+    return Stack(
+      children: [
+        buildAllPaths(context),
+        buildCurrentPath(context),
+      ],
+    );
   }
 
-  Widget buildAllPaths(BuildContext context){
+  Widget buildAllPaths(BuildContext context) {
     return RepaintBoundary(
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         // CustomPaint widget will go here
         child: CustomPaint(
-          painter: MyCustomPainter(
-            drawingPoints: allSketches.value
-          ),
+          painter: MyCustomPainter(drawingPoints: allSketches.value),
         ),
       ),
     );
   }
 
-  Widget buildCurrentPath(BuildContext context){
+  Widget buildCurrentPath(BuildContext context) {
     return GestureDetector(
       onPanStart: (details) {
         print('User started drawing');
         final box = context.findRenderObject() as RenderBox;
         final offset = box.globalToLocal(details.globalPosition);
-        currentSketch.value = DrawingPoint(points: [offset], color: selectedColor.value, size: 5);
+        currentSketch.value =
+            DrawingPoint(points: [offset], color: selectedColor.value, size: 5);
         print(offset);
       },
       onPanUpdate: (details) {
         final box = context.findRenderObject() as RenderBox;
         final offset = box.globalToLocal(details.globalPosition);
-        final points = List<Offset>.from(currentSketch.value?.points ?? [])..add(offset);
-        currentSketch.value = DrawingPoint(points: points, color:  selectedColor.value, size: 5);
+        final points = List<Offset>.from(currentSketch.value?.points ?? [])
+          ..add(offset);
+        currentSketch.value =
+            DrawingPoint(points: points, color: selectedColor.value, size: 5);
         print(offset);
       },
       onPanEnd: (details) {
-        allSketches.value = List<DrawingPoint>.from(allSketches.value)..add(currentSketch.value!);
-       },
+        allSketches.value = List<DrawingPoint>.from(allSketches.value)
+          ..add(currentSketch.value!);
+      },
       child: RepaintBoundary(
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -72,15 +76,26 @@ class DrawingCanvas extends HookWidget{
           // CustomPaint widget will go here
           child: CustomPaint(
             painter: MyCustomPainter(
-              drawingPoints: currentSketch.value == null ? [] : [currentSketch.value!],
+              drawingPoints:
+                  currentSketch.value == null ? [] : [currentSketch.value!],
+            ),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: FileImage(File(path)),
+                    fit: BoxFit.cover,
+                    opacity: 0.6 // adjust as needed
+                    ),
+              ),
             ),
           ),
         ),
       ),
     );
   }
-  }
-
+}
 
 class DrawingPoint {
   final List<Offset> points;
