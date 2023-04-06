@@ -9,6 +9,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:image/image.dart' as img;
 import 'dart:ui' as ui;
 
+import 'artpage.dart';
+
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
   const TakePictureScreen({
@@ -170,7 +172,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
 // default widget that displays the picture taken by the user.
 // this overrides the UI we designed, scroll below for the original build widget
-// below is also the original camera code made by willie
 class DisplayPictureScreen extends StatelessWidget {
   final String imagePath;
   const DisplayPictureScreen({super.key, required this.imagePath});
@@ -178,10 +179,12 @@ class DisplayPictureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Display the Picture')),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
-      body: Image.file(File(imagePath)),
+      // body: Image.file(File(imagePath)),
+      body: ArtPage(
+          ValueNotifier<Color>(Colors.black), // set initial color
+          imagePath),
     );
   }
 }
