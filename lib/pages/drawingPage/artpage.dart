@@ -3,10 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
 import 'package:nusketch/pages/drawingPage/drawingcanvas.dart';
-import 'package:nusketch/pages/drawingPage/textinfo.dart';
 import 'painter.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-TextEditingController textEditingController = TextEditingController();
 
 class ArtPage extends HookWidget {
   ValueNotifier<Color> selectedColor;
@@ -88,33 +86,17 @@ class ArtPage extends HookWidget {
                       children: [
                         Column(
                           children: [
-                            PopupMenuButton(
-                              icon: const Icon(Icons.list_alt),
-                              onSelected: choiceMade,
-                              itemBuilder: (BuildContext bc) {
-                                return const [
-                                  PopupMenuItem(
-                                    child: Text("Save"),
-                                    value: '/about',
-                                  ),
-                                  PopupMenuItem(
-                                    child: Text("Print"),
-                                    value: '/contact',
-                                  )
-                                ];
-                              },
-                            ),
+                            IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.list_alt)),
                             const Text("Menu"),
                           ],
                         ),
                         Column(
                           children: [
                             IconButton(
-                                onPressed: () {
-                                  addNewDialog(context);
-                                },
-                                icon: const Icon(Icons.add)),
-                            const Text("Text"),
+                                onPressed: () {}, icon: const Icon(Icons.add)),
+                            const Text("Filler"),
                           ],
                         ),
                         Column(
@@ -153,78 +135,5 @@ class ArtPage extends HookWidget {
         ),
       ),
     );
-  }
-
-
-  List<TextInfo> texts = [];
-  addNewText(BuildContext context){
-    useState(texts.add(TextInfo(
-      text:textEditingController.text,
-      left:0,
-      top:0,
-      color:Colors.black,
-      fontWeight: FontWeight.normal,
-      fontStyle: FontStyle.normal,
-      textAlign: TextAlign.left,
-      fontSize: 20,
-    )));
-  }
-
-  Future addNewDialog(context) {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text("Add New Text"),
-          content: TextField(
-            controller: textEditingController,
-            maxLines: 3,
-            decoration: const InputDecoration(
-                suffixIcon: Icon(Icons.edit),
-                filled: true,
-                hintText: "Your text here"),
-          ),
-          actions: <Widget>[
-            DefaultButton(
-                onPressed: () => Navigator.of(context).pop(),
-                color: Colors.white,
-                textColor: Colors.black,
-                child: const Text("Back")),
-            DefaultButton(
-                onPressed: () => {addNewText(context)},
-                color: Colors.red,
-                textColor: Colors.white,
-                child: const Text("Add Text"))
-          ],
-        ));
-  }
-
-  void choiceMade(String value) {
-    print(value);
-  }
-}
-
-class DefaultButton extends StatelessWidget {
-  final VoidCallback onPressed;
-  final Widget child;
-  final Color color;
-  final Color textColor;
-
-  const DefaultButton(
-      {super.key,
-        required this.onPressed,
-        required this.color,
-        required this.textColor,
-        required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(color),
-            textStyle: MaterialStateProperty.all<TextStyle>(
-              TextStyle(color: textColor),
-            )),
-        onPressed: onPressed,
-        child: child);
   }
 }

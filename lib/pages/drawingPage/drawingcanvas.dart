@@ -51,15 +51,53 @@ class DrawingCanvas extends HookWidget {
           right: 16,
           child: ElevatedButton(
             onPressed: () async {
+              // show popup dialog
+              final textController = TextEditingController();
+              await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Enter Text'),
+                    content: TextField(
+                      maxLines: 3,
+                      decoration: const InputDecoration(
+                          suffixIcon: Icon(Icons.edit),
+                          filled: true,
+                          hintText: "Your text here"),
+                      controller: textController,
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Cancel'),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context, textController.text);
+                        },
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              );
+
+              // get entered text
+              final text = textController.text;
+
               final boundary = _grab.currentContext!.findRenderObject()
                   as RenderRepaintBoundary;
               final image = await boundary.toImage();
               final byteData =
                   await image.toByteData(format: ui.ImageByteFormat.png);
               final pngBytes = byteData!.buffer.asUint8List();
-              final text =
-                  'askljdhnqiou234hbui23q1hbrijkqbnweij nfijkansfuijnbq23ui4g817y23g784rrg2q38irghihjkqbfjkabnsjkfnakjsdnfjkansjkddnakjsndkjansjkdfba';
               await File(path).writeAsBytes(pngBytes);
+
               File photo1 = File(path);
               pw.MemoryImage memoryImage =
                   pw.MemoryImage(photo1.readAsBytesSync());
@@ -71,8 +109,7 @@ class DrawingCanvas extends HookWidget {
                     crossAxisAlignment: pw.CrossAxisAlignment.center,
                     children: [
                       pw.Text(text),
-                      pw.Padding(padding: const pw.EdgeInsets.only(top: 20)),
-                      pw.Image(memoryImage, height: 500, width: 300),
+                      pw.Image(memoryImage, height: 710, width: 400),
                     ],
                   ),
                 ),
