@@ -114,7 +114,6 @@ class ArtPage extends HookWidget {
                   children: [
                     IconButton(
                         onPressed: () {
-                          see.value ? toggle.text = 'Hide' : toggle.text = 'Show';
                           print(toggle.text);
                           see.value  = !see.value;
                           print(see.value);
@@ -122,7 +121,7 @@ class ArtPage extends HookWidget {
                         icon: const Icon(
                           Icons.menu,
                         )),
-                    Text(toggle.text),
+                    Text(see.value ? toggle.text = 'Hide' : toggle.text = 'Show'),
                   ],
                 ),
               ],
