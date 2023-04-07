@@ -9,7 +9,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 class ArtPage extends HookWidget {
   ValueNotifier<Color> selectedColor;
   String path;
-  bool _canSee = true;
   TextEditingController toggle = TextEditingController();
 
   double strokeWidth = 5;
@@ -50,14 +49,9 @@ class ArtPage extends HookWidget {
         ),
       };
 
-  hideWidget() {
-    useState(() {
-      _canSee = !_canSee;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final see = useState(true);
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
       SystemUiOverlay.bottom, //This line is used for showing the bottom bar
@@ -78,7 +72,7 @@ class ArtPage extends HookWidget {
               children: [
                 Expanded(
                   child: AnimatedOpacity(
-                    opacity: _canSee ? 1.0 : 0.0,
+                    opacity: see.value ? 1.0 : 0.0,
                     duration: const Duration(milliseconds: 500),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -96,7 +90,7 @@ class ArtPage extends HookWidget {
                           children: [
                             IconButton(
                                 onPressed: () {}, icon: const Icon(Icons.add)),
-                            const Text("Filler"),
+                            const Text("Text"),
                           ],
                         ),
                         Column(
@@ -120,8 +114,10 @@ class ArtPage extends HookWidget {
                   children: [
                     IconButton(
                         onPressed: () {
-                          _canSee ? toggle.text = 'Hide' : toggle.text = 'Show';
+                          see.value ? toggle.text = 'Hide' : toggle.text = 'Show';
                           print(toggle.text);
+                          see.value  = !see.value;
+                          print(see.value);
                         },
                         icon: const Icon(
                           Icons.menu,
