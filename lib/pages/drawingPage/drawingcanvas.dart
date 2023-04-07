@@ -59,7 +59,6 @@ class DrawingCanvas extends HookWidget {
                   return AlertDialog(
                     title: const Text('Enter Text'),
                     content: TextField(
-                      maxLines: 3,
                       decoration: const InputDecoration(
                           suffixIcon: Icon(Icons.edit),
                           filled: true,
@@ -74,10 +73,10 @@ class DrawingCanvas extends HookWidget {
                         child: const Text('Cancel'),
                       ),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                        onPressed: () {
+                        onPressed: () async {
+                          SystemChannels.textInput
+                              .invokeMethod('TextInput.hide');
+                          await Future.delayed(const Duration(seconds: 1));
                           Navigator.pop(context, textController.text);
                         },
                         child: const Text('OK'),
@@ -97,7 +96,6 @@ class DrawingCanvas extends HookWidget {
                   await image.toByteData(format: ui.ImageByteFormat.png);
               final pngBytes = byteData!.buffer.asUint8List();
               await File(path).writeAsBytes(pngBytes);
-
               File photo1 = File(path);
               pw.MemoryImage memoryImage =
                   pw.MemoryImage(photo1.readAsBytesSync());
@@ -108,8 +106,8 @@ class DrawingCanvas extends HookWidget {
                   build: (pw.Context context) => pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.center,
                     children: [
+                      pw.Image(memoryImage, height: 700),
                       pw.Text(text),
-                      pw.Image(memoryImage, height: 710, width: 400),
                     ],
                   ),
                 ),
