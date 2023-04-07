@@ -80,11 +80,25 @@ class ArtPage extends HookWidget {
                       children: [
                         Column(
                           children: [
-                            IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.list_alt)),
+                            PopupMenuButton(
+                              icon: const Icon(Icons.list_alt),
+                              onSelected: choiceMade,
+                              itemBuilder: (BuildContext bc) {
+                                return const [
+                                  PopupMenuItem(
+                                    child: Text("Save"),
+                                    value: '/about',
+                                  ),
+                                  PopupMenuItem(
+                                    child: Text("Print"),
+                                    value: '/contact',
+                                  ),
+                                ];
+                              },
+                            ),
                             const Text("Menu"),
                           ],
+
                         ),
                         Column(
                           children: [
@@ -130,5 +144,8 @@ class ArtPage extends HookWidget {
         ),
       ),
     );
+  }
+  void choiceMade(String value) {
+    print(value);
   }
 }
