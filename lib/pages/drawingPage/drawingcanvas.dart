@@ -1,11 +1,21 @@
 import 'dart:io';
-
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 import 'package:nusketch/pages/drawingPage/painter.dart';
+import 'package:image/image.dart' as img;
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
+
+final GlobalKey _grab = GlobalKey();
 
 class DrawingCanvas extends HookWidget {
   ValueNotifier<DrawingPoint?> currentSketch = useState(null);
@@ -27,8 +37,52 @@ class DrawingCanvas extends HookWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        buildAllPaths(context),
-        buildCurrentPath(context),
+        RepaintBoundary(
+          key: _grab,
+          child: Stack(
+            children: [
+              buildAllPaths(context),
+              buildCurrentPath(context),
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: 16,
+          right: 16,
+          child: ElevatedButton(
+            onPressed: () async {
+              final boundary = _grab.currentContext!.findRenderObject()
+                  as RenderRepaintBoundary;
+              final image = await boundary.toImage();
+              final byteData =
+                  await image.toByteData(format: ui.ImageByteFormat.png);
+              final pngBytes = byteData!.buffer.asUint8List();
+              final text =
+                  'askljdhnqiou234hbui23q1hbrijkqbnweij nfijkansfuijnbq23ui4g817y23g784rrg2q38irghihjkqbfjkabnsjkfnakjsdnfjkansjkddnakjsndkjansjkdfba';
+              await File(path).writeAsBytes(pngBytes);
+              File photo1 = File(path);
+              pw.MemoryImage memoryImage =
+                  pw.MemoryImage(photo1.readAsBytesSync());
+
+              final pdf = pw.Document();
+              pdf.addPage(
+                pw.Page(
+                  build: (pw.Context context) => pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.center,
+                    children: [
+                      pw.Text(text),
+                      pw.Padding(padding: const pw.EdgeInsets.only(top: 20)),
+                      pw.Image(memoryImage, height: 500, width: 300),
+                    ],
+                  ),
+                ),
+              );
+              final file = File("${path}.pdf");
+              await file.writeAsBytes(await pdf.save());
+            },
+            child: const Text('Save'),
+          ),
+        ),
       ],
     );
   }
@@ -39,6 +93,13 @@ class DrawingCanvas extends HookWidget {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         // CustomPaint widget will go here
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: FileImage(File(path)),
+              fit: BoxFit.cover,
+              opacity: 0.6 // adjust as needed
+              ),
+        ),
         child: CustomPaint(
           painter: MyCustomPainter(drawingPoints: allSketches.value),
         ),
@@ -51,6 +112,7 @@ class DrawingCanvas extends HookWidget {
       onPanStart: (details) {
         print('User started drawing');
         final box = context.findRenderObject() as RenderBox;
+
         final offset = box.globalToLocal(details.globalPosition);
         currentSketch.value =
             DrawingPoint(points: [offset], color: selectedColor.value, size: 5);

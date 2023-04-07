@@ -57,6 +57,8 @@ dependencies:
   freezed:
   freezed_annotation:
   image:
+  screenshot:
+  pdf:
 
 dev_dependencies:
   flutter_test:
