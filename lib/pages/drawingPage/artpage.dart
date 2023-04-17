@@ -3,15 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
 import 'package:nusketch/pages/drawingPage/drawingcanvas.dart';
-import 'package:nusketch/pages/drawingPage/textinfo.dart';
 import 'painter.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-TextEditingController textEditingController = TextEditingController();
 
 class ArtPage extends HookWidget {
   ValueNotifier<Color> selectedColor;
   String path;
-  bool _canSee = true;
   TextEditingController toggle = TextEditingController();
 
   double strokeWidth = 5;
@@ -52,14 +49,9 @@ class ArtPage extends HookWidget {
         ),
       };
 
-  hideWidget() {
-    useState(() {
-      _canSee = !_canSee;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final see = useState(true);
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
       SystemUiOverlay.bottom, //This line is used for showing the bottom bar
@@ -80,7 +72,7 @@ class ArtPage extends HookWidget {
               children: [
                 Expanded(
                   child: AnimatedOpacity(
-                    opacity: _canSee ? 1.0 : 0.0,
+                    opacity: see.value ? 1.0 : 0.0,
                     duration: const Duration(milliseconds: 500),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -100,20 +92,18 @@ class ArtPage extends HookWidget {
                                   PopupMenuItem(
                                     child: Text("Print"),
                                     value: '/contact',
-                                  )
+                                  ),
                                 ];
                               },
                             ),
                             const Text("Menu"),
                           ],
+
                         ),
                         Column(
                           children: [
                             IconButton(
-                                onPressed: () {
-                                  addNewDialog(context);
-                                },
-                                icon: const Icon(Icons.add)),
+                                onPressed: () {}, icon: const Icon(Icons.add)),
                             const Text("Text"),
                           ],
                         ),
@@ -138,13 +128,14 @@ class ArtPage extends HookWidget {
                   children: [
                     IconButton(
                         onPressed: () {
-                          _canSee ? toggle.text = 'Hide' : toggle.text = 'Show';
                           print(toggle.text);
+                          see.value  = !see.value;
+                          print(see.value);
                         },
                         icon: const Icon(
                           Icons.menu,
                         )),
-                    Text(toggle.text),
+                    Text(see.value ? toggle.text = 'Hide' : toggle.text = 'Show'),
                   ],
                 ),
               ],
@@ -154,77 +145,7 @@ class ArtPage extends HookWidget {
       ),
     );
   }
-
-
-  List<TextInfo> texts = [];
-  addNewText(BuildContext context){
-    useState(texts.add(TextInfo(
-      text:textEditingController.text,
-      left:0,
-      top:0,
-      color:Colors.black,
-      fontWeight: FontWeight.normal,
-      fontStyle: FontStyle.normal,
-      textAlign: TextAlign.left,
-      fontSize: 20,
-    )));
-  }
-
-  Future addNewDialog(context) {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text("Add New Text"),
-          content: TextField(
-            controller: textEditingController,
-            maxLines: 3,
-            decoration: const InputDecoration(
-                suffixIcon: Icon(Icons.edit),
-                filled: true,
-                hintText: "Your text here"),
-          ),
-          actions: <Widget>[
-            DefaultButton(
-                onPressed: () => Navigator.of(context).pop(),
-                color: Colors.white,
-                textColor: Colors.black,
-                child: const Text("Back")),
-            DefaultButton(
-                onPressed: () => {addNewText(context)},
-                color: Colors.red,
-                textColor: Colors.white,
-                child: const Text("Add Text"))
-          ],
-        ));
-  }
-
   void choiceMade(String value) {
     print(value);
-  }
-}
-
-class DefaultButton extends StatelessWidget {
-  final VoidCallback onPressed;
-  final Widget child;
-  final Color color;
-  final Color textColor;
-
-  const DefaultButton(
-      {super.key,
-        required this.onPressed,
-        required this.color,
-        required this.textColor,
-        required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(color),
-            textStyle: MaterialStateProperty.all<TextStyle>(
-              TextStyle(color: textColor),
-            )),
-        onPressed: onPressed,
-        child: child);
   }
 }
