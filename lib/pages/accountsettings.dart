@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nusketch/auth/auth.dart';
 import 'package:nusketch/pages/loginSignUpPages/signuppage.dart';
+import 'package:nusketch/util/colors.dart';
 
 class AccountSettings extends StatefulWidget {
   AccountSettings({super.key});
@@ -124,7 +125,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                     onPressed: () {
                       pickImage(context);
                     },
-                    child: Text('Edit Profile Picture')),
+                    child: Text('Edit Profile Picture',style: TextStyle(color: CustomColors.purple),)),
                 Form(
                   //makes saving, updating, and editing easier
                   key: _formKey,
@@ -140,32 +141,51 @@ class _AccountSettingsState extends State<AccountSettings> {
                       buildPassword(),
                       Row(
                         children: [
-                          ElevatedButton(
-                              onPressed: () {
-                                if (!_formKey.currentState!.validate()) {
-                                  return;
-                                }
-                                _formKey.currentState!.save();
-                                setState(() {
-                                  if (editable) editable = !editable;
-                                });
-                              },
-                              child: Text("save")),
-                          ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (!editable) {
-                                    editable = !editable;
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: CustomColors.lightBlue
+                                ),
+                                onPressed: () {
+                                  if (!_formKey.currentState!.validate()) {
+                                    return;
                                   }
-                                  ;
-                                });
-                              },
-                              child: Text("edit")),
-                          ElevatedButton(
-                              onPressed: () {
-                                signOut();
-                              },
-                              child: Text("Sign Out")),
+                                  _formKey.currentState!.save();
+                                  setState(() {
+                                    if (editable) editable = !editable;
+                                  });
+                                },
+                                child: Text("Save",)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: CustomColors.lightBlue
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    if (!editable) {
+                                      editable = !editable;
+                                    }
+                                    ;
+                                  });
+                                },
+                                child: Text("Edit")),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                             style: ElevatedButton.styleFrom(
+                               backgroundColor: CustomColors.lightBlue
+                             ),
+                                onPressed: () {
+                                  signOut();
+                                },
+
+                                child: Text("Sign Out")),
+                          ),
                         ],
                       ),
                     ]

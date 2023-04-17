@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nusketch/util/dimension.dart';
 
 class FlipAround extends StatefulWidget {
-  const FlipAround({super.key});
+  final String image;
+  FlipAround(this.image, {super.key});
   @override
   State<FlipAround> createState() => _FlipAroundState();
 }
@@ -31,9 +32,10 @@ class _FlipAroundState extends State<FlipAround>
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Dimension.page10r),
             color: Colors.white,
-            image: const DecorationImage(
-              fit: BoxFit.cover,
-              image: AssetImage("figures/girlimage1.png"), // figures/
+            image: DecorationImage(
+              // fit: BoxFit.cover,
+              fit: BoxFit.contain,
+              image: AssetImage(widget.image), // figures/
             ),
           ),
         ),

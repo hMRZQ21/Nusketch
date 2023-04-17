@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nusketch/pages/foldersketches.dart';
+import 'package:nusketch/util/colors.dart';
 import 'package:nusketch/util/dimension.dart';
 
 class PortfoliosPage extends StatefulWidget {
@@ -26,6 +27,7 @@ class _PortfoliosPageState extends State<PortfoliosPage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: CustomColors.lightBlue,
         actions: [
           IconButton(
               icon: Icon(Icons.add),
@@ -106,7 +108,7 @@ class _PortfoliosPageState extends State<PortfoliosPage> {
                     child: Icon(
                       Icons.folder,
                       size: MediaQuery.of(context).size.shortestSide * .4,
-                      color: Colors.blue.shade200,
+                      color: CustomColors.lightBlue,
                     ),
                   ),
                   Text(folders[index]),

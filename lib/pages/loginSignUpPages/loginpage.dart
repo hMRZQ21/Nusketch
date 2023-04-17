@@ -5,7 +5,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:nusketch/pages/loginSignUpPages/signuppage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nusketch/auth/auth.dart';
-
+import '/util/colors.dart';
 import '../mainpage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -109,9 +109,13 @@ class _LoginPage extends State<LoginPage> {
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                       ),
+
                       child: const Text(
                         'Forgot Password?',
                         textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: Colors.purple
+                        ),
                       ),
                       onPressed: () {
                         debugPrint("forgot password button pressed");
@@ -194,7 +198,9 @@ class _LoginPage extends State<LoginPage> {
                                   builder: (context) => SignupPage()),
                             );
                           },
-                          child: const Text("Sign Up"),
+                          child: const Text("Sign Up", style: TextStyle(
+                              color: Colors.purple
+                          ),),
                         ),
                       ],
                     ),
@@ -212,7 +218,10 @@ class _LoginPage extends State<LoginPage> {
                           builder: (context) => const MainPage(),
                         ));
                   },
-                  child: const Text("Skip"),
+                  child: const Text("Skip",
+                    style: TextStyle(
+                      color: Colors.purple
+                  ),),
                 ),
               ],
             ),
