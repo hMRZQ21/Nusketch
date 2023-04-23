@@ -8,6 +8,8 @@ import 'package:nusketch/auth/auth.dart';
 import 'package:nusketch/pages/loginSignUpPages/signuppage.dart';
 import 'package:nusketch/util/colors.dart';
 
+import 'friends.dart';
+
 class AccountSettings extends StatefulWidget {
   AccountSettings({super.key});
   final User? user = Auth().currentUser;
@@ -106,6 +108,21 @@ class _AccountSettingsState extends State<AccountSettings> {
             physics: BouncingScrollPhysics(),
             child: Column(
               children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: CustomColors.lightBlue),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => FriendsPage()),
+                      );
+                    },
+                    child: Text("Friends"),
+                  ),
+                ),
+                Container(width: 100, height: 50),
                 SizedBox(
                   width: 150,
                   height: 150,
@@ -125,7 +142,10 @@ class _AccountSettingsState extends State<AccountSettings> {
                     onPressed: () {
                       pickImage(context);
                     },
-                    child: Text('Edit Profile Picture',style: TextStyle(color: CustomColors.purple),)),
+                    child: Text(
+                      'Edit Profile Picture',
+                      style: TextStyle(color: CustomColors.purple),
+                    )),
                 Form(
                   //makes saving, updating, and editing easier
                   key: _formKey,
@@ -145,8 +165,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: CustomColors.lightBlue
-                                ),
+                                    backgroundColor: CustomColors.lightBlue),
                                 onPressed: () {
                                   if (!_formKey.currentState!.validate()) {
                                     return;
@@ -156,14 +175,15 @@ class _AccountSettingsState extends State<AccountSettings> {
                                     if (editable) editable = !editable;
                                   });
                                 },
-                                child: Text("Save",)),
+                                child: Text(
+                                  "Save",
+                                )),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: CustomColors.lightBlue
-                                ),
+                                    backgroundColor: CustomColors.lightBlue),
                                 onPressed: () {
                                   setState(() {
                                     if (!editable) {
@@ -177,13 +197,11 @@ class _AccountSettingsState extends State<AccountSettings> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
-                             style: ElevatedButton.styleFrom(
-                               backgroundColor: CustomColors.lightBlue
-                             ),
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: CustomColors.lightBlue),
                                 onPressed: () {
                                   signOut();
                                 },
-
                                 child: Text("Sign Out")),
                           ),
                         ],

@@ -14,11 +14,12 @@ class PortfoliosPage extends StatefulWidget {
 class _PortfoliosPageState extends State<PortfoliosPage> {
   TextEditingController newFolderName = TextEditingController();
   final List<String> folders = [
-    "Folder 1",
+    "My Flowers",
     "Folder 2",
     "Folder 3",
     "Folder 4",
     "Folder 5",
+    "John Doe",
   ]; // placeholder for input array from database
 
   @override
