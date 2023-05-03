@@ -9,6 +9,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:image/image.dart' as img;
 import 'dart:ui' as ui;
 
+import 'drawingPage/artpage.dart';
+
+double blurRadius = 12.0;
+
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
   const TakePictureScreen({
@@ -52,7 +56,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Take a picture')),
+      appBar: AppBar(title: const Text('Drag slider for amount of shading')),
       // You must wait until the controller is initialized before displaying the
       // camera preview. Use a FutureBuilder to display a loading spinner until the
       // controller has finished initializing.
@@ -61,7 +65,28 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             // If the Future is complete, display the preview.
-            return CameraPreview(_controller);
+            return Column(
+              children: [
+                Expanded(child: CameraPreview(_controller)),
+                Container(
+                  width: Dimension.screenWidth * 0.7,
+                  child: Slider(
+                    value: blurRadius,
+                    min: 1,
+                    max: 20,
+                    onChanged: (value) {
+                      setState(() {
+                        blurRadius = value;
+                      });
+                    },
+                  ),
+                ),
+                Text(
+                  blurRadius.toStringAsFixed(0),
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
+            );
           } else {
             // Otherwise, display a loading indicator.
             return const Center(child: CircularProgressIndicator());
@@ -103,7 +128,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             // final invertedBytes1 = img.encodePng(invertedImage1);
 
             // blur the inverted grayscale
-            final blurredImage = img.gaussianBlur(invertedImage1, radius: 12);
+            final blurredImage =
+                img.gaussianBlur(invertedImage1, radius: blurRadius.toInt());
             // final blurredBytes = img.encodePng(blurredImage);
 
             // invert the blurred inverted grayscale
@@ -170,7 +196,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
 // default widget that displays the picture taken by the user.
 // this overrides the UI we designed, scroll below for the original build widget
-// below is also the original camera code made by willie
 class DisplayPictureScreen extends StatelessWidget {
   final String imagePath;
   const DisplayPictureScreen({super.key, required this.imagePath});
@@ -178,10 +203,12 @@ class DisplayPictureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Display the Picture')),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
-      body: Image.file(File(imagePath)),
+      // body: Image.file(File(imagePath)),
+      body: ArtPage(
+          ValueNotifier<Color>(Colors.black), // set initial color
+          imagePath),
     );
   }
 }

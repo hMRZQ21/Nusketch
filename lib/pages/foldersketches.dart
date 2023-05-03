@@ -19,8 +19,8 @@ class FolderView extends StatefulWidget {
 
 class _FolderViewState extends State<FolderView> {
   List<String> art = [
-    "figures/example1.png",
-    "figures/example2.png",
+    "figures/2023-4-21_11-41-34_completed.png",
+    "figures/2023-4-21_11-42-20_completed.png",
     "figures/example3.png",
     "figures/example4.png",
     "figures/example5.png",
@@ -28,12 +28,13 @@ class _FolderViewState extends State<FolderView> {
   ];
 
   List<ArtAndFolder> images = [
-    ArtAndFolder(0, "figures/example1.png"),
-    ArtAndFolder(1, "figures/example2.png"),
+    ArtAndFolder(0, "figures/2023-4-21_11-41-34_completed.png"),
+    ArtAndFolder(1, "figures/2023-4-21_11-42-20_completed.png"),
     ArtAndFolder(2, "figures/example3.png"),
     ArtAndFolder(3, "figures/example4.png"),
     ArtAndFolder(4, "figures/example5.png"),
-    ArtAndFolder(0, "figures/example1.png"),
+    ArtAndFolder(5, "figures/2023-4-21_11-41-34_completed.png"),
+    ArtAndFolder(0, "figures/2023-4-21_11-42-20_completed.png"),
   ];
 
   List<String> indexImages = [];

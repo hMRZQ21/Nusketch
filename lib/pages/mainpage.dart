@@ -7,6 +7,7 @@ import 'package:nusketch/pages/accountsettings.dart';
 import 'package:nusketch/pages/camera.dart';
 import 'package:nusketch/pages/folders.dart';
 import 'package:nusketch/pages/uploadpage.dart';
+import 'package:nusketch/util/colors.dart';
 import '../util/dimension.dart';
 import 'homepage.dart';
 
@@ -72,8 +73,9 @@ class _MyPageState extends State<MainPage> {
           // height: MediaQuery.of(context).size.height * 0.08,
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            selectedItemColor: Colors.orange.shade400,
-            unselectedItemColor: Colors.blue.shade600,
+            selectedItemColor: CustomColors.purple,
+
+            unselectedItemColor: CustomColors.beige2,
             showSelectedLabels: true,
             showUnselectedLabels: true,
             items: const <BottomNavigationBarItem>[
@@ -114,7 +116,7 @@ class _MyPageState extends State<MainPage> {
               },
               child: Icon(
                 CupertinoIcons.camera_fill,
-                color: Colors.blue.shade800,
+                color: CustomColors.beige2,
                 size: 30,
               ),
             ),

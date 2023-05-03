@@ -1,29 +1,26 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:nusketch/pages/signuppage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nusketch/auth/auth.dart';
-import 'mainpage.dart';
+import '../mainpage.dart';
+import 'loginpage.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+class SignupPage extends StatefulWidget {
+  SignupPage({super.key});
   final User? user = Auth().currentUser;
-
   @override
-  State<LoginPage> createState() => _LoginPage();
+  State<SignupPage> createState() => _SignupPage();
 }
 
-class _LoginPage extends State<LoginPage> {
+class _SignupPage extends State<SignupPage> {
   String? errorMessage = '';
   bool isLogin = true;
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
-  Future<void> signInWithEmailAndPassword() async {
+  Future<void> createUserWithEmailAndPassword() async {
     try {
-      await Auth().signInWithEmailAndPassword(
+      await Auth().createUserWithEmailAndPassword(
         email: _controllerEmail.text,
         password: _controllerPassword.text,
       );
@@ -31,13 +28,13 @@ class _LoginPage extends State<LoginPage> {
         MaterialPageRoute(builder: (context) => MainPage()),
       );
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
+      if (e.code == 'weak-password') {
         setState(() {
-          errorMessage = ('No user found for that email.');
+          errorMessage = ('The password provided is too weak.');
         });
-      } else if (e.code == 'wrong-password') {
+      } else if (e.code == 'email-already-in-use') {
         setState(() {
-          errorMessage = ('Wrong password provided for that user.');
+          errorMessage = ('The account already exists for that email.');
         });
       }
     } catch (e) {
@@ -47,15 +44,15 @@ class _LoginPage extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: when landscape mode make view scrollable or resize / layout
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white10,
       body: Center(
-        // For keyboard opened:
+        // When keyboard is open
         child: SingleChildScrollView(
-          // its a box that allows a single widget to be scrolled
+          //Allows one widget to be scrollable
           physics:
-              BouncingScrollPhysics(), // this allows the content to go outside the bounds of the phone but then bounce back once keyboard is gone
+              BouncingScrollPhysics(), // bounces content back to place when keyboard is closed
           child: Padding(
             padding: const EdgeInsets.all(30.0),
             child: Column(
@@ -74,6 +71,7 @@ class _LoginPage extends State<LoginPage> {
                     ],
                   ),
                 ),
+
                 Padding(
                   padding: EdgeInsets.only(top: 20.0),
                   child: TextField(
@@ -82,11 +80,25 @@ class _LoginPage extends State<LoginPage> {
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(),
-                      labelText: 'Email',
+                      labelText: 'Example@email.com',
                       hintText: "Enter your amazing email",
                     ),
                   ),
                 ),
+
+                // const Padding(
+                //   padding: EdgeInsets.only(top:20.0),
+                //   child: TextField(
+                //     decoration: InputDecoration(
+                //       filled: true,
+                //       fillColor: Colors.white,
+                //       border:OutlineInputBorder(),
+                //       labelText: 'Username',
+                //       hintText: "Enter your amazing username",
+                //     ),
+                //   ),
+                // ),
+
                 Padding(
                   padding: EdgeInsets.only(top: 20.0),
                   child: TextField(
@@ -100,43 +112,30 @@ class _LoginPage extends State<LoginPage> {
                     ),
                   ),
                 ),
+
                 Padding(
-                  padding: EdgeInsets.zero,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: const Text(
-                        'Forgot Password?',
-                        textAlign: TextAlign.right,
-                      ),
-                      onPressed: () {
-                        debugPrint("forgot password button pressed");
-                        signInWithEmailAndPassword();
-                      },
-                    ),
+                  padding: const EdgeInsets.only(top: 20.0, bottom: 15.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    // constraints: const BoxConstraints(minWidth: double.infinity),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          debugPrint("Sign Up button clicked");
+                          createUserWithEmailAndPassword();
+                        },
+                        child: const Text("Sign up")),
                   ),
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  // constraints: const BoxConstraints(minWidth: double.infinity),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        debugPrint("Login button clicked");
-                        signInWithEmailAndPassword();
-                      },
-                      child: const Text("Sign in")),
-                ),
+
                 const Divider(
                   color: Colors.white,
                   thickness: 1,
                 ),
+
                 Column(
                   children: [
                     const Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
                       child: Text(
                         "or",
                         style: TextStyle(
@@ -150,10 +149,10 @@ class _LoginPage extends State<LoginPage> {
                         width: double.infinity,
                         child: SignInButton(
                           Buttons.GoogleDark,
-                          text: "Sign in with Google",
+                          text: "Sign up with Google",
                           onPressed: () {
                             // TODO: link to firebase
-                            debugPrint("Login w/ google button clicked");
+                            debugPrint("Sign Up w/ google button clicked");
                           },
                         ),
                       ),
@@ -163,11 +162,11 @@ class _LoginPage extends State<LoginPage> {
                       child: SizedBox(
                         width: double.infinity,
                         child: SignInButtonBuilder(
-                          text: 'Sign in with Email',
+                          text: 'Sign Up with Email',
                           icon: Icons.email,
                           onPressed: () {
                             // TODO: link to firebase
-                            debugPrint("Login w/ email button clicked");
+                            debugPrint("Sign Up w/ email button clicked");
                           },
                           backgroundColor: Colors.blueGrey[700]!,
                         ),
@@ -177,7 +176,7 @@ class _LoginPage extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
-                          "Don't have an account?",
+                          "Already have an account?",
                           style: TextStyle(
                             color: Colors.white,
                           ),
@@ -190,29 +189,30 @@ class _LoginPage extends State<LoginPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SignupPage()),
+                                builder: (context) => LoginPage(),
+                              ),
                             );
                           },
-                          child: const Text("Sign Up"),
+                          child: const Text("Sign In"),
                         ),
                       ],
                     ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MainPage(),
+                            ));
+                      },
+                      child: const Text("Skip"),
+                    ),
                   ],
-                ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MainPage(),
-                        ));
-                  },
-                  child: const Text("Skip"),
-                ),
+                )
               ],
             ),
           ),

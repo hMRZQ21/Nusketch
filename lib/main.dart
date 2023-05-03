@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:nusketch/loading.dart';
-import 'package:nusketch/pages/artpage.dart';
+import 'package:nusketch/pages/drawingPage/artpage.dart';
+import 'package:nusketch/pages/loginSignUpPages/loginpage.dart';
 import 'package:nusketch/pages/mainpage.dart';
 
 Future<void> main() async {
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: MainPage() // ArtPage(selectedColor), //Page(),
+        home: LoginPage() // ArtPage(selectedColor), //Page(),
         //If you dont want to wait for the loading screen change this ^ not the function on top.
         );
   }

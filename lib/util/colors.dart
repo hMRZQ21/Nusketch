@@ -12,4 +12,6 @@ class CustomColors {
   static const Color lightBlue = Color.fromRGBO(208, 225, 232, 1);
   static const Color lightBeige = Color.fromRGBO(255, 231, 204, 1);
   static const Color customDarkBeige = Color.fromRGBO(248, 203, 166, 1);
+  static const Color purple = Color.fromRGBO(131,79,170,1);
+  static const Color blue = Color.fromRGBO(84,188,245,1);
 }

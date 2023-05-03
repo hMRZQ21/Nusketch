@@ -50,7 +50,7 @@ class _UploadPageState extends State<UploadPage> {
     'figures/catfly.png',
     'figures/sharkcat.png',
     'figures/headphones.png',
-    'figures/duckhelp.png',
+    'figures/goku.png',
   ];
 
   @override
@@ -72,7 +72,7 @@ class _UploadPageState extends State<UploadPage> {
               final invertedImage1 = img.invert(grayscaleImage);
 
               // blur the inverted grayscale
-              final blurredImage = img.gaussianBlur(invertedImage1, radius: 15);
+              final blurredImage = img.gaussianBlur(invertedImage1, radius: 26);
 
               // invert the blurred inverted grayscale
               final invertedImage = img.invert(blurredImage);
