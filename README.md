@@ -1,26 +1,31 @@
 <div align="center">
-    <img src="figures/Logo.png" alt="Nusketch Logo" width="384" height="384">
+    <img src="figures/Logo.png" alt="Nusketch Logo" width="192" height="192">
 </div>
 
 <div align="center">
-    <img src="figures/Title.png" alt="Nusketch Title">
+    <img src="figures/Title.png" alt="Nusketch Title" width="490">
 </div>
 
 
 ## **Team Members:**
 
-[Hussam Marzooq](hmarzoo000@citymail.cuny.edu) <br>
-[Willie Shi](wshi000@citymail.cuny.edu) <br>
-[Jessie Su](jsu001@citymail.cuny.edu) <br>
+[Hussam Marzooq](hmarzoo000@citymail.cuny.edu) | 
+[Willie Shi](wshi000@citymail.cuny.edu) |
+[Jessie Su](jsu001@citymail.cuny.edu) 
 
-*Computer Science Students at The City College of New York*
+*Computer Science Students at [The City College of New York](https://www.ccny.cuny.edu/).*
 
 **Faculty Advisor:** <br>
-Zhigang Zhu, Kayser Professor of Computer Science, 
-Grove School of Engineering, The City College of New York
+[Zhigang Zhu](http://ccvcl.org/professor-zhigang-zhu/), Kayser Professor of Computer Science, 
+Grove School of Engineering, The City College of New York.
 
 **Industrial Mentor:** <br>
-Celina Cavalluzzi, Assistant Vice President, Day Services Director, Goodwill NY/NJ
+Celina Cavalluzzi, Assistant Vice President, Day Services Director, Goodwill NY/NJ.
+
+**Links:** <br>
+1. [CREATE Website](https://www.nysid.org/create/projects/10-44/The-City-College-of-New-York-2022-2023-Academic-Year/)
+
+2. [YouTube Video Presentation](https://www.youtube.com/watch?v=ZLNqcx88ER0)
 
 ## **INTRODUCTION**
 
@@ -34,9 +39,9 @@ By taking pictures using a devices’ camera, the app can convert it into a penc
 
 
 ## **FEATURES**
-1. Image to Sketch Conversion
-2. Coloring/editing
-3. Folder Collections
+1. Image to Sketch Conversion.
+2. Coloring/editing.
+3. Folder Collections.
 
 ## **TECHNOLOGIES**
 1. [Flutter](https://docs.flutter.dev)
