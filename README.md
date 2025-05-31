@@ -48,6 +48,12 @@ By taking pictures using a devices' camera, the app can convert it into a pencil
 ## **Illustrations**
 <div align="center">
     <img src="figures/IMG_2956.PNG" alt="Nusketch App Illustration" width="600">
+</div>
+
+<div align="center">
     <img src="figures/UI.png" alt="Nusketch UI Design" width="600">
+</div>
+
+<div align="center">
     <img src="figures/Screen Shot 2022-10-28 at 19.51.35 PM.png" alt="Nusketch App Screenshot" width="600">
 </div>

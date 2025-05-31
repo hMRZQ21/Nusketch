@@ -10,7 +10,6 @@
 .svn/
 ._ios
 migrate_working_dir/
-figures
 
 # IntelliJ related
 *.iml
