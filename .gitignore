@@ -8,13 +8,16 @@
 .buildlog/
 .history
 .svn/
+._ios
 migrate_working_dir/
+figures
 
 # IntelliJ related
 *.iml
 *.ipr
 *.iws
 .idea/
+._.idea
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
@@ -42,7 +45,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
 /documentation
 
 # firebase config files

@@ -15,8 +15,6 @@
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		A2C6E0DDC4BBEA1D87B353B9 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 143DEAE32E84B44B48D57D97 /* Pods_Runner.framework */; };
 		DB94CF536F35F1624D878049 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 73C408C1469CD17BB9C64BEE /* GoogleService-Info.plist */; };
-		DCE331B029C78DED003B4773 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCE331AF29C78DED003B4773 /* opencv2.framework */; };
-		DCE331B529C79381003B4773 /* openCV_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCE331B429C79381003B4773 /* openCV_test.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -50,8 +48,6 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C094F2DBD1A9087E1438FED5 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
-		DCE331AF29C78DED003B4773 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
-		DCE331B429C79381003B4773 /* openCV_test.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = openCV_test.cpp; path = ../lib/Open_CV_test/openCV_test.cpp; sourceTree = "<group>"; };
 		FF5FF258C93188209754BB25 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -60,7 +56,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCE331B029C78DED003B4773 /* opencv2.framework in Frameworks */,
 				A2C6E0DDC4BBEA1D87B353B9 /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,7 +77,6 @@
 			isa = PBXGroup;
 			children = (
 				143DEAE32E84B44B48D57D97 /* Pods_Runner.framework */,
-				DCE331AF29C78DED003B4773 /* opencv2.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -101,7 +95,6 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
-				DCE331B429C79381003B4773 /* openCV_test.cpp */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
@@ -284,7 +277,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCE331B529C79381003B4773 /* openCV_test.cpp in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 			);
